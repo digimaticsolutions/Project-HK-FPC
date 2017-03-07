@@ -1,0 +1,81 @@
+<?php
+
+ $shopUrl = Mage::getModel('csmarketplace/vendor')->getShopUrlKey($this->getRequest()->getParam('shop_url',''));
+
+if($shopUrl == "")
+{
+	$pageId = $this->getRequest()
+	->getParam('page_id', $this->getRequest()->getParam('id', false));
+	
+	$page= Mage::getModel('cscmspage/cmspage')->load($pageId);
+	//echo $page; die("kg");
+	$vendor_Id= $page['vendor_id'];
+	$vendor= Mage::getModel('csmarketplace/vendor')->load($vendor_Id);
+}
+else{
+	
+	$vendor = Mage::getModel('csmarketplace/vendor')
+	->setStoreId(Mage::app()->getStore()->getId())
+	->loadByAttribute('shop_url',$shopUrl);
+	
+}
+
+$pageno= array();
+?>
+
+
+	<?php  $Cms = Mage::getModel('cscmspage/cmspage')->getCollection()
+    						->addFieldToFilter('vendor_id',$vendor->getEntityId())
+    						->addFieldToFilter('is_active','1')
+    						->addFieldToFilter('is_approve','1');
+    			$cmspage = ( $Cms->getData());
+    		//	print_r($cmspage);die("g");
+    			foreach ($cmspage as $k=>$v)
+    			{
+    				$pageno[]= $v['page_id'];
+    			}
+    			//print_r($pageno);die("kg");
+?>
+    			<div class="block block-poll">
+    			<div class="block-title">
+    			<strong><span><?php echo $this->__('Additional Links') ; ?></span></strong>
+    				</div>
+<?php //if(!empty($cmspage)){  ?>
+    	 <div>
+         	<ul>
+		 	<?php if(!empty($cmspage)){ $flag = true; ?>
+				
+    		<?php foreach ($cmspage as $key => $value) {?>
+    		
+<?php 
+    			$cmsstore  = Mage::getModel('cscmspage/vendorcms')->getCollection()
+    			->addFieldToFilter('vendor_id',$vendor->getEntityId())
+				->addFieldToFilter('page_id',$value['page_id']);
+    			
+				$cmsstores = $cmsstore->getData();
+		       $cmsstores =  (current($cmsstores));
+
+		       if($cmsstores['is_home'] == 1 && count($pageno) >= 2 ){
+
+		       		continue;
+		       }
+				if($cmsstores['is_home'] == 1 && count($pageno)< 2 )
+				{
+					?>
+    				<li>No Additional Links Given.</li>
+    		<?php continue; }
+				?> 
+    			<?php if($flag == true){
+    				$flag = false;
+    				?> 	<li><a href="<?php echo Mage::getUrl().'vendor-shop/'.$vendor->getShopUrl(); ?>"><?php echo "Home"; ?></a></li> <?php
+    			}?>
+    				<li><a href="<?php echo Mage::getUrl().$value['identifier'] ?>"><?php echo $value['title'] ?></a></li>
+    			<?php
+		
+    			}
+    		} else { ?>
+    				<li>No Additional Links Given.</li>
+    		<?php }	?>
+            </ul>
+		</div>
+</div>

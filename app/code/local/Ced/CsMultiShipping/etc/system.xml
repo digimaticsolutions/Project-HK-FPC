@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    Ced
+ * @package     Ced_CsMultiShipping
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+	<sections>		
+		<ced_csmarketplace>
+			<show_in_vendor>1</show_in_vendor>
+			<groups>
+				<general>
+					<fields>
+						<activation_csmultishipping translate="label">
+							<label>Enable Vendor MultiShipping System</label>
+							<frontend_type>select</frontend_type>
+							<config_path>ced_csmultishipping/general/activation</config_path>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>5</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</activation_csmultishipping>
+					</fields>
+				</general> 
+				<csmultishipping translate="label">
+					<label>Vendor Multi Shipping</label>
+					<frontend_model>csmultishipping/adminhtml_system_config_frontend_fieldset</frontend_model>
+					<show_in_website>1</show_in_website>
+					<show_in_default>1</show_in_default>
+					<show_in_vendor>1</show_in_vendor>
+					<sort_order>20</sort_order> 
+					<fields>
+						<carrier_title translate="label">
+							<label>Carrier Title</label>
+							<frontend_type>text</frontend_type>
+							<config_path>ced_csmultishipping/general/carrier_title</config_path>
+							<frontend_model>csmultishipping/adminhtml_system_config_frontend_enable</frontend_model>
+							<comment>Vendor MultiShipping Carrier Title</comment>
+							<sort_order>2</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+						</carrier_title>
+						<method_title translate="label">
+							<label>Method Title</label>
+							<frontend_type>text</frontend_type>
+							<config_path>ced_csmultishipping/general/method_title</config_path>
+							<frontend_model>csmultishipping/adminhtml_system_config_frontend_enable</frontend_model>
+							<comment>Vendor MultiShipping Method Title</comment>
+							<sort_order>3</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+						</method_title>
+						<carriers_heading translate="label">
+							<label>Vendor Shipping Carriers</label>
+							<frontend_model>csmultishipping/adminhtml_system_config_frontend_heading</frontend_model>
+							<sort_order>4</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_vendor>1</show_in_vendor>
+						</carriers_heading>
+					</fields> 
+				</csmultishipping>
+			</groups>
+		</ced_csmarketplace>
+	</sections>
+</config>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+* CedCommerce
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Academic Free License (AFL 3.0)
+* You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/afl-3.0.php
+*
+* @category    Ced
+* @package     Ced_Productfaq
+* @author   CedCommerce Core Team <connect@cedcommerce.com >
+* @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+-->
+<layout version="0.1.0">
+  <catalog_product_view translate="label">
+    <label>Catalog Product View (Any)</label>
+    <reference name="head">
+      <action method="addItem" ifconfig="productfaq/general/enable"><type>skin_js</type><name>js/jquery-1.7.min.js</name></action>
+      <action method="addCss" ifconfig="productfaq/general/enable"><stylesheet>js/fancybox/fancybox/faq.css</stylesheet></action>
+      <action method="addItem" ifconfig="productfaq/general/enable"><type>skin_js</type><name>js/fancybox/fancybox/jquery.fancybox-1.3.4.pack.js</name></action>
+      <action method="addCss" ifconfig="productfaq/general/enable"><stylesheet>js/fancybox/fancybox/jquery.fancybox-1.3.4.css</stylesheet></action>
+      <action method="addItem" ifconfig="productfaq/general/enable"><type>skin_js</type><name>js/fancybox/fancybox/custom.js</name></action>
+      <action method="addItem" ifconfig="productfaq/general/enable"><type>skin_js</type><name>js/fancybox/fancybox/jquery.validate.min.js</name></action>
+    </reference>
+    <reference name="product.info">
+      <block type="catalog/product_view_description" ifconfig="productfaq/general/enable" name="the_new_tabs" as="the_new_tahb" template="productfaq/productfaqs.phtml">
+        <action method="addToParentGroup" ifconfig="productfaq/general/enable"><group>detailed_info</group></action>
+        <action method="setTitle" ifconfig="productfaq/general/enable" translate="value"><value>Frequently Asked Question</value></action>
+      </block>
+    </reference>
+  </catalog_product_view>      
+</layout>

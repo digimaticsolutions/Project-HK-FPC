@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ /**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsCommission
+  * @author  	 CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+<config>
+	<sections>
+		<ced_csmarketplace>
+			<show_in_commission>1</show_in_commission>
+			<groups>
+                <vpayments>
+					<show_in_commission>1</show_in_commission>
+					<fields>
+						<commission_mode>
+							<show_in_commission>1</show_in_commission>
+						</commission_mode>
+						<commission_fee1>
+							<show_in_commission>1</show_in_commission>
+                        </commission_fee1>
+                        <commission_fee2>
+							<show_in_commission>1</show_in_commission>
+                        </commission_fee2>
+						<commission_mode_default translate="label">
+							<label>Default Calculation Method</label>
+							<frontend_type>select</frontend_type>
+							<backend_model>csmarketplace/system_config_backend_vpayments_commission_mode</backend_model>
+							<config_path>ced_vpayments/general/commission_mode_default</config_path>
+							<depends><commission_mode>miscellaneous</commission_mode></depends>
+							<comment></comment>
+							<source_model>cscommission/source_vendor_rate_calcmethod</source_model>
+							<sort_order>2</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_commission>1</show_in_commission>
+						</commission_mode_default>
+						<commission_fee1_default translate="label">
+                            <label>Default Commission Fee</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>csmarketplace/system_config_backend_vpayments_commission_fee</backend_model>
+							<config_path>ced_vpayments/general/commission_fee_default</config_path>
+                            <validate> validate-number validate-zero-or-greater</validate>
+                            <depends><commission_mode>miscellaneous</commission_mode><commission_mode_default>fixed</commission_mode_default></depends>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_commission>1</show_in_commission>
+                        </commission_fee1_default>
+                        <commission_fee2_default translate="label">
+                            <label>Default Commission Fee</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>csmarketplace/system_config_backend_vpayments_commission_fee</backend_model>
+							<config_path>ced_vpayments/general/commission_fee_default</config_path>
+                            <validate>validate-percents validate-zero-or-greater</validate>
+                            <depends><commission_mode>miscellaneous</commission_mode><commission_mode_default>percentage</commission_mode_default></depends>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_commission>1</show_in_commission>
+                        </commission_fee2_default>
+                        <!-- Customized Setttings Starts Here-->
+						
+						<!-- Settings For sales fee starts here-->
+						<commission_mode_sales translate="label">
+							<label>Sales Calculation Method</label>
+							<frontend_type>select</frontend_type>
+							<backend_model>csmarketplace/system_config_backend_vpayments_commission_mode</backend_model>
+							<config_path>ced_vpayments/general/commission_mode_sales</config_path>
+							<depends><commission_mode>miscellaneous</commission_mode></depends>
+							<comment></comment>
+							<source_model>cscommission/source_vendor_rate_calcmethod</source_model>
+							<sort_order>7</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_commission>1</show_in_commission>
+						</commission_mode_sales>
+						<commission_fee1_sales translate="label">
+                            <label>Sales Commission Fee</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>csmarketplace/system_config_backend_vpayments_commission_fee</backend_model>
+							<config_path>ced_vpayments/general/commission_fee_sales</config_path>
+                            <validate> validate-number validate-zero-or-greater</validate>
+                            <depends><commission_mode>miscellaneous</commission_mode><commission_mode_sales>fixed</commission_mode_sales></depends>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_commission>1</show_in_commission>
+                        </commission_fee1_sales>
+                        <commission_fee2_sales translate="label">
+                            <label>Sales Commission Fee</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>csmarketplace/system_config_backend_vpayments_commission_fee</backend_model>
+							<config_path>ced_vpayments/general/commission_fee_sales</config_path>
+                            <validate>validate-percents validate-zero-or-greater</validate>
+                            <depends><commission_mode>miscellaneous</commission_mode><commission_mode_sales>percentage</commission_mode_sales></depends>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_commission>1</show_in_commission>
+                        </commission_fee2_sales>
+						<!-- Settings For sales fee Ends Here -->
+						
+						<!-- Settings For Shipping fee starts here-->
+						<commission_mode_ship translate="label">
+							<label>Shipping Calculation Method</label>
+							<frontend_type>select</frontend_type>
+							<backend_model>csmarketplace/system_config_backend_vpayments_commission_mode</backend_model>
+							<config_path>ced_vpayments/general/commission_mode_ship</config_path>
+							<depends><commission_mode>miscellaneous</commission_mode></depends>
+							<comment></comment>
+							<source_model>cscommission/source_vendor_rate_calcmethod</source_model>
+							<sort_order>9</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_commission>1</show_in_commission>
+						</commission_mode_ship>
+						<commission_fee1_ship translate="label">
+                            <label>Shipping Commission Fee</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>csmarketplace/system_config_backend_vpayments_commission_fee</backend_model>
+							<config_path>ced_vpayments/general/commission_fee_ship</config_path>
+                            <validate> validate-number validate-zero-or-greater</validate>
+                            <depends><commission_mode>miscellaneous</commission_mode><commission_mode_ship>fixed</commission_mode_ship></depends>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_commission>1</show_in_commission>
+                        </commission_fee1_ship>
+                        <commission_fee2_ship translate="label">
+                            <label>Shipping Commission Fee</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>csmarketplace/system_config_backend_vpayments_commission_fee</backend_model>
+							<config_path>ced_vpayments/general/commission_fee_ship</config_path>
+                            <validate>validate-percents validate-zero-or-greater</validate>
+                            <depends><commission_mode>miscellaneous</commission_mode><commission_mode_ship>percentage</commission_mode_ship></depends>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_commission>1</show_in_commission>
+                        </commission_fee2_ship>
+						<!-- Settings For Shipping fee Ends Here -->
+						
+						<!-- Settings For Payments fee starts here-->
+						<commission_mode_payments translate="label">
+							<label>Payment Calculation Method</label>
+							<frontend_type>select</frontend_type>
+							<!--<frontend_model>paypal/adminhtml_system_config_fieldset_group</frontend_model>-->
+							<backend_model>csmarketplace/system_config_backend_vpayments_commission_mode</backend_model>
+							<config_path>ced_vpayments/general/commission_mode_payments</config_path>
+							<depends><commission_mode>miscellaneous</commission_mode></depends>
+							<comment></comment>
+							<source_model>cscommission/source_vendor_rate_calcmethod</source_model>
+							<sort_order>11</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_commission>1</show_in_commission>
+						</commission_mode_payments>
+						<commission_fee1_paymnets translate="label">
+                            <label>Payment Commission Fee</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>csmarketplace/system_config_backend_vpayments_commission_fee</backend_model>
+							<config_path>ced_vpayments/general/commission_fee_paymnets</config_path>
+                            <validate> validate-number validate-zero-or-greater</validate>
+                            <depends><commission_mode>miscellaneous</commission_mode><commission_mode_payments>fixed</commission_mode_payments></depends>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_commission>1</show_in_commission>
+                        </commission_fee1_paymnets>
+                        <commission_fee2_paymnets translate="label">
+                            <label>Payment Commission Fee</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>csmarketplace/system_config_backend_vpayments_commission_fee</backend_model>
+							<config_path>ced_vpayments/general/commission_fee_paymnets</config_path>
+                            <validate>validate-percents validate-zero-or-greater</validate>
+                            <depends><commission_mode>miscellaneous</commission_mode><commission_mode_payments>percentage</commission_mode_payments></depends>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_commission>1</show_in_commission>
+                        </commission_fee2_paymnets>
+						<!-- Settings For Payments fee Ends Here -->
+						
+						<!-- Settings For Servicetax fee starts here-->
+						<commission_mode_servicetax translate="label">
+							<label>Service Tax Calculation Method</label>
+							<frontend_type>select</frontend_type>
+							<backend_model>csmarketplace/system_config_backend_vpayments_commission_mode</backend_model>
+							<config_path>ced_vpayments/general/commission_mode_servicetax</config_path>
+							<depends><commission_mode>miscellaneous</commission_mode></depends>
+							<comment></comment>
+							<source_model>cscommission/source_vendor_rate_calcmethod</source_model>
+							<sort_order>13</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_commission>1</show_in_commission>
+						</commission_mode_servicetax>
+						<commission_fee1_servicetax translate="label">
+                            <label>Service Tax Commission Fee</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>csmarketplace/system_config_backend_vpayments_commission_fee</backend_model>
+							<config_path>ced_vpayments/general/commission_fee_servicetax</config_path>
+                            <validate> validate-number validate-zero-or-greater</validate>
+                            <depends><commission_mode>miscellaneous</commission_mode><commission_mode_servicetax>fixed</commission_mode_servicetax></depends>
+                            <sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_commission>1</show_in_commission>
+                        </commission_fee1_servicetax>
+                        <commission_fee2_servicetax translate="label">
+                            <label>Service Tax Commission Fee</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>csmarketplace/system_config_backend_vpayments_commission_fee</backend_model>
+							<config_path>ced_vpayments/general/commission_fee_servicetax</config_path>
+                            <validate>validate-percents validate-zero-or-greater</validate>
+                            <depends><commission_mode>miscellaneous</commission_mode><commission_mode_servicetax>percentage</commission_mode_servicetax></depends>
+                            <sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_commission>1</show_in_commission>
+                        </commission_fee2_servicetax>
+						<!-- Settings For Servicetax fee Ends Here -->
+						
+						<!-- Customized Setttings Ends Here -->
+						<commission_pt translate="label">
+                            <label>Product Type Wise</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>cscommission/adminhtml_vendor_rate_product</frontend_model>
+							<backend_model>cscommission/backend_vendor_rate_product</backend_model>
+							<config_path>ced_vpayments/general/commission_pt</config_path>
+                            <depends><commission_mode>miscellaneous</commission_mode></depends>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_commission>1</show_in_commission>
+                        </commission_pt>
+						<aggregrade translate="label">
+							<label>Condition Function</label>
+                            <frontend_type>select</frontend_type>
+							<source_model>cscommission/source_vendor_rate_aggregrade</source_model>
+							<config_path>ced_vpayments/general/commission_fn</config_path>
+                            <depends><commission_mode>miscellaneous</commission_mode></depends>
+							<comment>Use condition function for resolving match condition between "Product Type Wise" and "Category Wise"</comment>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_commission>1</show_in_commission>
+						</aggregrade>
+						<commission_cw translate="label">
+                            <label>Category Wise</label>
+                            <frontend_type>text</frontend_type>
+                            <frontend_model>cscommission/adminhtml_vendor_rate_category</frontend_model>
+							<backend_model>cscommission/backend_vendor_rate_category</backend_model>
+							<config_path>ced_vpayments/general/commission_cw</config_path>
+                            <depends><commission_mode>miscellaneous</commission_mode></depends>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_commission>1</show_in_commission>
+                        </commission_cw>
+					</fields>
+				</vpayments>
+			</groups>
+		</ced_csmarketplace>
+	</sections>
+</config>

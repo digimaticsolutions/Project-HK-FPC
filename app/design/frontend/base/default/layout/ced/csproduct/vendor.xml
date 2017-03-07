@@ -1,0 +1,339 @@
+<?xml version="1.0"?> 
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsProduct
+  * @author   CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+<layout version="0.1.0">
+
+	<csmarketplace_vendor>
+		<reference name="csmarketplace_vendor_navigation">
+	            <action ifconfig="ced_vproducts/general/activation" method="addLink" translate="label" module="csproduct"><name>vendor_new_products</name><path>csproduct/vproducts/new</path><label>New Product</label><font_awesome>fa fa-plus-square fa-fw</font_awesome></action>
+	           	<action ifconfig="ced_vproducts/general/activation" method="addLink" translate="label" module="csproduct"><name>vendor_products</name><path>csproduct/vproducts/index</path><label>Manage Products</label><font_awesome>fa fa-folder fa-fw</font_awesome></action>
+	    </reference>
+	</csmarketplace_vendor>
+	<!--
+	Layout for editor element
+	-->
+    <editor>
+   		<update handle="csmarketplace_editor"/>
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/ced/csmarketplace/vproducts.css</stylesheet></action>
+        </reference>
+    </editor>
+    
+    <!--
+	Vendor products list page layout
+	--> 
+    <csproduct_vproducts_index translate="label">
+     	<label>Vendor Product Panel</label>
+        <update handle="csmarketplace_vendor"/>
+        <update handle="editor"/>
+        <reference name="vendor.dashboard.wrapper">
+         	<block type="csproduct/product" name="csproduct_vendor_vproducts"  as="product.list" >
+             	<block type="csproduct/store_switcher" name="store_switcher" as="store_switcher">
+                    <action method="setUseConfirm"><params>0</params></action>
+                </block>
+            </block>
+        </reference>
+    </csproduct_vproducts_index>
+    
+    <!--
+	Vendor new  product page layout
+	--> 
+    <csproduct_vproducts_new translate="label">
+    	<update handle="csmarketplace_vendor"/>
+    	<update handle="editor"/>
+		<reference name="left">
+			<block type="csproduct/edit_tabs"  before="-" name="product_tabs" template="csmarketplace/widget/tabs.phtml"></block>
+		</reference>
+		<reference name="head">
+			<block type="core/template" name="catalog.wysiwyg.js" template="csproduct/wysiwyg/js.phtml"/>
+		</reference>
+        <reference name="vendor.dashboard.wrapper">
+            <block type="csproduct/edit" name="csproduct_vendor_products" template="csproduct/edit.phtml"/>
+        </reference>	
+        <reference name="before_body_end">
+            <block type="adminhtml/catalog_product_edit_js" template="catalog/product/js.phtml" name="catalog_product_js"></block>
+        </reference>
+    </csproduct_vproducts_new>
+	
+	<!--
+	Vendor product edit page layout
+	--> 
+    <csproduct_vproducts_edit translate="label">
+    	<update handle="csmarketplace_vendor"/>
+    	<update handle="editor"/>
+		<reference name="left">
+        	<block type="csproduct/store_switcher" name="store_switcher" before="-"></block>
+			<block type="csproduct/edit_tabs"  after="store_switcher" name="product_tabs" template="csmarketplace/widget/tabs.phtml"></block>
+		</reference>
+		<reference name="head">
+			<block type="core/template" name="catalog.wysiwyg.js" template="csproduct/wysiwyg/js.phtml"/>
+		</reference>
+		<reference name="vendor.dashboard.wrapper">
+            <block type="csproduct/edit" name="csproduct_vendor_products" template="csproduct/edit.phtml"/>
+        </reference>
+        <reference name="before_body_end">
+            <block type="adminhtml/catalog_product_edit_js" template="catalog/product/js.phtml" name="catalog_product_js"></block>
+        </reference>
+    </csproduct_vproducts_edit>
+    
+    <csproduct_vproducts_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="csproduct/grid" name="vendor.product.grid"/>
+        </block>
+    </csproduct_vproducts_grid>
+    
+	 <!--
+	Vendor simple product edit page layout
+	--> 
+	<csproduct_vproducts_simple translate="label">
+        <label>Simple Product</label>	
+    </csproduct_vproducts_simple>
+    
+     <!--
+	Vendor virtual product edit page layout
+	--> 
+    <csproduct_vproducts_virtual translate="label">
+         <label>Virtual Product</label>	
+    </csproduct_vproducts_virtual>
+    
+    <!--
+	Vendor downloadable product edit page layout
+	--> 
+    <csproduct_vproducts_downloadable translate="label">
+        <label>Downloadable Product</label>	
+        <reference name="product_tabs">
+            <action method="addTab"><name>downloadable_items</name><block>csproduct/edit_tab_downloadable</block></action>
+        </reference>
+    </csproduct_vproducts_downloadable>
+    
+    <!--
+	Vendor configurable product edit page layout
+	--> 
+    <csproduct_vproducts_configurable translate="label">
+        <label>Configurable Product</label>	
+        <reference name="product_tabs">
+            <action method="addTab"><name>configurable</name><block>csproduct/edit_tab_super_config</block></action>
+            <action method="bindShadowTabs"><first>configurable</first><second>customer_options</second></action>
+        </reference>
+    </csproduct_vproducts_configurable>
+    
+     <!--
+	Vendor Configurable Attribute selection page layout
+	--> 
+    <csproduct_vproducts_configurable_new>
+    	<remove name="product_tabs"/>
+        <reference name="left">
+            <block type="csproduct/edit_tabs_configurable" before="-" name="configurable_product_tabs"></block>
+        </reference>
+    </csproduct_vproducts_configurable_new>
+    
+     <!--
+	Vendor bundle product edit page layout
+	--> 
+    <csproduct_vproducts_bundle translate="label">
+        <label>Bundle Product</label>	
+        <reference name="product_tabs">
+            <action method="addTab"><name>bundle_items</name><block>csproduct/edit_tab_bundle</block></action>
+            <action method="bindShadowTabs"><first>bundle_items</first><second>customer_options</second></action>
+        </reference>
+    </csproduct_vproducts_bundle>
+    
+     <!--
+	Vendor downloadable product edit page layout
+	--> 
+    <csproduct_vproducts_grouped translate="label">
+         <label>Grouped Product</label>	
+        <reference name="product_tabs">
+            <action method="addTab"><name>super</name><block>csproduct/edit_tab_super_group</block></action>
+        </reference>
+    </csproduct_vproducts_grouped>
+    
+     <csproduct_vproducts_supergroup>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="csproduct/edit_tab_super_group" name="catalog.product.edit.tab.super.group" />
+            <block type="adminhtml/widget_grid_serializer" name="grouped_grid_serializer">
+                <reference name="grouped_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>catalog.product.edit.tab.super.group</grid_block_name>
+                        <data_callback>getSelectedGroupedProducts</data_callback>
+                        <hidden_input_name>links[grouped]</hidden_input_name>
+                        <reload_param_name>products_grouped</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>qty</input_name>
+                        <input_name>position</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </csproduct_vproducts_supergroup>
+
+    <csproduct_vproducts_supergroupgridonly>
+        <block type="core/text_list" name="root">
+            <block type="csproduct/edit_tab_super_group" name="catalog.product.edit.tab.super.group" />
+        </block>
+    </csproduct_vproducts_supergroupgridonly>
+    
+    <csproduct_vproducts_options>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="adminhtml/catalog_product_edit_tab_options" name="admin.product.options"/>
+        </block>
+    </csproduct_vproducts_options>
+    
+     <csproduct_vproducts_related>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="csproduct/edit_tab_grid_related" name="catalog.product.edit.tab.related"/>
+            <block type="adminhtml/widget_grid_serializer" name="related_grid_serializer">
+                <reference name="related_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>catalog.product.edit.tab.related</grid_block_name>
+                        <data_callback>getSelectedRelatedProducts</data_callback>
+                        <hidden_input_name>links[related]</hidden_input_name>
+                        <reload_param_name>products_related</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </csproduct_vproducts_related>
+
+    <csproduct_vproducts_relatedgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="csproduct/edit_tab_grid_related" name="catalog.product.edit.tab.related"/>
+        </block>
+    </csproduct_vproducts_relatedgrid>
+
+    <csproduct_vproducts_upsell>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="csproduct/edit_tab_grid_upsell" name="catalog.product.edit.tab.upsell"/>
+            <block type="adminhtml/widget_grid_serializer" name="upsell_grid_serializer">
+                <reference name="upsell_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>catalog.product.edit.tab.upsell</grid_block_name>
+                        <data_callback>getSelectedUpsellProducts</data_callback>
+                        <hidden_input_name>links[upsell]</hidden_input_name>
+                        <reload_param_name>products_upsell</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </csproduct_vproducts_upsell>
+
+    <csproduct_vproducts_upsellgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="csproduct/edit_tab_grid_upsell" name="catalog.product.edit.tab.upsell"/>
+        </block>
+    </csproduct_vproducts_upsellgrid>
+
+    <csproduct_vproducts_crosssell>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="csproduct/edit_tab_grid_crosssell" name="catalog.product.edit.tab.crosssell"/>
+            <block type="adminhtml/widget_grid_serializer" name="crosssell_grid_serializer">
+                <reference name="crosssell_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>catalog.product.edit.tab.crosssell</grid_block_name>
+                        <data_callback>getSelectedCrossSellProducts</data_callback>
+                        <hidden_input_name>links[crosssell]</hidden_input_name>
+                        <reload_param_name>products_crosssell</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </csproduct_vproducts_crosssell>
+
+    <csproduct_vproducts_crosssellgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="csproduct/edit_tab_grid_crosssell" name="catalog.product.edit.tab.crosssell"/>
+        </block>
+    </csproduct_vproducts_crosssellgrid>
+    
+    
+    <!--  <PRODUCT_TYPE_bundle>
+        <reference name="product.composite.fieldset">
+            <block type="bundle/adminhtml_catalog_product_composite_fieldset_bundle" before="product.composite.fieldset.options" name="product.composite.fieldset.bundle" template="bundle/product/composite/fieldset/options/bundle.phtml">
+                <action method="addRenderer"><type>select</type><block>bundle/adminhtml_catalog_product_composite_fieldset_options_type_select</block></action>
+                <action method="addRenderer"><type>multi</type><block>bundle/adminhtml_catalog_product_composite_fieldset_options_type_multi</block></action>
+                <action method="addRenderer"><type>radio</type><block>bundle/adminhtml_catalog_product_composite_fieldset_options_type_radio</block></action>
+                <action method="addRenderer"><type>checkbox</type><block>bundle/adminhtml_catalog_product_composite_fieldset_options_type_checkbox</block></action>
+            </block>
+        </reference>
+    </PRODUCT_TYPE_bundle> -->
+    
+    <!--
+	Layout for pop up windows
+	-->
+    
+    <popup>
+    	<update handle="editor"/>
+        <update handle="default"/>
+        <remove name="header"/>
+        <remove name="menu"/>
+        <reference name="root">
+            <action method="setTemplate"><template>csproduct\popup.phtml</template></action>
+        </reference>
+    </popup>
+
+	<!--
+	Layout for overlay pop up windows
+	-->
+    <overlay_popup>
+        <update handle="popup"/>
+        <reference name="root">
+            <action method="setTemplate"><template>csproduct\overlay_popup.phtml</template></action>
+        </reference>
+    </overlay_popup>
+    
+     <csproduct_cms_wysiwyg_images_index>
+        <remove name="footer" />
+        <remove name="head" />
+        <reference name="left">
+        	<remove name="left.newsletter"/>
+       		<remove name="left.reports"/>
+       		<remove name="sale.reorder.sidebar" />
+	        <action method="unsetChild"><name>left.permanent.callout</name></action>
+	        <action method="unsetChild"><name>left.reports.product.viewed</name></action>
+	       	<action method="unsetChild"><name>tags_popular</name></action>
+	        <action method="unsetChild"><name>cart_sidebar</name></action>
+	        <action method="unsetChild"><name>wishlist</name></action>
+	        <action method="unsetChild"><name>sale.reorder.sidebar</name></action>
+	        <action method="unsetChild"><name>left.poll</name></action>
+            <block name="wysiwyg_images.js" type="adminhtml/cms_wysiwyg_images_content" template="cms/browser/js.phtml" />
+            <block name="wysiwyg_images.tree" type="adminhtml/cms_wysiwyg_images_tree" template="cms/browser/tree.phtml" />
+        </reference>
+        <reference name="content">
+            <block name="wysiwyg_images.content"  type="adminhtml/cms_wysiwyg_images_content" template="cms/browser/content.phtml">
+                <block name="wysiwyg_images.uploader" type="adminhtml/cms_wysiwyg_images_content_uploader" template="csproduct/cms/browser/content/uploader.phtml" />
+                <block name="wysiwyg_images.newfolder" type="adminhtml/cms_wysiwyg_images_content_newfolder" template="cms/browser/content/newfolder.phtml" />
+            </block>
+        </reference>
+    </csproduct_cms_wysiwyg_images_index>
+    
+    <csproduct_cms_wysiwyg_images_contents>
+        <block name="wysiwyg_images.files" type="adminhtml/cms_wysiwyg_images_content_files" template="cms/browser/content/files.phtml" output="toHtml" />
+    </csproduct_cms_wysiwyg_images_contents>
+    
+</layout>

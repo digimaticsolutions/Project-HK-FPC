@@ -1,0 +1,140 @@
+<html>
+<head>
+	<title>Cronjob Installation</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/prototype/1.7.1.0/prototype.js"></script>
+	<style type="text/css">
+		body {margin: 10px 20px 10px 10px; font: 16px sans-serif,Arial,Helvetica;}
+		h1 {font-size: 32px;}
+		h2 {font-size: 24px;}
+		h3 {font-size: 20px;}
+		h4 {font-size: 16px;}
+		h5 {font-size: 14px;}
+		div.header-container {margin-left: 20px; margin-bottom: 30px;}
+		ul {line-height: 25px;}
+		p {line-height: 25px;}
+		#toc {background-color: #F9F9F9; border: 1px solid #AAAAAA; padding: 5px;}
+		#toc ol { list-style-image: none; list-style-type: none; margin-left: 0; padding: 0; }
+		#toc ol {margin-left: 30px}
+		#toc span.toggle {cursor: pointer; color: #0645AD}
+		#toc_list li span.item { cursor: pointer; color: #0645AD; }
+		#toc ol span.item span.number { padding-right: 13px; color: black; }
+	</style>
+	
+	<script type="text/javascript">
+		function toggleToc(elem) {
+			elem = $(elem);
+			var toc = $('toc_list');
+			toc.toggle();
+			var text = 'show';
+			if (toc.visible()) text = 'hide';
+			elem.update(text);
+		}
+		
+		var sections = [];
+		function buildToc() {
+			$('toc').show();
+			
+			var c = 0;
+			var i = 0;
+			var html = '<ol id="toc_list">';
+			$$('h2').each(function(e) {
+				i++;
+				sections[c] = e;
+				html += '<li><span class="item" onclick="gotoSection('+c+')"><span class="number">' + (i) + '</span><span class="text">' + e.innerHTML.stripTags() + '</span></span>';
+				
+				var subs = e.next('div').select('h3')
+				if (subs.size() > 0) {
+					html += '<ol>';
+					var k = 0;
+					e.next('div').select('h3').each(function(e) {
+						c++; k++;
+						sections[c] = e;
+						html += '<li><span class="item" onclick="gotoSection('+c+')"><span class="number">' + (i) + '.' + (k) + '</span><span class="text">' + e.innerHTML.stripTags() + '</span></span>';
+						
+						if (e.next('div')) {
+							var subssubs = e.next('div').select('h4')
+							if (subssubs.size() > 0) {
+								var j = 0;
+								html += '<ol>';
+								e.next('div').select('h4').each(function(e) {
+									c++; j++;
+									sections[c] = e;
+									html += '<li><span class="item" onclick="gotoSection('+c+')"><span class="number">' + (i) + '.' + (k) + '.' + (j) + '</span><span class="text">' + e.innerHTML.stripTags() + '</span></span></li>';
+								});
+								html += '</ol>';
+							}
+						}
+						
+						html += '</li>';
+					});
+					html += '</ol>';
+				}
+				html += '</li>';
+				c++;
+	        });
+			html += '</ol>';
+			
+			$('toc_placeholder').replace(html);
+		}
+		
+		function gotoSection(i) {
+			var section = sections[i];
+			section.scrollTo();
+			if (typeof(window.scrollTo) == 'function') {
+				var p = section.cumulativeScrollOffset();
+				window.scrollTo(0, p[1]);
+			}
+		}
+		
+		document.observe("dom:loaded", function() { buildToc(); });
+	</script>
+</head>
+<body style="background: white">
+
+<h1>Cronjob Installation Guide</h1>
+	<div id="toc" style="display:none">
+		<b>Table of Contents</b> [<span class="toggle" onclick="toggleToc(this)">hide</span>]
+		<div id="toc_placeholder"></div>
+	</div>
+	
+	<h2>What is Cronjob?</h2>
+	<div class="header-container">
+		Crobjob is a system that allows scheduled tasks to run at set intervals. <u>Cronjob is required for Magento</u> and should of already been setup
+		prior to the installation of our extensions. However, many stores neglect to setup the Magento cronjob and do not know how to setup a cron, so we
+		have made this guide.
+	</div>
+	
+	<h2>Setting up a Cronjob</h2>
+	<div class="header-container">
+		<p>There are thousands of cronjob guides already created that you can use to familiarize yourself with cron. Please <a href="http://www.google.com/search?hl=en&safe=off&noj=1&site=webhp&source=hp&q=IonCube+Installation+Guide&oq=IonCube+Installation+Guide&gs_l=hp.3..0j0i8i30.929.3458.0.3549.26.21.0.0.0.0.265.2252.8j10j2.20.0.les%3B..0.0...1c.Ky2-Gib0DZc">search in Google</a> to find
+		hundreds of guides that are more comprehensive than this one. Here is a <a href="https://help.ubuntu.com/community/CronHowto" target="_blank">good general guide for Linux</a>. Here is a <a href="http://www.youtube.com/watch?v=E_UAp80UrPY" target="_blank">video guide for cPanel</a>. In general, the command that you would use to setup a cron would be the following:</p>
+		
+		<xmp>php [path to cron]</xmp>
+		
+		<p>For the Magento cron, it would look something like this (replacing [Magento root] with the base path to your installation directory):</p>
+		
+		<xmp>php [Magento root]/cron.php</xmp>
+		
+		<p>If you are editing the crontab directly, then you need to include the frequency of the cronjob. This would look like this:</p>
+		
+		<xmp>*/5 * * * * php [Magento root]/cron.php</xmp>
+	</div>
+	
+	<h2>Ask Your Host</h2>
+	<div class="header-container">
+		<p>The easiest way to install a cronjob is to ask your host! Many hosts use control panels (such as cPanel) which allows you to easily create cronjobs.</p>
+	</div>
+	
+	<h2>The Magento Cron</h2>
+	<div class="header-container">
+		<p>The Magento cron is a cronjob that must be setup for Magento to function properly. It is located at <i>[Magento root]/cron.php</i>. It should be run at a minimum of every few hours. If you are using an extension like <i>Abandoned Cart Reminder</i> or an extension that specifically tells you a minimum interval, then you should set the interval to be less.
+		For <i>Abandoned Cart Reminders</i> it should be run every 5-10 minutes.</p>
+	</div>
+	
+	<h2>Extendware Crons</h2>
+	<div class="header-container">
+		<p>A few extensions such as the <i>Full Page Cache Crawler</i> require their own cronjob. Use the cronjob guide of your choice (search Google for a good guide) and create the cronjob using the file path provided in the installation guide of the extension.</p>
+	</div>
+	
+</body>
+</html>

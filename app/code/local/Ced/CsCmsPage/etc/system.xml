@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsCmsPage
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+<config>
+	<sections>
+		<ced_csmarketplace translate="label" module="cscmspage">
+			<groups>
+				<general translate="label">
+					<!-- <sort_order>5</sort_order> -->
+					<fields>
+						<cmspageactivation translate="label">
+							<label>Enable Vendor CMS Page System</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</cmspageactivation>
+					</fields>
+				</general> 
+				<vcmspage translate="label">
+					<label>Vendor CMS Page</label>
+					<show_in_website>1</show_in_website>
+					<show_in_default>1</show_in_default>
+					<sort_order>15</sort_order>
+					<fields>
+						<!-- <activation translate="label">
+							<label>Enable Vendor CMS Page System</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</activation>  -->
+						<confirmation translate="label">
+							<label>Require Vendor CMS Page Admin Approval</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>11</sort_order>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</confirmation>
+						<vblockconfirmation translate="label">
+							<label>Require Vendor Static Block Admin Approval</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>12</sort_order>
+							<show_in_vendor>1</show_in_vendor>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</vblockconfirmation>
+					</fields>
+				</vcmspage>
+			</groups>
+		</ced_csmarketplace>
+	</sections>
+</config>

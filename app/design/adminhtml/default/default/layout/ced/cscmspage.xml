@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsCmsPage
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+
+<layout>
+	<default>
+		<reference name="notifications">
+          <!-- <block type="adminhtml/notification_window" name="notification.csmarketplace.vendor" as="notification_csmarketplace_vendor" acl="system/adminnotification/show_toolbar" template="csmarketplace/notification.phtml" /> -->
+        	<block type="adminhtml/notification_window" name="notification.cscmspage.vendor" as="notification_cscmspage_vendor" acl="system/adminnotification/show_toolbar" template="cscmspage/notification.phtml" />
+        </reference>
+        <!-- <reference name="before_body_end">
+            <block  type="csmarketplace/vdebug_debug" name="csmarketplace.vdebug_panels">
+            </block>
+             
+        </reference>-->
+	</default>
+	<adminhtml_adminhtml_vendorcms_index>
+        <reference name="content">
+        	<!-- <block type="adminhtml/store_switcher" name="store_switcher" before="-"></block> -->
+            <block type="cscmspage/adminhtml_cmspage" name="cmspage_list">
+            </block>
+        </reference>
+    </adminhtml_adminhtml_vendorcms_index>
+    
+    <adminhtml_adminhtml_vendorblock_index>
+
+        <reference name="content">
+        	<!-- <block type="adminhtml/store_switcher" name="store_switcher" before="-"></block> -->
+            <block type="cscmspage/adminhtml_block" name="cmspage_list">
+            </block>
+        </reference>
+    </adminhtml_adminhtml_vendorblock_index>
+    
+    <!--<cscmspage_adminhtml_vendorblock_edit>
+        <update handle="editor"/>
+        <reference name="content">
+            <block type="cscmspage/adminhtml_block_edit" name="cscmspage_block_edit" template="cscmspage/block/edit.phtml" ></block>
+        </reference>
+    </cscmspage_adminhtml_vendorblock_edit> -->
+    
+    <adminhtml_adminhtml_vendorblock_edit>
+    	<update handle="editor"/>
+        <reference name="content">
+            <block type="cscmspage/adminhtml_block_edit" name="cscmspage_block_edit"></block>
+        </reference>
+        
+    </adminhtml_adminhtml_vendorblock_edit>
+    
+    <adminhtml_adminhtml_vendorcms_edit>
+    	<update handle="editor"/>
+        <reference name="content">
+            <block type="cscmspage/adminhtml_cmspage_edit" name="cscmspage_page_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="cscmspage/adminhtml_cmspage_edit_tabs" name="cms_page_edit_tabs">
+                <block type="cscmspage/adminhtml_cmspage_edit_tab_main" name="cms_page_edit_tab_main" />
+                <block type="cscmspage/adminhtml_cmspage_edit_tab_content" name="cms_page_edit_tab_content" />
+                <block type="cscmspage/adminhtml_cmspage_edit_tab_design" name="cms_page_edit_tab_design" />
+                <block type="cscmspage/adminhtml_cmspage_edit_tab_meta" name="cms_page_edit_tab_meta" />
+                <action method="addTab"><name>main_section</name><block>cms_page_edit_tab_main</block></action>
+                <action method="addTab"><name>content_section</name><block>cms_page_edit_tab_content</block></action>
+                <action method="addTab"><name>design_section</name><block>cms_page_edit_tab_design</block></action>
+                <action method="addTab"><name>meta_section</name><block>cms_page_edit_tab_meta</block></action>
+            </block>
+        </reference>
+    </adminhtml_adminhtml_vendorcms_edit>
+    
+	 <adminhtml_editor_index>
+        <reference name="content">
+            <block type="atwix_editor/adminhtml_editor" name="wysiwyg_editor_form"/>
+        </reference>
+    </adminhtml_editor_index>
+</layout>

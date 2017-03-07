@@ -1,0 +1,86 @@
+<?xml version="1.0"?> 
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsVendorProductAttribute
+  * @author   	 CedCommerce Core Team <connect@cedcommerce.com>
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+<layout version="0.1.0">
+<csmarketplace_vendor>
+    <reference name="csmarketplace_vendor_navigation">
+		<action method="addLink" translate="label" module="csmarketplace" ifconfig="ced_csmarketplace/general/vattributes"><name>vendor_product_attribute</name><path>csvendorproductattribute/attribute/index</path><label>Vendor Product Attribute</label><font_awesome>fa fa-check-square-o</font_awesome><sort_order>4</sort_order></action>
+	</reference>
+</csmarketplace_vendor>
+<editor>
+        <reference name="head">
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>			 
+			<action method="addItem"><type>js</type><name>ced/cs_attribute/attribute.js</name></action>		
+			<action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>		 
+			<action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+			<action method="addItem"><type>js</type><name>mage/adminhtml/wysiwyg/tiny_mce/setup.js</name><params/><if/><condition>can_load_tiny_mce</condition></action>
+			<action method="addJs"><script>mage/adminhtml/tools.js</script></action>
+			<action method="addJs"><script>tiny_mce/tiny_mce.js</script></action>
+			<action method="addJs"><script>mage/adminhtml/form.js</script></action>
+			<action method="addJs"><script>mage/adminhtml/loader.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/events.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/grid.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/hash.js</script></action>
+			<action method="addJs"><script>mage/adminhtml/uploader.js</script></action>
+			<action method="addJs"><script>mage/adminhtml/accordion.js</script></action>
+			<action method="addJs"><script>ced/cs_attribute/tabs.js</script></action>
+			<action method="addJs"><script>mage/adminhtml/product.js</script></action>
+			<action method="addJs"><script>extjs/ext-tree.js</script></action>
+            <action method="addJs"><script>extjs/ext-tree-checkbox.js</script></action>
+			<action method="addCss"><name>css/ced/csmarketplace/boxes.css</name></action>
+            <action method="addItem"><type>js_css</type><name>extjs/resources/css/ext-all.css</name></action>
+<!--             <action method="addItem"><type>js_css</type><name>extjs/resources/css/ytheme-magento.css</name></action>
+ -->            <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
+            <action method="addJs"><script>lib/flex.js</script></action>
+            <action method="addJs"><script>lib/FABridge.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/browser.js</script></action>
+            <action method="addJs"><script>prototype/window.js</script></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addCss"><name>css/ced/csproduct/magento.css</name></action>
+            <action method="addCss"><stylesheet>css/ced/csmarketplace/vproducts.css</stylesheet></action>
+             <action method="addCss"><stylesheet>css/ced/csattribute/vpattribute.css</stylesheet></action>
+        </reference>
+    </editor>
+   <csvendorproductattribute_attribute_index translate="label">
+	  <label>Vendor Product Attributes</label>	
+        <update handle="csmarketplace_vendor"/>
+           <update handle="editor"/>
+            <remove name="tags_popular"/>
+			<remove name="left.newsletter"/>
+			<remove name="left.permanent.callout"/>
+     <reference name="vendor.dashboard.wrapper"> 
+     	<block type="core/messages" name="messages" as="messages"/>
+        <block type="csvendorproductattribute/attribute"  name="csvendorproductattribute_attribute"></block>
+      </reference>
+    </csvendorproductattribute_attribute_index>
+    <csvendorproductattribute_attribute_edit>
+    	 <update handle="csmarketplace_vendor"/>
+           <update handle="editor"/>
+           <reference name="vendor.dashboard.wrapper">
+            <block type="csvendorproductattribute/attribute_edit" name="csvendorproductattribute_vendor_attributes" template="csattribute/vattribute.phtml">
+		         <block type="csvendorproductattribute/attribute_edit_tabs"  name="attribute_tabs"/>
+            </block>
+           </reference>
+    </csvendorproductattribute_attribute_edit>
+    
+</layout>

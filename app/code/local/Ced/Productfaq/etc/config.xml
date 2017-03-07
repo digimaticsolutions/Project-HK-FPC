@@ -1,0 +1,191 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_Productfaq
+  * @author   CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+ -->
+<config>
+    <modules>
+        <Ced_Productfaq>
+            <version>0.0.1</version>
+            <!-- <release_version>0.0.2</release_version> -->
+            <parent_product_name>Cedcommerce Product Questions and Answers</parent_product_name>
+            <author>CedCommerce Core Team (connect@cedcommerce.com)</author>
+        </Ced_Productfaq>
+    </modules>
+    <global>
+        <events>
+            <catalog_product_save_after>
+                <observers>
+                    <Ced_save_product_data9>
+                        <type>singleton</type>
+                        <class>productfaq/Observer</class>
+                        <method>saveProductTabData</method>
+                    </Ced_save_product_data9>
+                </observers>
+            </catalog_product_save_after>
+            <controller_action_layout_load_before>
+				<observers>
+                 	   <layout_load_before_cedcommerce>
+                  	 	     <class>productfaq/observer</class>
+                    		    <method>beforeLoadingLayout</method>
+            		        </layout_load_before_cedcommerce>
+                </observers>
+			</controller_action_layout_load_before> 
+			<controller_action_predispatch>
+                <observers>
+                    <csmarketplace_feed_start>
+                        <class>productfaq/observer</class>
+                        <method>preDispatch</method>
+                    </csmarketplace_feed_start>
+                </observers>
+            </controller_action_predispatch>
+        </events>
+        <blocks>
+            <productfaq>
+                <class>Ced_Productfaq_Block</class>
+            </productfaq>
+            <catalog>
+                <rewrite>
+                    <product_view_description>Ced_Productfaq_Block_Catalog_Description</product_view_description>
+                </rewrite>
+            </catalog>
+		    <adminhtml>
+		        <rewrite>
+		             <catalog_product_edit_tabs>Ced_Productfaq_Block_Adminhtml_Tabs</catalog_product_edit_tabs>
+		        </rewrite>
+		    </adminhtml>
+		</blocks>
+        <models>
+			<productfaq>
+				<class>Ced_Productfaq_Model</class>
+				<resourceModel>productfaq_resource</resourceModel>
+			</productfaq>
+			<productfaq_resource>
+				<class>Ced_Productfaq_Model_Resource</class>
+				<entities>
+					<productfaq>
+					<table>ced_productfaq_faqs</table>
+					</productfaq>
+					<like>
+					<table>ced_productfaq_like</table>
+					</like>
+				</entities>
+			</productfaq_resource>
+	    </models>
+		<resources>
+			<productfaq_setup>
+				<setup>
+					<module>Ced_Productfaq</module>
+				</setup>
+			</productfaq_setup>
+		</resources>
+		<helpers>
+   			<productfaq>
+         	 <class>Ced_Productfaq_Helper</class>
+    		</productfaq>
+		</helpers>
+		<template>
+            <email>
+                <productfaq_faqs_email_product_faq_template translate="label" module="productfaq">
+                    <label>Product Faq Email</label>
+                    <file>ced/faq.html</file>
+                    <type>html</type>
+                </productfaq_faqs_email_product_faq_template>
+            </email>
+        </template>
+        <rewrite>
+			<cedcommerce_fancy_url>
+				<from><![CDATA[/cedcommerce\/main\/(.*)/i]]></from>
+				<to><![CDATA[productfaq/main/$1]]></to>
+				<complete>1</complete>
+			</cedcommerce_fancy_url>
+		</rewrite>
+    </global>
+    <frontend>
+       <routers>
+			<productfaq>
+				<use>standard</use>
+				<args>
+					<module>Ced_Productfaq</module>
+					<frontName>productfaq</frontName>
+				</args>
+			</productfaq>
+		</routers>
+		<layout>
+			<updates>
+				<productfaq>
+					<file>ced/productfaq/productfaq.xml</file>
+				</productfaq>
+			</updates>
+		</layout>
+	</frontend>
+    <admin>
+        <routers>
+            <adminhtml> 
+ 				<args> 
+ 					<modules> 
+ 						<productfaq after="Mage_Adminhtml">Ced_Productfaq</productfaq> 
+ 						<Ced_Productfaq before="Mage_Adminhtml">Ced_Productfaq_Adminhtml</Ced_Productfaq>
+ 					</modules> 
+ 				</args> 
+			</adminhtml>
+        </routers>
+    </admin>  
+    <adminhtml>
+		<menu>
+			<ced_productfaq>
+				<title>Product FAQ</title>
+				<sort_order>100</sort_order>
+				<children>
+					<menuitem1>
+						<title>FAQ Setting</title>
+						<sort_order>30</sort_order>
+						<action>adminhtml/system_config/edit/section/productfaq</action>
+					</menuitem1>
+					<menuitem2>
+						<title>FAQ Management</title>
+						<sort_order>20</sort_order>
+						<action>adminhtml/adminhtml_faq/index</action>
+					</menuitem2>
+				</children>
+			</ced_productfaq>
+		</menu>
+		<layout>
+			<updates>
+				<productfaq>
+					<file>ced/productfaq/productfaq.xml</file>
+				</productfaq>
+			</updates>
+		</layout>
+	</adminhtml>
+	<default>
+		<system>
+            <csmarketplace>
+                <feed_url>cedcommerce.com/licensing/log/post</feed_url>
+                <popup_url>widgets.magentocommerce.com/notificationPopup</popup_url>
+                <severity_icons_url>widgets.magentocommerce.com/%s/%s.gif</severity_icons_url>
+                <frequency>72</frequency>
+                <last_update>0</last_update>
+            </csmarketplace>
+			<license>
+				<use_https>0</use_https>
+				<license_url>adminhtml/adminhtml_license/index/</license_url>
+				<activate_url>cedcommerce.com/licensing/validate/</activate_url>
+			</license>
+        </system>
+	</default>
+</config>

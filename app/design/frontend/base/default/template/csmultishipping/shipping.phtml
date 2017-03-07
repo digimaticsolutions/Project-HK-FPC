@@ -1,0 +1,121 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php $shippingMethod = $this->getQuote()->getShippingAddress()->getShippingMethod();?>
+<?php if(substr($shippingMethod, 0,12) == 'vendor_rates'): ?>
+	<?php 
+		$shippingMethod 	= str_replace('vendor_rates_','',$shippingMethod);
+		$shippingMethods 	= explode(Ced_CsMultiShipping_Model_Shipping::METHOD_SEPARATOR, $shippingMethod);
+		$vendorId=0;
+	?>
+	<?php foreach($shippingMethods as $method):?>
+		<?php $rate = $this->getQuote()->getShippingAddress()->getShippingRateByCode($method);?>
+		<?php 
+			$methodInfo = explode(Ced_CsMultiShipping_Model_Shipping::SEPARATOR,$method);
+			$vendorId = isset($methodInfo[1])?$methodInfo[1]:"admin";
+			if($vendorId!="admin")
+				$vendor = Mage::getModel('csmarketplace/vendor')->load($vendorId);
+		?>
+		<?php if($vendorId):?>
+	    <tr class="vendor-summary-details-1 summary-details<?php echo ' summary-details-first'; ?>" style="display:none;">
+	        <td class="a-right" style="" colspan="<?php echo $this->getColspan(); ?>">
+	            <span style="font-weight: bold;"><?php echo ($vendorId!="admin")?$vendor->getPublicName():Mage::app()->getWebsite()->getName();?></span> (<?php echo $rate->getMethodTitle();?>)
+	            <br />
+	        </td>
+	        <td style="" class="a-right" rowspan="1">
+	            <?php echo $this->helper('checkout')->convertPrice($rate->getPrice()); ?>
+	        </td>
+	    </tr>
+	    <?php endif;?>
+	<?php endforeach;?>
+	<?php if ($this->displayBoth()):?>
+	<tr class="summary-total">
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+	        <div class="summary-collapse"><?php echo $this->getExcludeTaxLabel() ?></div>
+	    </td>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+	        <?php echo $this->helper('checkout')->formatPrice($this->getShippingExcludeTax()) ?>
+	    </td>
+	</tr>
+	<tr class="summary-total">
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+	        <div class="summary-collapse"><?php echo $this->getIncludeTaxLabel() ?></div>
+	    </td>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+	        <?php echo $this->helper('checkout')->formatPrice($this->getShippingIncludeTax()) ?>
+	    </td>
+	</tr>
+	<?php elseif($this->displayIncludeTax()) : ?>
+	<tr class="summary-total">
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+	        <div class="summary-collapse"><?php echo $this->getTotal()->getTitle() ?></div>
+	    </td>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+	        <?php echo $this->helper('checkout')->formatPrice($this->getShippingIncludeTax()) ?>
+	    </td>
+	</tr>
+	<?php else:?>
+	<tr class="summary-total" onclick="expandDetails(this, '.vendor-summary-details-1')">
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+	         <div class="summary-collapse"><?php echo $this->escapeHtml($this->getTotal()->getTitle()) ?></div>
+	    </td>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+	        <?php echo $this->helper('checkout')->formatPrice($this->getShippingExcludeTax()) ?>
+	    </td>
+	</tr>
+	<?php endif;?>
+<?php else:?>
+	<?php if ($this->displayBoth()):?>
+	<tr>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+	        <?php echo $this->getExcludeTaxLabel() ?>
+	    </td>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+	        <?php echo $this->helper('checkout')->formatPrice($this->getShippingExcludeTax()) ?>
+	    </td>
+	</tr>
+	<tr>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+	        <?php echo $this->getIncludeTaxLabel() ?>
+	    </td>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+	        <?php echo $this->helper('checkout')->formatPrice($this->getShippingIncludeTax()) ?>
+	    </td>
+	</tr>
+	<?php elseif($this->displayIncludeTax()) : ?>
+	<tr>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+	        <?php echo $this->getTotal()->getTitle() ?>
+	    </td>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+	        <?php echo $this->helper('checkout')->formatPrice($this->getShippingIncludeTax()) ?>
+	    </td>
+	</tr>
+	<?php else:?>
+	<tr>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+	        <?php echo $this->escapeHtml($this->getTotal()->getTitle()) ?>
+	    </td>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+	        <?php echo $this->helper('checkout')->formatPrice($this->getShippingExcludeTax()) ?>
+	    </td>
+	</tr>
+	<?php endif;?>
+<?php endif;?>

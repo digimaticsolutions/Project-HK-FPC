@@ -1,0 +1,159 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Magento Core Team <Ced_MagentoCoreTeam@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<?php 
+	$CmsBlockPage=array();
+	if($this->getRequest()->getParam('block_id') && $this->getRequest()->getParam('block_id')>0){
+		$block_id = 	$this->getRequest()->getParam('block_id');
+		$CmsBlockPage = Mage::getModel('cscmspage/block')->load($block_id); 		
+	}
+	if(sizeof($CmsBlockPage)>0){
+		$url = $this->getUrl('*/*/updateblock/',array('block_id'=>$block_id));
+	}else{
+		$url = $this->getUrl('*/*/saveblock');
+	}
+	$shopurl = explode('/',Mage::helper('cscmspage')->getVendorShopUrl());	
+	
+?>
+
+<style type="text/css">
+	p.buttons{
+		float:right;
+	}
+</style>
+<div class="wrap_vcmspage">
+	
+	<div class="row">
+		<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+	</div>
+	<form id="vcs-cms-block-form" name="vcs-cms-block-form" method="post" action="<?php echo $url?>" onSubmit="return validate();">
+		<div class="row">
+			<div class="col-lg-12">
+		    	<h1 class="page-header"><?php echo Mage::helper('cscmspage')->__('Manage Vendor Static Block')?> </h1>
+		    	<p class="buttons">
+		    		<a href="<?php echo Mage::getBaseUrl().'cscmspage/vblock/' ?>" class="btn btn-default"> << <?php echo Mage::helper('cscmspage')->__('Back')?></a>
+		    		<button type="submit" class="btn btn-warning">
+		    			<?php if(sizeof($CmsBlockPage)>0){ 
+								echo Mage::helper('cscmspage')->__('Update Block Page') ;
+		    				  }else{
+		    					echo Mage::helper('cscmspage')->__('Save Block');
+		    				  }?>
+		    		</button>
+		    	</p>
+				<div style="clear:both"></div>
+		    </div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+		    	<div class="panel panel-default">
+		        	<div class="panel-heading">
+		            	<?php echo Mage::helper('cscmspage')->__('Create New Block')?>
+		            </div>
+			        <div class="panel-body">
+			        	<div class="panel-group" id="accordion">
+			            	<!-- Tab 1 Start -->
+			            	<div class="panel panel-default">
+			                	<div class="panel-heading">
+			                    	 <h4 class="panel-title">
+			                         	<a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" aria-expanded="true" class="tab-item-link">
+			                         		<?php echo Mage::helper('cscmspage')->__('General Information')?>
+			                         	</a>
+			                         </h4>
+			                    </div>
+			                    <div class="panel-collapse collapse in" id="collapseOne" aria-expanded="true" style="">
+			                    	<div class="panel-body">
+			                        	<div class="form-group">
+		                                     <div class="col-lg-">
+			                                        <div class="form-group wrap_width">
+			                                            <label><?php echo Mage::helper('cscmspage')->__('Block Title')?> *</label>
+			                                            <input class="form-control input-text required-entry" type="text" name="vblock[title]" value="<?php if(sizeof($CmsBlockPage)>0){ echo $CmsBlockPage->getTitle(); } ?>">
+			                                        </div>
+			                                        <div class="form-group wrap_width">
+			                                            <label><?php echo Mage::helper('cscmspage')->__('Identifier')?> *</label>
+			                                            <div class="shopurl_wrap">
+			                                            	<span class="shop_url"><?php echo $shopurl['1'].'_'?></span>		
+			                                            	<span class="url_text">
+			                                            		<input class="form-control input-text required-entry" type="text" name="vblock[identifier]" value="<?php if(sizeof($CmsBlockPage)>0){ echo str_replace($shopurl['1'].'_','',$CmsBlockPage->getIdentifier()); } ?>">
+			                                        		</span>
+			                                        	</div>
+			                                        	<div style="clear:both"></div>
+			                                        </div>
+			                                        <div class="form-group wrap_width">
+			                                            <label><?php echo Mage::helper('cscmspage')->__('Store View')?> *</label>
+			                                            <?php 
+			                                            	echo Mage::helper('cscmspage')->getAllwebsites();
+			                                            ?>
+			                                        </div>
+			                                        <div class="form-group wrap_width">
+			                                            <label><?php echo Mage::helper('cscmspage')->__('Status')?> *</label>
+			                                            <select class="form-control required-entry" name="vblock[status]">
+			                                            	<option value="1" <?php if(sizeof($CmsBlockPage)>0 && $CmsBlockPage->getIsActive() == '1' ){?> selected='selected' <?php } ?> ><?php echo Mage::helper('cscmspage')->__('Enabled')?></option>
+			                                            	<option value ="0" <?php if(sizeof($CmsBlockPage)>0 && $CmsBlockPage->getIsActive() == '0' ){?> selected='selected' <?php } ?>><?php echo Mage::helper('cscmspage')->__('Disabled')?></option>
+			                                            </select>
+			                                        </div>
+			                                        
+			                                        <div class="form-group">
+					                                  	 <div class="form-group">
+				                                            <label><?php echo Mage::helper('cscmspage')->__('Content')?> *</label>
+				                                            <!-- <textarea id="custom_wysiwyg" rows="10" class="form-control" name="vblock[content]"><?php if(sizeof($CmsBlockPage)>0){ echo $CmsBlockPage->getContent(); } ?></textarea> -->
+				                                        	<br>
+	                                        				<textarea rows="8" cols="200" name="vblock[content]" style="" class="textarea" id="vendorcontent"><?php if(sizeof($CmsBlockPage)>0){ echo $CmsBlockPage->getContent(); } ?></textarea>
+				                                        	<script type="text/javascript">
+				                                        	   bkLib.onDomLoaded(function() {
+				                                                   new nicEditor({fullPanel : true}).panelInstance('vendorcontent');
+				                                              });
+				                                        	  
+															</script>
+															<div style="display:none;" id="advice-required-entry-vblock-content" class="validation-advice">This is a required field.</div>
+				                                        </div>          
+					                                </div>					                                
+			                                </div>       
+		                                </div>
+			                        </div>
+			                    </div>
+			                </div>
+			                <!-- Tab 1 End -->
+			             </div>
+			         </div>
+		     	</div>
+		    </div>
+		</div>
+	</form>
+	<script type="text/javascript">
+		
+	//< ![CDATA[
+    	var customForm = new VarienForm('vcs-cms-block-form');
+	//]]>   
+			function validate()
+      	   	{ 
+      	       var nicInstance = nicEditors.findEditor('vendorcontent');
+      	       var messageContent = nicInstance.getContent();
+      	       //since nicEditor sets default value of textarea as <br>
+      	       //we are checking for it
+      	       if(messageContent=="<br>" || messageContent=='' || messageContent==null) { 
+      	       		jQuery('#advice-required-entry-vblock-content').show();
+      	       		return false;
+      	      }else{
+      	    		jQuery('#advice-required-entry-vblock-content').hide();
+      	    		return true;
+          	   }
+      	   } 
+	    
+    </script>    
+</div>	

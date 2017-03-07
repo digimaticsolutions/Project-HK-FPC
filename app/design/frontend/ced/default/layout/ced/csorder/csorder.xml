@@ -1,0 +1,657 @@
+<!--
+Multi address shipping checkout address page
+-->
+<layout>
+	<csorder_cart_index translate="label">
+        <label>Shopping Cart</label>
+        <remove name="right"/>
+        <remove name="left"/>
+        <!-- Mage_Checkout -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="csorder/cart" name="checkout.cart">
+                <action method="setCartTemplate"><value>csorder/cart.phtml</value></action>
+                <action method="setEmptyTemplate"><value>checkout/cart/noItems.phtml</value></action>
+                <action method="chooseTemplate"/>
+                <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/item/default.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/item/default.phtml</template></action>
+
+                <block type="core/text_list" name="checkout.cart.top_methods" as="top_methods" translate="label">
+                    <label>Payment Methods Before Checkout Button</label>
+                    <block type="checkout/onepage_link" name="checkout.cart.methods.onepage" template="checkout/onepage/link.phtml"/>
+                </block>
+
+                <block type="page/html_wrapper" name="checkout.cart.form.before" as="form_before" translate="label">
+                    <label>Shopping Cart Form Before</label>
+                </block>
+
+                <block type="core/text_list" name="checkout.cart.methods" as="methods" translate="label">
+                    <label>Payment Methods After Checkout Button</label>
+                    <block type="checkout/onepage_link" name="checkout.cart.methods.onepage" template="checkout/onepage/link.phtml"/>
+                    <block type="checkout/multishipping_link" name="checkout.cart.methods.multishipping" template="checkout/multishipping/link.phtml"/>
+                </block>
+
+                <block type="checkout/cart_coupon" name="checkout.cart.coupon" as="coupon" template="checkout/cart/coupon.phtml"/>
+                <block type="checkout/cart_shipping" name="checkout.cart.shipping" as="shipping" template="checkout/cart/shipping.phtml"/>
+                <block type="checkout/cart_crosssell" name="checkout.cart.crosssell" as="crosssell" template="checkout/cart/crosssell.phtml"/>
+
+                <block type="checkout/cart_totals" name="checkout.cart.totals" as="totals" template="checkout/cart/totals.phtml"/>
+            </block>
+        </reference>
+        <block type="core/text_list" name="additional.product.info" translate="label">
+            <label>Additional Product Info</label>
+        </block>
+    </csorder_cart_index>
+
+    <csorder_cart_configure translate="label">
+        <label>Configure Cart Item</label>
+        <update handle="catalog_product_view"/>
+        <reference name="product.info">
+            <block type="checkout/cart_item_configure" name="checkout.cart.item.configure.block"></block>
+        </reference>
+    </csorder_cart_configure>
+
+	<csorder_multishipping translate="label">
+        <label>Multishipping Checkout</label>
+        <!-- Mage_Checkout -->
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="checkout/multishipping_state" name="checkout_state" template="checkout/multishipping/state.phtml"/>
+        </reference>
+    </csorder_multishipping>
+	
+    <csorder_multishipping_addresses translate="label">
+        <label>Multishipping Checkout Address (Any) Form</label>
+        <update handle="csorder_multishipping"/>
+        <!-- Mage_Checkout -->
+        <reference name="content">
+            <block type="csorder/multishipping_addresses" name="checkout_addresses" template="checkout/multishipping/addresses.phtml">
+                <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>checkout/multishipping/item/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/multishipping/item/default.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/multishipping/item/default.phtml</template></action>
+            </block>
+        </reference>
+    </csorder_multishipping_addresses>
+	
+
+    <csorder_shipment_new>
+        <label>Shipment New</label>
+        <update handle="csmarketplace_vendor"/>
+        <reference name="root">
+            <action method="setTemplate"><template>page/vendorpanel.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><file>ced/csorder/packaging.js</file></action>
+            <action method="addJs"><script>ced/csorder/tools.js</script></action>
+            <action method="addCss"><name>css/ced/csmarketplace/boxes.css</name></action>
+            <action method="addCss"><name>css/ced/csorder/csorder.css</name></action>
+        </reference>
+        <reference name="vendor.dashboard.wrapper"> <block type="core/messages" name="messages" as="messages"/>
+            <block type="csorder/adminhtml_sales_order_shipment_create" name="sales_shipment_create">
+                <block type="csorder/adminhtml_sales_order_shipment_create_form" name="form" template="csorder/sales/order/shipment/create/form.phtml">
+                    <block type="adminhtml/sales_order_view_info" name="order_info" template="csorder/sales/order/view/info.phtml"></block>
+                    <block type="adminhtml/sales_order_payment" name="order_payment"></block>
+                    <block type="adminhtml/sales_order_shipment_create_tracking" name="shipment_tracking" template="sales/order/shipment/create/tracking.phtml"></block>
+                    <block type="adminhtml/sales_order_shipment_create_items" name="order_items" template="csorder/shipment/create/items.phtml">
+                        <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/shipment/create/items/renderer/default.phtml</template></action>
+                        <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
+                        <block type="core/text_list" name="order_item_extra_info"></block>
+                    </block>
+                    <block type="csorder/adminhtml_sales_order_shipment_packaging" name="shipment_packaging" template="sales/order/shipment/packaging/popup.phtml" />
+                </block>
+            </block>
+        </reference>
+    </csorder_shipment_new>
+
+
+
+    <csmarketplace_vendor>
+        <reference name="csmarketplace_vendor_navigation">
+          <action ifconfig="ced_vorders/general/vorders_active" method="addSubLink" translate="label" module="csmarketplace">
+            <name>csorder_manage_order</name>
+            <path>csorder/vorders/index</path>
+            <label>Manage Orders</label>
+            <font_awesome>fa fa-angle-double-right</font_awesome>
+            <sort_order>6</sort_order>
+            <children></children>
+            <parent>vendor_orders</parent>
+         </action>
+
+         <action ifconfig="ced_vorders/general/vorders_active"  method="addSubLink" translate="label" module="csmarketplace">
+            <name>csorder_manage_invoice</name>
+            <path>csorder/invoice/index</path>
+            <label>Manage Invoice</label>
+            <font_awesome>fa fa-angle-double-right</font_awesome>
+            <sort_order>7</sort_order>
+            <children></children>
+            <parent>vendor_orders</parent>
+         </action>   
+         <action ifconfig="ced_vorders/general/vorders_active" method="addSubLink" translate="label" module="csmarketplace">
+            <name>csorder_manage_shipment</name>
+            <path>csorder/shipment/index</path>
+            <label>Manage Shipment</label>
+            <font_awesome>fa fa-angle-double-right</font_awesome>
+            <sort_order>8</sort_order>
+            <children></children>
+            <parent>vendor_orders</parent>
+         </action>
+
+        <action ifconfig="ced_vorders/general/vorders_active"  method="addSubLink" translate="label" module="csmarketplace">
+            <name>csorder_manage_creditmemo</name>
+            <path>csorder/creditmemo/index</path>
+            <label>Manage Credit Memo</label>
+            <font_awesome>fa fa-angle-double-right</font_awesome>
+            <sort_order>9</sort_order>
+            <children></children>
+            <parent>vendor_orders</parent>
+         </action>
+
+         
+        </reference>
+    </csmarketplace_vendor>
+
+
+    <!--
+    Vendor Shipment list page layout
+    --> 
+    <csorder_shipment_index translate="label">
+        <label>Shipment List</label>
+        <update handle="shipment_editor"></update>
+        <update handle="csmarketplace_vendor"/>
+        <reference name="root">
+            <action method="setTemplate"><template>page/vendorpanel.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><script>calendar/calendar.js</script></action>
+            <action method="addJs"><script>calendar/calendar-setup.js</script></action>
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>
+             <block type="core/html_calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
+
+        </reference>
+        <reference name="content">
+           <block type="csorder/shipment_list" name="csorder_shipment_list" ></block>
+        </reference>
+    </csorder_shipment_index>
+
+    <csorder_shipment_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="csorder/shipment_list_grid" name="csorder.shipment.grid"/>
+        </block>
+    </csorder_shipment_grid>
+
+    <csorder_vorders_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="csorder/vorders_list_grid" name="csorder.vorder.grid"/>
+        </block>
+    </csorder_vorders_grid>
+
+
+    <csorder_shipment_view>
+        <label>Shipment View</label>
+            <update handle="csmarketplace_vendor"/>
+            <reference name="root">
+                <action method="setTemplate"><template>page/vendorpanel.phtml</template></action>
+            </reference>
+            <reference name="head">
+                <action method="addJs"><file>ced/csorder/packaging.js</file></action>
+                <action method="addJs"><script>ced/csorder/tools.js</script></action>
+            <action method="addCss"><name>css/ced/csmarketplace/boxes.css</name></action>
+                <action method="addCss"><name>css/ced/csorder/csorder.css</name></action>
+            </reference>
+            <reference name="vendor.dashboard.wrapper"> <block type="core/messages" name="messages" as="messages"/>
+               <block type="csorder/adminhtml_sales_order_shipment_view" name="sales_shipment_view">
+                    <block type="csorder/adminhtml_sales_order_shipment_view_form" name="form" template="csorder/sales/order/shipment/view/form.phtml">
+                        <block type="adminhtml/sales_order_view_info" name="order_info" template="csorder/sales/order/view/info.phtml"></block>
+                        <block type="adminhtml/sales_order_payment" name="order_payment"></block>
+                        <block type="adminhtml/sales_order_shipment_view_tracking" name="shipment_tracking" template="sales/order/shipment/view/tracking.phtml"></block>
+                        <block type="adminhtml/sales_order_shipment_view_items" name="shipment_items" template="csorder/shipment/view/items.phtml">
+                            <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/shipment/view/items/renderer/default.phtml</template></action>
+                            <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+                            <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
+                            <block type="core/text_list" name="order_item_extra_info"></block>
+                        </block>
+                        <block type="adminhtml/sales_order_invoice_create_tracking" name="invoice_tracking" template="sales/order/shipment/create/tracking.phtml"></block>
+                        <block type="adminhtml/sales_order_comments_view"  name="order_comments" template="csorder/sales/order/comments/view.phtml">
+                            <action method="setParentType"><type>shipment</type></action>
+                        </block>
+                        <block type="csorder/adminhtml_sales_order_shipment_packaging" name="shipment_packaging" template="sales/order/shipment/packaging/popup.phtml" />
+                        <block type="csorder/adminhtml_sales_order_shipment_packaging" name="shipment_packed" template="sales/order/shipment/packaging/packed.phtml"/>
+                    </block>
+                </block>
+            </reference>
+     </csorder_shipment_view>
+	 
+    <shipment_editor>
+        <update handle="csmarketplace_editor" />
+        <reference name="head">
+            <action method="addCss"><name>css/ced/csorder/csorder.css</name></action>
+        </reference>
+           <!--  <reference name="head">
+                <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+                <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>             
+                <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>           
+                <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+                <action method="addItem"><type>js</type><name>mage/adminhtml/wysiwyg/tiny_mce/setup.js</name><params/><if/><condition>can_load_tiny_mce</condition></action>
+                <action method="addJs"><script>ced/csorder/tools.js</script></action>
+                <action method="addJs"><script>tiny_mce/tiny_mce.js</script></action>
+                <action method="addJs"><script>mage/adminhtml/form.js</script></action>
+                <action method="addJs"><script>mage/adminhtml/loader.js</script></action>
+                <action method="addJs"><script>mage/adminhtml/events.js</script></action>
+                <action method="addJs"><script>mage/adminhtml/grid.js</script></action>
+                <action method="addJs"><script>mage/adminhtml/hash.js</script></action>
+                <action method="addJs"><script>mage/adminhtml/uploader.js</script></action>
+                <action method="addJs"><script>mage/adminhtml/accordion.js</script></action>
+                <action method="addJs"><script>ced/csorder/tabs.js</script></action>
+                <action method="addJs"><script>mage/adminhtml/product.js</script></action>
+                <action method="addJs"><script>extjs/ext-tree.js</script></action>
+                <action method="addJs"><script>extjs/ext-tree-checkbox.js</script></action>
+                <action method="addCss"><name>css/ced/csorder/boxes.css</name></action>
+                <action method="addItem"><type>js_css</type><name>extjs/resources/css/ext-all.css</name></action>
+                <action method="addItem"><type>js_css</type><name>extjs/resources/css/ytheme-magento.css</name></action>
+                
+                <action method="setCanLoadExtJs"><flag>1</flag></action>
+                <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
+                <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
+                <action method="addJs"><script>lib/flex.js</script></action>
+                <action method="addJs"><script>lib/FABridge.js</script></action>
+                <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
+                <action method="addJs"><script>mage/adminhtml/browser.js</script></action>
+                <action method="addJs"><script>prototype/window.js</script></action>
+                <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+                <action method="addCss"><name>css/ced/csorder/magento.css</name></action>
+        </reference> -->
+    </shipment_editor>
+
+
+    <csorder_shipment_addtrack>
+        <block type="adminhtml/sales_order_shipment_view_tracking" name="shipment_tracking" template="sales/order/shipment/view/tracking.phtml"></block>
+    </csorder_shipment_addtrack>
+    <csorder_shipment_addcomment>
+         <block type="adminhtml/sales_order_shipment_view_comments" name="shipment_comments">
+            <block type="adminhtml/sales_order_comments_view"  name="order_comments" template="sales/order/comments/view.phtml"></block>
+        </block>
+    </csorder_shipment_addcomment>
+    
+    <!--
+    Vendor Orders list page layout
+    --> 
+    <csorder_vorders_index translate="label">
+        <label>Order List</label>
+         <update handle="shipment_editor"></update>
+        <update handle="csmarketplace_vendor"/>
+        <reference name="root">
+            <action method="setTemplate"><template>page/vendorpanel.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><script>calendar/calendar.js</script></action>
+            <action method="addJs"><script>calendar/calendar-setup.js</script></action>
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>
+             <block type="core/html_calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
+        </reference>
+        <reference name="content">
+           <block type="csorder/vorders_list" name="csorder.vorder.list" />
+        </reference>
+    </csorder_vorders_index>
+
+
+    <!-- Invoice View-->
+    <csorder_invoice_new>
+        <label>Invoice New</label>
+        <update handle="csmarketplace_vendor"/>
+        <reference name="root">
+            <action method="setTemplate"><template>page/vendorpanel.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><file>ced/csorder/packaging.js</file></action>
+            <action method="addJs"><script>ced/csorder/tools.js</script></action>
+            <action method="addCss"><name>css/ced/csmarketplace/boxes.css</name></action>
+            <action method="addCss"><name>css/ced/csorder/csorder.css</name></action>
+        </reference>
+        <reference name="vendor.dashboard.wrapper"> <block type="core/messages" name="messages" as="messages"/>
+          <block type="csorder/adminhtml_sales_order_invoice_create" name="sales_invoice_create">
+                <block type="csorder/adminhtml_sales_order_invoice_create_form" name="form" template="csorder/sales/order/invoice/create/form.phtml">
+                    <block type="adminhtml/sales_order_view_info" name="order_info" template="csorder/sales/order/view/info.phtml"></block>
+                    <block type="adminhtml/sales_order_payment" name="order_payment"></block>
+                    <block type="csorder/adminhtml_sales_order_invoice_create_items" name="order_items" template="csorder/sales/order/invoice/create/items.phtml">
+                        <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/invoice/create/items/renderer/default.phtml</template></action>
+                        <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
+                        <block type="core/text_list" name="order_item_extra_info"></block>
+                        <block type="adminhtml/sales_order_totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"></block>
+                        
+                        <block type="adminhtml/sales_order_invoice_totals" name="invoice_totals" template="sales/order/totals.phtml">
+                            <block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
+                        </block>
+
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </csorder_invoice_new>
+
+     <!--
+    Vendor Shipment list page layout
+    --> 
+    <csorder_invoice_index translate="label">
+        <label>Invoice List</label>
+        <update handle="shipment_editor"></update>
+        <update handle="csmarketplace_vendor"/>
+        <reference name="root">
+            <action method="setTemplate"><template>page/vendorpanel.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><script>calendar/calendar.js</script></action>
+            <action method="addJs"><script>calendar/calendar-setup.js</script></action>
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>
+             <block type="core/html_calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
+
+        </reference>
+        <reference name="content">
+           <block type="csorder/invoice_list" name="csorder_invoice_list" ></block>
+        </reference>
+    </csorder_invoice_index>
+
+    <csorder_invoice_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="csorder/invoice_list_grid" name="csorder.invoice.grid"/>
+        </block>
+    </csorder_invoice_grid>
+
+
+    <csorder_invoice_view>
+        <label>Invoice View</label>
+            <update handle="csmarketplace_vendor"/>
+            <reference name="root">
+                <action method="setTemplate"><template>page/vendorpanel.phtml</template></action>
+            </reference>
+            <reference name="head">
+                <action method="addJs"><script>ced/csorder/tools.js</script></action>
+                <action method="addCss"><name>css/ced/csmarketplace/boxes.css</name></action>
+                <action method="addCss"><name>css/ced/csorder/csorder.css</name></action>
+            </reference>
+            <reference name="vendor.dashboard.wrapper"> <block type="core/messages" name="messages" as="messages"/>
+                 <block type="csorder/adminhtml_sales_order_invoice_view" name="sales_invoice_view">
+                <block type="adminhtml/sales_order_invoice_view_form" name="form" template="csorder/sales/order/invoice/view/form.phtml">
+                    <block type="adminhtml/sales_order_view_info" name="order_info" template="csorder/sales/order/view/info.phtml"></block>
+                    <block type="adminhtml/sales_order_payment" name="order_payment"></block>
+
+                    <block type="adminhtml/sales_order_invoice_view_items" name="invoice_items" template="csorder/sales/order/invoice/view/items.phtml">
+                        <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/invoice/view/items/renderer/default.phtml</template></action>
+                        <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
+                        <block type="core/text_list" name="order_item_extra_info"></block>
+                    </block>
+                    <block type="adminhtml/sales_order_comments_view" name="order_comments" template="sales/order/comments/view.phtml">
+                        <action method="setParentType"><type>invoice</type></action>
+                    </block>
+
+
+                    <block type="adminhtml/sales_order_invoice_totals" name="invoice_totals" template="sales/order/totals.phtml">
+                        <block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
+                    </block>
+                </block>
+            </block>
+            </reference>
+     </csorder_invoice_view>
+
+
+     <csorder_invoice_addcomment>
+        <block type="adminhtml/sales_order_invoice_view_comments" name="invoice_comments">
+            <block type="adminhtml/sales_order_comments_view"  name="order_comments" template="sales/order/comments/view.phtml"></block>
+        </block>
+    </csorder_invoice_addcomment>
+
+
+     <csorder_invoice_updateqty>
+        <block type="csorder/adminhtml_sales_order_invoice_create_items" name="order_items" template="csorder/sales/order/invoice/create/items.phtml">
+            <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/invoice/create/items/renderer/default.phtml</template></action>
+            <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+            <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
+            <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
+            <block type="core/text_list" name="order_item_extra_info"></block>
+            <block type="adminhtml/sales_order_totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"></block>
+            <block type="adminhtml/sales_order_invoice_totals" name="invoice_totals" template="sales/order/totals.phtml">
+                <block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
+            </block>
+        </block>
+    </csorder_invoice_updateqty>
+
+
+    <csorder_vorders_view>
+         <label>Order View</label>
+          <update handle="shipment_editor"></update>
+        <update handle="csmarketplace_vendor"/>
+        <reference name="root">
+            <action method="setTemplate"><template>page/vendorpanel.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><file>ced/csorder/packaging.js</file></action>
+            <action method="addJs"><script>ced/csorder/tools.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/giftoptions/tooltip.js</script></action>
+        </reference>
+        <reference name="vendor.dashboard.wrapper"> <block type="core/messages" name="messages" as="messages"/>
+
+
+            <block type="csorder/adminhtml_sales_order_view" name="sales_order_edit" >
+                <block type="adminhtml/sales_order_view_form" name="form" template="csorder/sales/order/view/form.phtml">
+
+                <block type="adminhtml/sales_order_view_tabs" name="sales_order_tabs" template="csorder/widget/tabs.phtml">
+                    <block type="adminhtml/sales_order_view_tab_info" name="order_tab_info" template="csorder/sales/order/view/tab/info.phtml">
+                        <block type="adminhtml/sales_order_view_messages" name="order_messages"></block>
+                        <block type="adminhtml/sales_order_view_info" name="order_info" template="csorder/sales/order/view/info.phtml"></block>
+                        <block type="adminhtml/sales_order_view_items" name="order_items" template="csorder/sales/order/view/items.phtml">
+                            <action method="addItemRender"><type>default</type><block>adminhtml/sales_order_view_items_renderer_default</block><template>sales/order/view/items/renderer/default.phtml</template></action>
+                            <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+                            <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
+                            <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
+                            <block type="core/text_list" name="order_item_extra_info" />
+                        </block>
+                        <block type="adminhtml/sales_order_payment" name="order_payment"/>
+                        <block type="csorder/adminhtml_sales_order_view_history" name="order_history" template="sales/order/view/history.phtml"></block>
+                        <block type="adminhtml/template" name="gift_options" template="sales/order/giftoptions.phtml">
+                            <block type="adminhtml/sales_order_view_giftmessage" name="order_giftmessage" template="sales/order/view/giftmessage.phtml"></block>
+                        </block>
+                        <block type="csmarketplace/vorders_view_totals" name="order_totals" template="csorder/vorders/view/totals/earn.phtml" />
+                        <!--
+                        <block type="adminhtml/sales_order_totals" name="order_totals" template="sales/order/totals.phtml">
+                            <block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
+                        </block>-->
+                    </block>
+                    <action method="addTab"><name>order_info</name><block>order_tab_info</block></action>
+                    <action method="addTab"><name>order_invoices</name><block>csorder/adminhtml_sales_order_view_tab_invoices</block></action>
+                    <action method="addTab"><name>order_creditmemos</name><block>csorder/adminhtml_sales_order_view_tab_creditmemos</block></action>
+                    <action method="addTab"><name>order_shipments</name><block>csorder/adminhtml_sales_order_view_tab_shipments</block></action>
+                    <action method="addTab"><name>order_history</name><block>adminhtml/sales_order_view_tab_history</block></action>
+                    <!--<action method="addTab"><name>order_transactions</name><block>adminhtml/sales_order_view_tab_transactions</block></action>-->
+            </block>
+        </block>
+            </block>
+        </reference>
+    </csorder_vorders_view>
+
+    <!--
+    Vendor Shipment list page layout
+    --> 
+    <csorder_creditmemo_index translate="label">
+        <label>Credit Memo List</label>
+        <update handle="shipment_editor"></update>
+        <update handle="csmarketplace_vendor"/>
+        <reference name="root">
+            <action method="setTemplate"><template>page/vendorpanel.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><script>calendar/calendar.js</script></action>
+            <action method="addJs"><script>calendar/calendar-setup.js</script></action>
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>
+             <block type="core/html_calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
+
+        </reference>
+        <reference name="content">
+           <block type="csorder/creditmemo_list" name="csorder_creditmemo_list" ></block>
+        </reference>
+    </csorder_creditmemo_index>
+
+
+    <csorder_creditmemo_view>
+        <label>Credit Memo View</label>
+            <update handle="csmarketplace_vendor"/>
+            <reference name="root">
+                <action method="setTemplate"><template>page/vendorpanel.phtml</template></action>
+            </reference>
+            <reference name="head">
+                <action method="addJs"><file>ced/csorder/packaging.js</file></action>
+                <action method="addJs"><script>ced/csorder/tools.js</script></action>
+                <action method="addCss"><name>css/ced/csmarketplace/boxes.css</name></action>
+                <action method="addCss"><name>css/ced/csorder/csorder.css</name></action>
+            </reference>
+            <reference name="vendor.dashboard.wrapper"> <block type="core/messages" name="messages" as="messages"/>
+                <block type="csorder/adminhtml_sales_order_creditmemo_view" name="sales_creditmemo_view">
+                <block type="adminhtml/sales_order_creditmemo_view_form" name="form" template="csorder/sales/order/creditmemo/view/form.phtml">
+                    <block type="adminhtml/sales_order_view_info" name="order_info" template="csorder/sales/order/view/info.phtml"></block>
+                    <block type="adminhtml/sales_order_payment" name="order_payment"></block>
+                    <block type="adminhtml/sales_order_creditmemo_view_items" name="creditmemo_items" template="csorder/sales/order/creditmemo/view/items.phtml">
+                        <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/creditmemo/view/items/renderer/default.phtml</template></action>
+                        <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
+                        <block type="core/text_list" name="order_item_extra_info"></block>
+                    </block>
+                    <block type="adminhtml/sales_order_comments_view" name="order_comments" template="sales/order/comments/view.phtml">
+                        <action method="setParentType"><type>creditmemo</type></action>
+                    </block>
+
+                    <block type="adminhtml/sales_order_creditmemo_totals" name="creditmemo_totals" template="sales/order/totals.phtml">
+                        <block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
+                    </block>
+                </block>
+            </block>
+            </reference>
+     </csorder_creditmemo_view>
+
+
+      <csorder_creditmemo_new>
+        <label>Credit Memo View</label>
+            <update handle="csmarketplace_vendor"/>
+            <reference name="root">
+                <action method="setTemplate"><template>page/vendorpanel.phtml</template></action>
+            </reference>
+            <reference name="head">
+                <action method="addJs"><file>ced/csorder/packaging.js</file></action>
+                <action method="addJs"><script>ced/csorder/tools.js</script></action>
+                <action method="addCss"><name>css/ced/csmarketplace/boxes.css</name></action>
+                <action method="addCss"><name>css/ced/csorder/csorder.css</name></action>
+
+            </reference>
+            <reference name="vendor.dashboard.wrapper"> <block type="core/messages" name="messages" as="messages"/>
+
+                <block type="csorder/adminhtml_sales_order_creditmemo_create" name="sales_creditmemo_create">
+                <block type="adminhtml/sales_order_creditmemo_create_form" name="form" template="csorder/sales/order/creditmemo/create/form.phtml">
+                    <block type="adminhtml/sales_order_view_info" name="order_info" template="csorder/sales/order/view/info.phtml"></block>
+                    <block type="adminhtml/sales_order_payment" name="order_payment"></block>
+                    <block type="csorder/adminhtml_sales_order_creditmemo_create_items" name="order_items" template="csorder/sales/order/creditmemo/create/items.phtml">
+                        <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/creditmemo/create/items/renderer/default.phtml</template></action>
+                        <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
+                        <block type="core/text_list" name="order_item_extra_info"></block>
+                        <block type="adminhtml/sales_order_totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"></block>
+
+                        <block type="adminhtml/sales_order_creditmemo_totals" name="creditmemo_totals" template="sales/order/totals.phtml">
+                            <block type="adminhtml/sales_order_creditmemo_create_adjustments" name="adjustments" template="sales/order/creditmemo/create/totals/adjustments.phtml" />
+                            <block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
+                        </block>
+                        <block type="core/text_list" name="submit_before" />
+                        <block type="core/text_list" name="submit_after" />
+                    </block>
+                </block>
+            </block>
+            </reference>
+     </csorder_creditmemo_new>
+
+
+      <csorder_creditmemo_updateqty>
+        <block type="csorder/adminhtml_sales_order_creditmemo_create_items" name="order_items" template="csorder/sales/order/creditmemo/create/items.phtml">
+            <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/creditmemo/create/items/renderer/default.phtml</template></action>
+            <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+            <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
+            <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
+            <block type="core/text_list" name="order_item_extra_info"></block>
+            <block type="adminhtml/sales_order_totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"></block>
+
+            <block type="adminhtml/sales_order_creditmemo_totals" name="creditmemo_totals" template="sales/order/totals.phtml">
+                <block type="adminhtml/sales_order_creditmemo_create_adjustments" name="adjustments" template="sales/order/creditmemo/create/totals/adjustments.phtml" />
+                <block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
+            </block>
+
+            <block type="core/text_list" name="submit_before" />
+            <block type="core/text_list" name="submit_after" />
+        </block>
+    </csorder_creditmemo_updateqty>
+
+
+    <csorder_creditmemo_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="csorder/creditmemo_list_grid" name="csorder.creditmemo.grid"/>
+        </block>
+    </csorder_creditmemo_grid>
+
+
+
+    <!--
+    Vendor Order Print page layout
+    --> 
+     <csorder_vorders_print translate="label">
+        <label>Sales Order Print View</label>
+        <reference name="content">
+                <block type="core/template" name="sales.order.print" template="csmarketplace/vorders/print.phtml">
+                        <block type="csmarketplace/vorders_view_info" as="info" name="vorders.view.info">
+                            <block type="csmarketplace/vorders_view_info_buttons" as="buttons" name="vorders.view.info.buttons" />
+                        </block>
+                        <block type="adminhtml/sales_order_view_items" name="order_items" template="csmarketplace/vorders/view/items.phtml">
+                            <action method="addItemRender"><type>default</type><block>adminhtml/sales_order_view_items_renderer_default</block><template>csmarketplace/vorders/view/items/renderer/default.phtml</template></action>
+                            <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>csmarketplace/vorders/view/items/column/qty.phtml</template></action>
+                            <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>csmarketplace/vorders/view/items/column/name.phtml</template></action>
+                            <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>csmarketplace/vorders/view/items/column/name.phtml</template><type>grouped</type></action>
+                            <action method="addItemRender"><type>downloadable</type><block>adminhtml/sales_order_view_items_renderer_default</block><template>csmarketplace/vorders/view/items/renderer/dwldble.phtml</template></action>
+                            <action method="addColumnRender"><column>downloadable</column><block>downloadable/adminhtml_sales_items_column_downloadable_name</block><template>csmarketplace/vorders/view/items/column/dwldble.phtml</template></action>
+                            <block type="csmarketplace/vorders_view_totals" name="order_totals" template="csmarketplace/vorders/view/totals.phtml">
+                                <block type="csmarketplace/vorders_view_totals_tax" name="tax" template="csmarketplace/vorders/view/totals/tax.phtml" />
+                            </block>
+                            <block type="csmarketplace/vorders_view_totals" name="earn" template="csmarketplace/vorders/view/totals/earn.phtml" />
+                        </block>
+                </block>
+        </reference>
+        <reference name="vorders.view.info">
+            <action method="addLink" translate="label" module="sales"><name>view</name><path></path><label>Order Information</label></action>
+            <action method="addLink" translate="label" module="sales"><name>invoice</name><path>*/*/invoice</path><label>Invoices</label></action>
+            <action method="addLink" translate="label" module="sales"><name>shipment</name><path>*/*/shipment</path><label>Shipments</label></action>
+            <action method="addLink" translate="label" module="sales"><name>creditmemo</name><path>*/*/creditmemo</path><label>Refunds</label></action>
+        </reference>
+        <block type="core/text_list" name="additional.product.info" translate="label">
+            <label>Additional Product Info</label>
+        </block>
+    </csorder_vorders_print>
+
+    <csorder_creditmemo_addcomment>
+        <block type="adminhtml/sales_order_creditmemo_view_comments" name="creditmemo_comments">
+            <block type="adminhtml/sales_order_comments_view"  name="order_comments" template="sales/order/comments/view.phtml"></block>
+        </block>
+    </csorder_creditmemo_addcomment>
+
+
+    <csorder_shipment_removetrack>
+        <block type="adminhtml/sales_order_shipment_view_tracking" name="shipment_tracking" template="sales/order/shipment/view/tracking.phtml"></block>
+    </csorder_shipment_removetrack>
+
+</layout>

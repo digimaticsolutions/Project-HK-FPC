@@ -1,0 +1,63 @@
+<?php
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsProduct
+  * @author   CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+?>
+<?php
+$_element = $this->getElement();
+$_note    = $_element->getNote();
+$_trId    = $_element->getHtmlContainerId();
+$_class   = $_element->getFieldsetHtmlClass();
+?>
+<?php $this->checkFieldDisable() ?>
+<?php if (!$_element->getNoDisplay()): ?>
+<li<?php if($_trId): ?> id="<?php echo $_trId ?>"<?php endif; ?> class="wide">
+    <?php if ($_element->getType()=='hidden'): ?>
+    <div colspan="2" class="hidden"><?php echo trim($_element->getElementHtml()) ?></div>
+    <?php else: ?>
+    <label class="label<?php echo $_class ? " {$_class}-label" : ''?>"><?php echo trim($this->getElementLabelHtml()) ?></label>
+     <div style="clear:both"></div>
+    <div  class="<?php echo $_element->hasValueClass() ? $_element->getValueClass() : 'input-box' ?><?php echo $_class ? " {$_class}-value" : ''?>">
+        <?php echo trim($this->getElementHtml()) ?>
+        <?php if ($_note): ?>
+            <p class="note<?php echo $_class ? " {$_class}-note" : ''?>" id="note_<?php echo $_element->getId()?>"><span><?php echo $_note ?></span></p>
+        <?php endif ?>
+   	</div>
+    <label class="nobr scope-label"><?php echo $this->getScopeLabel(); ?></label>  
+    <div style="clear:both"></div>
+    <?php if ($this->canDisplayUseDefault()): ?>
+    <div class="value use-default">
+        <input <?php if($_element->getReadonly()):?> disabled="disabled"<?php endif; ?> type="checkbox" name="use_default[]" id="<?php echo $_element->getHtmlId() ?>_default"<?php if ($this->usedDefault()): ?> checked="checked"<?php endif; ?> onclick="toggleValueElements(this, this.parentNode.parentNode)" value="<?php echo $this->getAttributeCode() ?>"/>
+        <label for="<?php echo $_element->getHtmlId() ?>_default" class="normal"><?php echo $this->__('Use Default Value') ?></label>
+    </div>
+    <?php endif; ?>
+    <?php endif; ?>
+</li>
+<?php endif; ?>
+<!--<style>
+.form-list li.wide .input-box {
+    width: 551px;
+}
+.form-list li.wide select {
+    width: 551px;
+}
+.form-list li.wide input.input-text {
+    width: 500px !important;
+}
+.form-list li.wide textarea {
+    width: 500px !important;
+}
+</style>-->

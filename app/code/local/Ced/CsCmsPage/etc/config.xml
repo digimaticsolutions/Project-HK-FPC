@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsCmsPage
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+<config>
+	<modules>
+		<Ced_CsCmsPage>
+			<version>0.0.2</version>
+			<release_version>0.0.4</release_version>
+			<parent_product_name>Vendor Cms Addon</parent_product_name>
+			<author>CedCommerce Core Team (connect@cedcommerce.com)</author>
+		</Ced_CsCmsPage>
+	</modules>
+	 <frontend>
+	     <routers>
+			<cscmspage>
+				<use>standard</use>
+				<args>
+					<module>Ced_CsCmsPage</module>
+					<frontName>cscmspage</frontName>
+				</args>
+			</cscmspage>
+		</routers>
+		<events>
+            <controller_action_noroute>
+                <observers>
+                    <cms>
+                        <class>cscmspage/observer</class>
+                        <method>noRoute</method>
+                    </cms>
+                </observers>
+            </controller_action_noroute>
+            
+            <controller_action_nocookies>
+                <observers>
+                    <cms>
+                        <class>cscmspage/observer</class>
+                        <method>noCookies</method>
+                    </cms>
+                </observers>
+            </controller_action_nocookies>
+        </events>
+		<layout>
+	   		<updates>
+	   			<cscmspage>
+	    			<file>ced/cscmspage/cscmspage.xml</file>
+	 			</cscmspage>
+	  		</updates>
+		</layout>
+    </frontend>
+    <admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<cscmspage after="Mage_Adminhtml">Ced_CsCmsPage</cscmspage>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+    </admin>
+	<adminhtml>
+		<translate>
+			<modules>
+				<cscmspage>
+					<files>
+						<default>Ced_CsCmsPage.csv</default>
+					</files>
+				</cscmspage>
+			</modules>
+		</translate>
+		<layout>
+			<updates>
+				<cscmspage>
+					<file>ced/cscmspage.xml</file>
+				</cscmspage>
+			</updates>
+		</layout> 
+	</adminhtml>
+	<global>
+		<rewrite>
+		   <csmarketplace_rewrite_shop_url>
+			    <from><![CDATA[/vendor-shop\/(.*)/]]></from>
+			    <to><![CDATA[cscmspage/page/index/shop_url/$1/]]></to>
+			    <complete>1</complete>
+		   </csmarketplace_rewrite_shop_url>
+        </rewrite>
+		<blocks>
+			<cscmspage>
+				<class>Ced_CsCmsPage_Block</class>
+			</cscmspage>
+		</blocks>
+		<helpers>
+    		<cscmspage>
+  	    		<class>Ced_CsCmsPage_Helper</class>
+      		</cscmspage> 
+    	</helpers>
+		<models>
+			<cscmspage>
+            	<class>Ced_CsCmsPage_Model</class>                        
+            	<resourceModel>cscmspage_mysql4</resourceModel>
+            </cscmspage>
+       		
+       		<cscmspage_mysql4>
+                <class>Ced_CsCmsPage_Model_mysql4</class>
+                <entities>
+       	        	<cmspage>
+           	        	<table>ced_cscmspage_vendor_cmspage</table>
+               		</cmspage>
+               		
+               		<vendorcms>
+           	        	<table>ced_cscmspage_vendor_cmspagestore</table>
+               		</vendorcms>
+               		
+               		<block>
+           	        	<table>ced_cscmspage_vendor_block</table>
+               		</block>
+               		<vendorblock>
+           	        	<table>ced_cscmspage_vendor_blockstore</table>
+               		</vendorblock>
+               	</entities>
+            </cscmspage_mysql4>
+		</models>
+		
+		<resources>
+	        <cscmspage_setup>
+	            <setup>
+	                <module>Ced_CsCmsPage</module>
+	            </setup>
+	        </cscmspage_setup>
+	    </resources>	
+	    
+		<events>
+            <controller_front_init_routers>
+                <observers>
+                    <cscmspage>
+                        <class>Ced_CsCmsPage_Controller_Router</class>
+                        <method>initControllerRouters</method>
+                    </cscmspage>
+                </observers>
+            </controller_front_init_routers>
+        </events>
+        
+		<!-- <cms>
+            <page>
+                <tempate_filter>cms/template_filter</tempate_filter>
+            </page>
+            <block>
+                <tempate_filter>cms/template_filter</tempate_filter>
+            </block>
+       	</cms> -->
+       	
+        
+	</global>
+	<vendor>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all> 
+				<vendor>
+					<title>Vendor Panel</title>
+					<sort_order>1</sort_order>
+					<children>
+						<csmarketplace module="csmarketplace" translate="title">
+							<title>Vendor Panel</title>
+							<sort_order>10</sort_order>
+							<children>
+								<vendor module="csgroup" translate="title">
+									<title>Dashboard and Profile</title>
+									<sort_order>10</sort_order>
+									<children>
+										<index module="csmarketplace" translate="title">
+											<title>Dashboard</title>
+											<sort_order>10</sort_order>
+										</index>
+										<profileview module="csmarketplace" translate="title">
+											<title>Vendor Profile View</title>
+											<sort_order>20</sort_order>
+										</profileview>
+										<profile module="csmarketplace" translate="title">
+											<title>Edit Profile Information</title>
+											<sort_order>30</sort_order>
+										</profile>
+									</children>
+								</vendor>
+								<vproducts module="csgroup" translate="title">
+									<title>Vendor Products</title>
+									<sort_order>20</sort_order>
+									<children>
+										<new module="csmarketplace" translate="title">
+											<title>New Product</title>
+											<sort_order>10</sort_order>
+										</new>
+										<index module="csmarketplace" translate="title">
+											<title>Manage Products</title>
+											<sort_order>20</sort_order>
+										</index>
+									</children>
+								</vproducts>
+								<vorders module="csmarketplace" translate="title">
+									<title>Orders</title>
+									<sort_order>30</sort_order>
+								</vorders>
+								<vpayments module="csmarketplace" translate="title">
+									<title>Transactions</title>
+									<sort_order>40</sort_order>
+								</vpayments>
+								<vreports module="csmarketplace" translate="title">
+									<title>Reports</title>
+									<sort_order>50</sort_order>
+									<children>
+										<vorders module="csmarketplace" translate="title">
+											<title>Orders Report</title>
+											<sort_order>10</sort_order>
+										</vorders>
+										<vproducts module="csmarketplace" translate="title">
+											<title>Products Report</title>
+											<sort_order>20</sort_order>
+										</vproducts>
+									</children>
+								</vreports>
+								<vsettings module="csmarketplace" translate="title">
+									<title>Settings</title>
+									<sort_order>60</sort_order>
+								</vsettings>
+								<cmspage module="cscmspage" translate="title">
+									<title>Vendor CMS Page</title>
+									<sort_order>17</sort_order>
+								</cmspage>
+							</children>
+						</csmarketplace>
+					</children>
+				</vendor>
+			</resources>
+		</acl>
+	</vendor>
+	<default>
+		<ced_csmarketplace>
+			<vcmspage>
+				<confirmation>1</confirmation> 
+				<vblockconfirmation>1</vblockconfirmation> 
+			</vcmspage>
+			<general>
+				<cmspageactivation>1</cmspageactivation>
+			</general>
+		</ced_csmarketplace>
+	</default>
+</config>

@@ -1,0 +1,222 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2016 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<div class="multiple-checkout">
+    <div class="page-title">
+        <h1 data-role="page-title"><?php echo $this->__('Order Success') ?></h1>
+    </div>
+    <h2 class="sub-title"><?php echo $this->__('Thank you for your purchase!') ?></h2>
+    <p><?php echo $this->__('We are processing your order and you will soon receive an email with details of the order. Once the order has shipped you will receive another email with a link to track its progress.') ?></p>
+    <?php if($_orderIds = $this->getOrderIds()): ?>
+    <p data-role="order-numbers">
+        <?php $flag = false ?>
+        <?php echo $this->__('Your order number is ') ?>
+        <?php foreach ($_orderIds as $orderId=>$incrementId): ?>
+            <?php if ($flag): ?>
+                <?php echo ', ' ?>
+            <?php endif; ?>
+            <?php $flag = true ?>
+            <a href="<?php echo $this->getViewOrderUrl($orderId) ?>"><?php echo $incrementId ?></a>
+        <?php endforeach; ?>
+    </p>
+    <?php endif; ?>
+    <?php echo $this->getChildHtml() ?>
+    <div class="buttons-set">
+        <button type="button" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Continue Shopping')) ?>" class="button" onclick="setLocation('<?php echo $this->getContinueUrl() ?>')"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+    </div>
+</div>
+<?php
+
+/*Api*/
+//$order                = Mage::getModel('sales/order')->loadByIncrementId($this->getOrderId());
+
+$orderId      = Mage::getSingleton('checkout/session')->getLastRealOrderId();
+$order        = Mage::getModel('sales/order')->loadByIncrementId($incrementId);
+$_billingInfo = $order->getBillingAddress()->getData();
+//echo Mage::getSingleton('checkout/session')->getLastOrderId();
+$order_id             = $order['increment_id'];
+$customer_firstname   = $order['customer_firstname'];
+$customer_lastname    = $order['customer_lastname'];
+$customer_middlename    = $order['customer_middlename'];
+$base_discount_amount = $order['base_discount_amount'];
+$base_shipping_amount = $order['base_shipping_amount'];
+$base_shipping_amount = $order['base_shipping_amount'];
+$shipping_amount      = $order['shipping_amount'];
+$total_qty_ordered    = $order['total_qty_ordered'];
+$base_currency_code   = $order['base_currency_code'];
+$customer_id          = $order['customer_id'];
+$customer_email       = $order['customer_email'];
+$date                 = $order['created_at'];
+$updated_at           = $order['updated_at'];
+$price_temp_order=str_replace(",","",number_format($order->getGrandTotal()));
+$price_discount_temp=str_replace(",","",number_format($base_discount_amount));
+
+$customer_post=$_billingInfo['postcode'];
+$customer_street=$_billingInfo['street'];
+$customer_city=$_billingInfo['city'];
+$customer_telephone=$_billingInfo['telephone'];
+$country = Mage::getModel('directory/country')->loadByCode($_billingInfo['country_id']);
+$country_name =$country->getName(); 
+//$oOrder = Mage::getModel('sales/order')->load($order);
+//echo $order->getGrandTotal();
+//echo "yes";echo "<pre>"; print_r($order);
+//echo "<pre>"; print_r($json);
+//$result1=json_decode($json);
+/****************Login*******************/
+define("CLIENTID", "admin");
+define("CLIENTSECRET", "123qwe");
+$data        = array(
+    "tenancyName" => "",
+    "usernameOrEmailAddress" => CLIENTID,
+    "password" => CLIENTSECRET
+);
+$data_string = json_encode($data);
+$ch          = curl_init('http://shangglobal.azurewebsites.net/api/account');
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($data_string)
+));
+$result1 = curl_exec($ch);
+$result1 = json_decode($result1);
+$token   = $result1->result;
+$orderItems   = $order->getAllItems();
+$purchased_id = array();//echo "yes";
+//$customer     = Mage::getSingleton('customer/session')->getCustomer();
+//$customerData = Mage::getModel('customer/customer')->load($customer->getId())->getData();
+//Mage::getSingleton('customer/session')->getCustomerId()
+$order_product='';
+$i=0;
+$temp_sku=array();
+foreach ($orderItems as $orderItem) {$i++;
+    if ($orderItem->getId()) { 
+        $price_temp=str_replace(",","",number_format($orderItem['price']));
+        $discount_amount=str_replace(",","",number_format($orderItem['discount_amount'])); 
+        $product_sku=$orderItem->getSku();  
+        if(!in_array($orderItem->sku,$temp_sku)){
+            if($orderItem->getSku()){  
+                $temp_sku[]=$orderItem->sku;
+                $order_product.='{
+                "marketSubBillCode": "SC' . $order_id . '",  //required
+                "skuCode": "'.$product_sku.'",              //required 
+                "qty": ' . number_format($orderItem['qty_ordered']) . ',                   //required 
+                "price": ' .  $price_temp . ',                  //required 
+                "amount": ' . $price_temp . ',               //required 
+                "remark": "",              //optional    
+                "marketSubBillStatus": "Pending",    //optional   
+                "paidAmount": ' . $price_temp . ',   //required 
+                "discountAmount": ' . $discount_amount . ',  //required 
+                "adjustAmount":0     //required 
+              },';
+            }
+        }
+    }
+}
+//echo $i."Test";
+$order_product = rtrim($order_product, ',');
+$json    = '{
+  "order": {
+    "version": "16:59:11.1234567",  
+    "marketCode": "ShangCarts",            //static
+    "billCode": "SO-' . $order_id . '",         //required
+    "billType": 1,                       //required
+    "marketBillCode": "SC' . $order_id . '",    //required  (same as billCode)
+    "marketBillStatus": "Pending",        //(magento status)
+    "tradeNum": "SC201606010000001",       //optional
+    "tradeCreationTime": "' . $date . '",     //optional
+    "tradeModificationTime": "' . $date . '", //optional
+    "tradeEndTime": "' . $date . '",          //optional 
+    "totalNum": 100,                       //required
+    "totalAmount": ' . $price_temp_order . ',                   //required
+    "payAmount": ' . $price_temp_order . ',                     //required
+    "payTime": "' . $date . '",               //optional
+    "postFee": 1,                          //required
+    "discountAmount": '.$price_discount_temp.',                   //required
+    "sellerAdjustAmount": 0,               //required
+    "buyerName": "' . $customer_firstname . '",                   //optional: customer name
+    "buyerAccount": "' . $customer_id . '",            //optional
+    "buyerRemark": "fast",                 //optional: customer remarke
+    "sellerRemark": "fast",                //optional
+    "invoiceTitle": "asc",                 //optional
+    "invoiceType": "invoice",              //optional
+    "reciverName": "' . $customer_firstname . '",                 //optional
+    "reciverMobile": "'.$customer_telephone.'",        //optional
+    "reciverPhone": "",            //optional 
+    "reciverEmail": "' . $customer_email . '",       //optional
+    "reciverZip": "'.$customer_post.'",                //optional
+    "reciverCountry": "'.$country_name.'",             //optional
+    "reciverProvince": "",        //optional  
+    "reciverCity": "'.$customer_city.'",             //optional
+    "reciverDistrict": "'.$customer_city.'",            //optional
+    "reciverAddress": "'.$customer_street.'",   //optional
+    "sellerConsignTime": "",     //optional
+    "sellerReciveAmount": ' . $price_temp_order . ',            //required: equal payAmount
+    "logisticsCompany": "SF",              //optional
+    "orderDetails": [
+      '.$order_product.'
+    ],
+    "companyCode": "ASC",                 //required
+    "shopCode": "JGA",                    //required JGA JPP
+    "pickUpWay": 1,                       //reqired:1
+    "shippingDate": "",         //optional
+    "shippingTime": ""            //optional
+  }
+}';
+$result  = $json;
+//$result = json_encode($json);
+//echo "<pre>"; print_r($result);
+$data    = array(
+    "tenancyName" => "",
+    "usernameOrEmailAddress" => CLIENTID,
+    "password" => CLIENTSECRET
+);
+//echo "<pre>";print_r($result);
+$data_string = $result; //json_encode($result);
+$header      = array();
+$header[]    = 'Content-Type: application/json';
+$header[]    = 'Accept: application/json';
+$header[]    = 'Authorization : Bearer ' . $token;
+//echo "<pre>";print_r($header);
+$headers = array(
+    'Content-Type: application/json',
+    'Accept: application/json',
+    'Authorization : Bearer ' . $token
+);
+$ch      = curl_init('http://shangglobal.azurewebsites.net/api/services/app/order/CreateOrUpdateOrder');
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+//curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);                                                                    
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json',
+    'Authorization : Bearer ' . $token,
+    'Content-Length: ' . strlen($data_string)
+));
+$result2 = curl_exec($ch);
+//echo "<pre>"; print_r($result2);
+?>

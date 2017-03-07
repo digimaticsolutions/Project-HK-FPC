@@ -1,0 +1,70 @@
+<?xml version="1.0"?> 
+
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     ced_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+Supported layout update handles (action):
+- csmarketplace_vendor_index
+
+Supported layout update handles (special):
+- default
+
+-->
+<layout version="0.1.0">
+	
+	<!--
+	Vendor account pages, rendered for all tabs in dashboard
+	-->
+    <csmarketplace_vendor>
+        <reference name="csmarketplace_vendor_navigation">
+				<action method="addSubLink" ifconfig="ced_csmultishipping/general/activation" translate="label" module="csmarketplace"><name>vendor_shipping_settings</name><path>csmultishipping/settings/index/</path><label>Shipping Settings</label><font_awesome>fa fa-truck</font_awesome><sort_order>20</sort_order><children></children><parent>vendor_settings</parent></action>
+				<action method="addSubLink" ifconfig="ced_csmultishipping/general/activation" translate="label" module="csmarketplace"><name>vendor_shipping_methods</name><path>csmultishipping/methods/index/</path><label>Shipping Methods</label><font_awesome>fa fa-truck</font_awesome><sort_order>30</sort_order><children></children><parent>vendor_settings</parent></action>
+        </reference>
+        <reference name="notification.links">
+			<block type="core/template" ifconfig="ced_csmultishipping/general/activation" name="csmultishipping.noti.links" as="csmultishipping_noti_link" template="csmultishipping/notifications.phtml"/>
+		</reference>
+    </csmarketplace_vendor>
+
+	<csmultishipping_settings_index translate="label">
+        <label>Shipping Settings</label>
+        <update handle="csmarketplace_vendor"/>
+        <reference name="root">
+            <action method="setTemplate"><template>page/vendorpanel.phtml</template></action>
+        </reference>	
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/ced/csmultishipping/default.css</stylesheet></action>
+        </reference>	
+        <reference name="vendor.dashboard.wrapper">
+           <block type="csmultishipping/vsettings_shipping_Address" name="csmultishipping.address" template="csmultishipping/vsettings/address.phtml"/>
+        </reference>
+    </csmultishipping_settings_index>	
+    <csmultishipping_methods_index translate="label">
+        <label>Shipping Settings</label>
+        <update handle="csmarketplace_vendor"/>
+        <reference name="root">
+            <action method="setTemplate"><template>page/vendorpanel.phtml</template></action>
+        </reference>	
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/ced/csmultishipping/default.css</stylesheet></action>
+        </reference>	
+        <reference name="vendor.dashboard.wrapper">
+           <block type="csmultishipping/vsettings_shipping_methods" name="csmultishipping.methods" template="csmultishipping/vsettings/methods.phtml"/>
+           <!-- <block type="core/template" name="ups.js" template="csmultishipping/ups.phtml"/> -->
+        </reference>
+    </csmultishipping_methods_index>	
+</layout>

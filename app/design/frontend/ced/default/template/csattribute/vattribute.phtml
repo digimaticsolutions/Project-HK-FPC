@@ -1,0 +1,52 @@
+<?php
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsVendorProductAttribute
+  * @author   	 CedCommerce Core Team <connect@cedcommerce.com>
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+?>
+
+	<div id="messages">
+	 <?php echo $this->getMessagesBlock()->getGroupedHtml(); ?>
+	 </div>
+	<form action="<?php echo $this->getSaveUrl() ?>" method="post" id="attribute_edit_form" enctype="multipart/form-data">
+		<?php echo $this->getBlockHtml('formkey'); ?>
+		<div class="row">
+			<div class="col-md-12" style="margin-top: 10px;">
+				<div class="panel panel-default">
+					<?php echo $this->getFormInitScripts()?>
+					<div class="content-header">
+    				<?php echo $this->getHeaderHtml()?>
+   					 <p class="form-buttons"><?php echo $this->getButtonsHtml('header') ?></p>
+					</div>
+					
+					<?php if ($this->hasFooterButtons()): ?>
+						<div class="content-footer">
+							<p class="form-buttons"><?php echo $this->getButtonsHtml('footer') ?></p>
+						</div>
+					<?php endif; ?>
+						<script type="text/javascript">
+    					editForm = new varienForm('attribute_edit_form', '<?php echo $this->getValidationUrl() ?>');
+    
+						</script>
+					<?php echo $this->getFormScripts()?>
+					<?php echo $this->getChildHtml('attribute_tabs'); ?>
+					
+				</div>
+			</div>
+		</div>
+	</form>
+<?php echo $this->getLayout()->createBlock('core/template')->setTemplate('csattribute/js.phtml')->toHtml();?>
+	
+	

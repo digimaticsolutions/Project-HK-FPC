@@ -1,0 +1,78 @@
+<?xml version="1.0"?> 
+
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsCmsPage
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+
+-->
+<layout version="0.1.0">
+	<cscmspage_page translate="label">
+        <label>CMS Pages (All)</label>
+        <reference name="content">
+            <block type="core/template" name="page_content_heading" template="ced/cscmspage/content_heading.phtml"/>
+            <block type="page/html_wrapper" name="cscmspage.wrapper" translate="label">
+                <label>CMS Content Wrapper</label>
+                <action method="setElementClass"><value>std</value></action>
+                <block type="cscmspage/page" name="cscmspage_page"/>
+            </block>
+        </reference>
+    </cscmspage_page>
+	<cscmspage_index_index translate="label">
+        <label>CMS Home Page</label>
+    </cscmspage_index_index>
+
+    <cscmspage_index_defaultindex>
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="default_home_page" template="cscmspage/default/home.phtml"/>
+        </reference>
+    </cscmspage_index_defaultindex>
+
+<cscmspage_page_index>
+ <update handle="csmarketplace_vshops_view"/>
+  <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+</cscmspage_page_index>
+
+    <cscmspage_index_noroute translate="label">
+        <label>CMS No-Route Page</label>
+    </cscmspage_index_noroute>
+
+    <cscmspage_index_defaultnoroute>
+        <remove name="right"/>
+        <remove name="left"/>
+        
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="default_no_route" template="cscmspage/default/no-route.phtml"/>
+        </reference>
+    </cscmspage_index_defaultnoroute>
+    
+    <csmarketplace_vshops_view translate="label">
+       <reference name="left">
+       		 <block type="core/template" name="cscmspage.navigation"  template="cscmspage/vshops/additional.phtml"/> 
+        </reference> 
+    </csmarketplace_vshops_view>
+</layout>

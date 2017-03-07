@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  /**
+* CedCommerce
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Academic Free License (AFL 3.0)
+* You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/afl-3.0.php
+*
+* @category    Ced
+* @package     Ced_CsProductfaq
+* @author      CedCommerce Core Team <connect@cedcommerce.com >
+* @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/  -->
+<config>
+	<modules>
+		<Ced_CsProductfaq>
+			<version>0.0.1</version>
+			<!-- <release_version>0.0.1</release_version> -->
+			<author>CedCommerce Core Team (coreteam@cedcommerce.com)</author>
+		</Ced_CsProductfaq>
+	</modules>
+	<frontend>
+		<routers>
+			<csproductfaq>
+				<use>standard</use>
+				<args>
+					<module>Ced_CsProductfaq</module>
+					<frontName>csproductfaq</frontName>
+				</args>
+			</csproductfaq>
+			 
+		</routers>
+		 <layout>
+	   		<updates>
+	   			<csproductfaq>
+	    			<file>ced/csproductfaq/csproductfaq.xml</file>
+	 			</csproductfaq>
+	  		</updates>
+		</layout> 
+	</frontend>
+		<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<csproductfaq after="Mage_Adminhtml">Ced_CsProductfaq</csproductfaq>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
+	<global>
+	 <events>
+            <catalog_product_save_after>
+                <observers>
+                    <vendor_save_product_data>
+                        <type>singleton</type>
+                        <class>csproductfaq/Observer</class>
+                        <method>saveProductTabData</method>
+                    </vendor_save_product_data>
+                </observers>
+            </catalog_product_save_after>
+            </events>
+            
+		<blocks>
+			<csproductfaq>
+				<class>Ced_CsProductfaq_Block</class>
+			</csproductfaq>
+			<csproduct>
+			 <rewrite>
+                 <edit_tabs>Ced_CsProductfaq_Block_Edit_Tabs</edit_tabs>
+               </rewrite>
+			</csproduct>
+		</blocks>
+		<models>
+			<csproductfaq>
+				<class>Ced_CsProductfaq_Model</class>
+			</csproductfaq>
+		</models>
+		<helpers>
+			<csproductfaq>
+				<class>Ced_CsProductfaq_Helper</class>
+			</csproductfaq>
+		</helpers>
+		<resources>
+			<csproductfaq_setup>
+				<setup>
+					<module>Ced_CsProductfaq</module>
+				</setup>
+			</csproductfaq_setup>
+		</resources>
+	</global>
+		<default>
+		<ced_csmarketplace>
+			<general>
+				<csproductfaq>1</csproductfaq>
+			</general>
+		</ced_csmarketplace>
+	</default>
+	<!-- <adminhtml>
+	<layout>
+			<updates>
+				<csproductfaq>
+					<file>ced/csproductfaq.xml</file>
+				</csproductfaq>
+			</updates>
+		</layout>
+		<events>
+            <core_block_abstract_prepare_layout_before>
+                <observers>
+                    <csproductfaq>
+                        <class>csproductfaq/observer</class>
+                        <method>addCategoryFilterToProductGrid</method>
+                    </csproductfaq>
+                </observers>
+            </core_block_abstract_prepare_layout_before>
+        </events>
+    </adminhtml> -->
+</config>

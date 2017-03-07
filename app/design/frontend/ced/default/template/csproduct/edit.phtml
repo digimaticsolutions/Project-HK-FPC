@@ -1,0 +1,165 @@
+<?php
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsProduct
+  * @author   CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+?>
+
+	<div id="messages">
+		<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+	</div>
+	<form action="<?php echo $this->getSaveUrl() ?>" method="post" id="product_edit_form" enctype="multipart/form-data">
+		<?php echo $this->getBlockHtml('formkey'); ?>
+		<div class="row">
+			<div class="col-md-12" style="margin-top: 10px;">
+				<div class="panel panel-default">
+					<div class="content-header panel-heading col-md-12 uptransform">
+						<div style="font-size:17px;line-height:31px; margin-top:6px;" class="col-md-6 panel_product_heading">
+							<?php echo $this->getHeader() ?>
+						</div>
+						<div style="text-align:right;" class="buttons-set col-md-6 buttons_scb">		
+							<?php echo $this->getBackButtonHtml() ?>
+							<?php echo $this->getCancelButtonHtml() ?>
+							<?php if($this->getProductId()): ?>
+								<?php echo $this->getDeleteButtonHtml() ?>
+								<?php if($this->getProductSetId() && $this->getIsConfigured()): ?>
+									<?php echo $this->getDuplicateButtonHtml() ?>
+								<?php endif; ?>
+							<?php endif; ?>
+							<?php if($this->getProductSetId() && $this->getIsConfigured()): ?>
+								<?php echo $this->getSaveButtonHtml() ?>
+								<?php echo $this->getSaveAndEditButtonHtml() ?>
+							<?php endif; ?>
+						</div>
+					</div>
+					<?php echo $this->getChildHtml('product_tabs'); ?>
+					<?php echo $this->getChildHtml('configurable_product_tabs'); ?>
+				</div>
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript">
+	//<![CDATA[
+		var BLANK_URL = '<?php echo $this->getJsUrl() ?>blank.html';
+		var BLANK_IMG = '<?php echo $this->getJsUrl() ?>spacer.gif';
+		var BASE_URL = '<?php echo $this->getUrl('*') ?>';
+		var SKIN_URL = '<?php echo $this->getSkinUrl() ?>';
+		var FORM_KEY = '<?php echo $this->getFormKey() ?>';
+		var productTemplateSyntax = /(^|.|\r|\n)({{(\w+)}})/;
+
+		var elements = document.getElementsByClassName('entry-edit-head');
+		var elementconf = document.getElementById('configurable_simple_form');
+		
+		for (var i = 0; i < elements.length; i++){
+			if(elements[i].parentNode.parentNode==elementconf||elements[i].parentNode.parentNode.contains(elementconf))
+				continue;
+			elements[i].style.display = 'none';
+		}
+		
+		var productForm = new varienForm('product_edit_form', '<?php echo $this->getValidationUrl() ?>');
+		productForm._processValidationResult = function(transport) {
+			var response = transport.responseText.evalJSON();
+			if (response.error){
+				if (response.attribute && $(response.attribute)) {
+					$(response.attribute).setHasError(true, productForm);
+					Validation.ajaxError($(response.attribute), response.message);
+					if (!Prototype.Browser.IE){
+						$(response.attribute).focus();
+					}
+				}
+				else if ($('messages')) {
+					$('messages').innerHTML = '<ul class="messages"><li class="error-msg"><ul><li>' + response.message + '</li></ul></li></ul>';
+				}
+			}
+			else{
+				$('activity-loading').hide();
+				productForm._submit();
+			}
+		};
+		function saveAndContinueEdit(urlTemplate) {
+			var template = new Template(urlTemplate, productTemplateSyntax);
+			var url = template.evaluate({tab_id:product_info_tabsJsTabs.activeTab.id});
+			productForm.submit(url);
+			
+		}
+		function setSettings(urlTemplate, setElement, typeElement) {
+			var template = new Template(urlTemplate, productTemplateSyntax);
+			setLocation(template.evaluate({attribute_set:$F(setElement),type:$F(typeElement)}));
+		}
+
+		 function setSuperSettings(urlTemplate, attributesClass, validateField) {
+			var attributesFields = $$('.' + attributesClass);
+			var attributes = Form.serializeElements(attributesFields, true).attribute;
+			if(typeof attributes == 'string') {
+				attributes = [attributes];
+			}
+
+			if(!attributes) {
+				$(validateField).value = 'no-attributes';
+			} else {
+				$(validateField).value = 'has-attributes';
+			}
+			if (productForm.validator.validate()) {
+				var template = new Template(urlTemplate, productTemplateSyntax);
+				var url = template.evaluate({
+					attributes: encode_base64(attributes.join(',')).replace(new RegExp('/','g'),'%2F').replace(new RegExp('=','g'),'%3D')
+				});
+				setLocation(url);
+			}
+		}
+
+		function checkMaxLength(Object, MaxLen)
+		{
+			if (Object.value.length > MaxLen-1) {
+				Object.value = Object.value.substr(0, MaxLen);
+			}
+			return 1;
+		}
+
+	Event.observe(window, 'load', function() {
+		var objName = '<?php echo $this->getSelectedTabId() ?>';
+		
+		if(!objName){
+			objName = product_info_tabsJsTabs.activeTab;
+		}		
+		
+		var active_element = document.getElementById(objName);
+		
+		product_info_tabsJsTabs.showTabContent(active_element);
+		Product.AttributesBridge.setTabsObject(product_info_tabsJsTabs);
+		active_element = active_element.href.split("#");
+		
+		var active_element_tab = document.getElementById(active_element[1]);
+		
+		active_element_tab.setAttribute("aria-expanded", "true");
+		active_element_tab.setAttribute("class", active_element_tab.getAttribute("class")+' in');
+		active_element_tab.setAttribute("style", '');
+		
+		/* if (objName) {
+			obj = $(objName);
+			//IE fix (bubbling event model)
+			product_info_tabsJsTabs.setSkipDisplayFirstTab();
+			product_info_tabsJsTabs.showTabContent(obj);
+		}
+		Product.AttributesBridge.setTabsObject(product_info_tabsJsTabs); */
+	});
+
+	Validation.addAllThese([
+		['validate-super-product-attributes', '<?php echo Mage::helper('catalog')->__('Please select one or more attributes.') ?>', function(v) {
+					return (v != "no-attributes");
+				}]]);
+
+	//]]>
+	</script>

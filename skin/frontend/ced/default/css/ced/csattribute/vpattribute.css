@@ -1,0 +1,26 @@
+/* CSS Document */
+.csvendorproductattribute-attribute-index #page-wrapper{
+	overflow: auto;
+}
+.csvendorproductattribute-attribute-index .vendor-dashboard #attributeGrid #attributeGrid_table .filter > th {
+    padding: 3px;
+}
+.csvendorproductattribute-attribute-index .vendor-dashboard #attributeGrid{
+	 padding: 6px 15px;
+	
+}
+.csvendorproductattribute-attribute-index .vendor-dashboard{
+	margin-top:20px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+.label {
+    color: #000000;
+}
+.arrow{
+	float:none !important;
+}
+.no-display { display:none !important; }
+.sidebar .arrow {
+  float: right !important;
+}

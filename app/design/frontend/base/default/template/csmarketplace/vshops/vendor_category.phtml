@@ -1,0 +1,27 @@
+<?php 
+$store=Mage::app()->getStore();
+$rootId = $store->getRootCategoryId();
+$category = Mage::getModel('catalog/category')->load($rootId);
+
+$vendor_categories =  $this->getVendorCategories($rootId); 
+ 
+$helper = Mage::helper('csmarketplace'); 
+ ?>
+
+
+<div class="nav-container-outer">
+	<div class="nav-container">
+            <div class="nav-container-inner">
+                <ul id="nav" class="no-home-link">
+        	   <li class="level0 first homelink">
+                       <a href="<?php echo $helper->getVendorUrl(); ?>">
+                           <span><?php echo $this->__('Home') ?></span></a>
+                   </li>
+                   <?php echo  $vendor_categories; ?>
+                </ul>
+            </div>
+        </div>
+</div>
+
+
+

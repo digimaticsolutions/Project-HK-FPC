@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsVendorProductAttribute
+  * @author   	 CedCommerce Core Team <connect@cedcommerce.com>
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+<config>
+	<modules>
+		<Ced_CsVendorProductAttribute>
+			<version>0.0.3</version>
+			<release_version>0.0.2</release_version>
+			<author>CedCommerce Core Team (connect@cedcommerce.com)</author>
+		</Ced_CsVendorProductAttribute>
+	</modules>
+	<frontend>
+		<routers>
+			<csvendorproductattribute>
+				<use>standard</use>
+				<args>
+					<module>Ced_CsVendorProductAttribute</module>
+					<frontName>csvendorproductattribute</frontName>
+				</args>
+			</csvendorproductattribute>
+		</routers>
+		<layout>
+			<updates>
+				<csvendorproductattribute>
+					<file>ced/csproductattribute/productattribute.xml</file>
+				</csvendorproductattribute>
+			
+			</updates>
+		</layout>
+	</frontend>
+    <global>
+	   <helpers>
+	 		<csvendorproductattribute>
+				<class>Ced_CsVendorProductAttribute_Helper</class>
+			</csvendorproductattribute>
+		</helpers>
+	   <blocks>
+			<csvendorproductattribute>
+				<class>Ced_CsVendorProductAttribute_Block</class>
+			</csvendorproductattribute>
+		 
+	   </blocks>
+	   <models>
+	      <csvendorproductattribute>
+                <class>Ced_CsVendorProductAttribute_Model</class>
+               <resourceModel>csvendorproductattribute_mysql4</resourceModel>
+          </csvendorproductattribute>
+	   	<csmarketplace>
+			<rewrite>
+				<system_config_source_vproducts_set>Ced_CsVendorProductAttribute_Model_System_Config_Source_Vproducts_Set</system_config_source_vproducts_set>
+			</rewrite>
+		</csmarketplace>
+        <csvendorproductattribute_mysql4>
+				<class>Ced_CsVendorProductAttribute_Model_Mysql4</class>
+				<entities>
+					<attribute>
+						<table>ced_vendor_product_attributes</table>
+					</attribute>
+					<attributeset>
+						<table>ced_vendor_attributes_set</table>
+					</attributeset>
+					
+				</entities>
+		</csvendorproductattribute_mysql4>   
+	 </models>
+	 <resources>
+           <csvpattribute_setup>
+                <setup>
+                   	<module>Ced_CsVendorProductAttribute</module>
+                   		<class>Ced_CsVendorProductAttribute_Model_Mysql4_Setup</class> 
+               		</setup>
+         	 </csvpattribute_setup>
+      </resources> 
+     <events>
+	      <customer_login>
+	        <observers>
+	          <ced_csvendorproductattribute_create_attribute_set>
+	            <type>singleton</type>
+	            <class>csvendorproductattribute/observer</class>
+	            <method>createattributeset</method>
+	          </ced_csvendorproductattribute_create_attribute_set>
+	        </observers>
+	      </customer_login>
+	  </events>
+	  <ced>
+		<rewrites>
+			<csvendorproductattribute>
+				<attribute>
+					<index>Adminhtml,Grid,Tab,Attribute</index>
+					<grid>Adminhtml,Grid,Tab,Attribute</grid>
+				</attribute>
+			</csvendorproductattribute>
+		</rewrites>
+	</ced>
+  </global>
+</config>

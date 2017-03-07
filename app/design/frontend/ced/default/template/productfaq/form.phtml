@@ -1,0 +1,195 @@
+<?php 
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ *
+ * @category    Ced
+ * @package     Ced_CsProductfaq
+ * @author      CedCommerce Core Team <connect@cedcommerce.com >
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+?>
+<?php 
+    $faqCollection = array();
+    $VendorId =  Mage::getSingleton('customer/session')->getVendorId();
+    if($this->getRequest()->getParam('id') && $this->getRequest()->getParam('id')>0)
+{
+        $id =   $this->getRequest()->getParam('id');
+       // $collection = Mage::getModel ('productfaq/productfaq')->getCollection ();
+        $faqCollection = Mage::getModel ('productfaq/productfaq')->load($id);
+}
+
+if(sizeof($faqCollection)>0){
+        $url = $this->getUrl('*/*/save/',array('id'=>$id));
+    }else{
+        $url = $this->getUrl('*/*/save');
+    }
+
+    $faqProducts =  $this->getfaqValues($VendorId);
+    
+    
+?>
+<style type="text/css">
+    p.buttons{
+        float:right;
+    }
+</style>
+<div class="wrap_vcmspage">
+<div class="row">
+</div>
+    <form id="vcs-faqcreateform" name="vcs-faqcreateform" method="post" action="<?php echo $url ?>" onSubmit="return validate();">
+        
+      <input type="hidden" value="<?php echo $formKey ?>" name="form_key">
+        <?php //  echo $block->getBlockHtml('formkey'); ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <p class="buttons">
+                    <a href="<?php echo $this->getUrl('csproductfaq/csfaq/index'); ?>" class="btn btn-default"> <?php echo ('Back')?></a>
+                    <button type="submit" class="btn btn-warning">
+                        <?php if(sizeof($faqCollection)>0){ 
+                                echo ('Update Q&A'); 
+                              }else{
+                                echo ('Save Q&A');
+                               }?>
+                    </button>
+                    <?php if(isset($id)){?>
+                    <a href="<?php echo $this->getUrl('*/*/delete',array('id'=>$id)); ?>" class="btn btn-default"> <?php echo ('Delete')?></a>
+            <?php } ?>
+                </p>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <?php echo ('Frequently Asked Question')?>
+                    </div>
+                    <div class="panel-body">
+                        <div class="panel-group" id="accordion">
+                            <!-- Tab 1 Start -->
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                     <h4 class="panel-title">
+                                        <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" aria-expanded="true" class="tab-item-link">
+                                            <?php echo ('Q&A Information')?>
+                                        </a>
+                                     </h4>
+                                </div>
+                                <div class="panel-collapse collapse in" id="collapseOne" aria-expanded="true" style="">
+                                    <div class="panel-body">
+                                        <div class="form-group">
+                                             <div class="col-lg-6">
+                                             <?php if(sizeof($faqCollection)>0)
+                                             {?>
+                                              <div class="form-group">
+                                                        <label><?php echo ('Product Id')?> *</label>
+                                                        <div class="shopurl_wrap">
+                                                            <span class="shop_url"><?php //echo $shopurl?></span>                                                           
+                                                            <span class="url_text">
+                                                                <input class="form-control input-text required-entry" type="text" name="vfaq[productId]" value="<?php if(sizeof($faqCollection)>0 ){  echo $faqCollection->getProductId(); } ?>">
+                                                            </span>
+                                                        </div>
+                                                        <div style="clear:both"></div>
+                                                    </div>
+                                                   
+                                           <?php   }
+                                                
+                                           else{
+                                           ?>
+                                                    <div class="form-group">
+                                                        <label class="required"><?php echo ('Product Name')?> *</label>
+                                                         <select class="form-control required-entry" name="vfaq[products][]" multiple>
+                                                         
+                                                         <?php foreach ($faqProducts as $products)
+                                                         {
+                                                            ?>
+                                                            <option value="<?php echo $products['value'] ?>" <?php if(sizeof($faqCollection)>0 && $faqCollection->getProductId() == $products['value']){ ?>  selected="selected" <?php } ?> ><?php echo  $products['label'] ?></option>
+                                                            
+                                                            <?php 
+                                                         }
+                                                            
+                                                            ?>
+                                                            
+                                                            
+                                                        </select>
+                                                    </div>
+                                                    
+                                                    <?php }?>
+                                                    <div class="form-group">
+                                                        <label><?php echo ('Title/Question')?> *</label>
+                                                        <div class="shopurl_wrap">
+                                                            <span class="shop_url"><?php //echo $shopurl?></span>                                                           
+                                                            <span class="url_text">
+                                                                <input class="form-control input-text required-entry" type="text" name="vfaq[title]" value="<?php if(sizeof($faqCollection)>0 ){  echo $faqCollection->getTitle(); } ?>">
+                                                            </span>
+                                                        </div>
+                                                        <div style="clear:both"></div>
+                                                    </div>
+                     
+                                               <div class="form-group">
+                                                <label><?php echo ('Answer')?> *</label>
+                                                <textarea rows="3" class="form-control required-entry" name="vfaq[answer]" ><?php if(sizeof($faqCollection)>0){ echo $faqCollection->getDescription(); }?></textarea>
+                                               </div>    
+                                                   
+                                                   <div class="form-group">
+                                                        <label><?php echo ('Email')?> </label>
+                                                        <div class="shopurl_wrap">
+                                                            <span class="shop_url"><?php //echo $shopurl?></span>                                                           
+                                                            <span class="url_text">
+                                                                <input class="form-control input-text" type="text" name="vfaq[Email]" value="<?php if(sizeof($faqCollection)>0){ echo $faqCollection->getEmailId();  } ?>">
+                                                            </span>
+                                                        </div>
+                                                        <div style="clear:both"></div>
+                                                    </div> 
+        
+                                            
+                                                   <div class="form-group">
+                                                        <label><?php echo ('Status')?> *</label>
+                                                        <select class="form-control required-entry" name="vfaq[status]">
+                                                            <option value="1" <?php if(sizeof($faqCollection)>0 && $faqCollection->getVisibleOnFrontend() == '1'){ ?>  selected="selected" <?php } ?> ><?php echo ('Enabled')?></option>
+                                                            <option value ="0" <?php if(sizeof($faqCollection)>0 && $faqCollection->getVisibleOnFrontend() == '0'){ ?> selected="selected" <?php } ?> ><?php echo ('Disabled')?></option>
+                                                        </select>
+                                                    </div>
+                                            </div>       
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                       
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </form>
+    
+    
+    <script type="text/javascript">
+		
+	//< ![CDATA[
+    	var customForm = new VarienForm('vcs-faqcreateform');
+	//]]>   
+			
+			function validate()
+      	   	{ 
+				if(this.validator && this.validator.validate()){
+					jQuery('#activity-loading').show();
+			    }else{
+		        	jQuery('#collapseOne,#collapseTwo,#collapseThree,#collapseFour').removeAttr('style');
+			        jQuery('#collapseOne,#collapseTwo,#collapseThree,#collapseFour').addClass('in');
+			    }
+      	      
+      	   }
+	    
+    </script>   
+         </div>
+                       

@@ -1,0 +1,332 @@
+Product List,产品列表
+Type,类型
+Action,行动
+Reset Filter,重设过滤器
+simple,简单
+virtual,虚拟
+downloadable,下载
+Description,描述
+Short Description,简短的介绍
+SKU Available,SKU可用
+SKU Already Exist,SKU已经存在
+SKU can't be empty,SKU不能为空
+Default Image,默认图像
+Invalid extension! Please Upload an image,无效的扩展！请上传图片
+Error processing the request please Try Again,错误处理请求，请再试一次
+Product Link Successfully Deleted,产品链接已成功删除
+Product Sample Successfully Deleted,产品样品已成功删除
+Image Successfully Deleted,图片删除成功
+Upload,上传
+Links,链接
+Samples,样本
+Are you sure?,你确定？
+No File Choosen,没有文件Choosen
+No File...,无文件...
+Pending Products,待产品
+Approved Products,认证产品
+All Products,所有产品
+Approve,批准
+Disapprove,不赞成
+Vendor Pending Products,供应商产品待定
+Vendor Approved Products,供应商认证产品
+Manage Vendor Products,管理供应商产品
+You sure?,你确定？
+Click to Approve,点击批准
+Click to Disapprove,点击否决
+Unable to delete the product,无法删除产品
+Your Product Has Been Sucessfully Deleted,您的产品已成功删除
+The Product Name cannot be empty,产品名称不能为空
+The Product SKU cannot be empty,该产品SKU不能为空
+The Product Weight cannot be empty,产品的重量不能为空
+The Product Weight must be 0 or Greater,产品的重量必须大于等于0
+The Product Stock cannot be empty,该产品库存不能为空
+The Product Stock must be a valid Number,该产品库存必须是一个有效的数字
+The Product Tax Class cannot be empty,该产品税类不能为空
+The Product Price cannot be empty,产品价格不能为空
+The Product Price must be 0 or Greater,产品价格必须大于等于0
+The Product Special Price must be 0 or Greater,该产品特别价格必须大于等于0
+The Product Short description cannot be empty,产品简短说明不能为空
+The Product Description cannot be empty,产品说明不能为空
+Require Admin Approval,需要管理员批准
+Allowed Product Attribute Set,允许的产品属性集
+Allowed Product Type,允许的产品型号
+Product approved notification email,产品批准通知电子邮件
+Product rejected notification email,产品拒绝通知电子邮件
+Downloadable Product Configuration,可下载的产品配置
+Allowed Link Formats,允许的链接的格式
+Allowed Sample Formats,允许的采样格式
+Filter Report,筛选器报告
+No Report Available,没有可用的报告
+No Transactions Available,没有可用的交易
+No Orders Available,没有订单可用
+No product records found,没有找到产品记录
+Start date,开始日期
+End date,结束日期
+Vendor Payment Status,供应商付款状态
+Orders Report,订单报告
+Total Sales,总销售额
+Total Fees,总费用
+Net Sales,净销售额
+Status changed Successfully,状态已成功更改
+CsMarketplace's Products deleted successfully,市井的产品成功删除
+I am a Vendor,我是一个供应商
+Transactions,交易
+Profile,轮廓
+Panel,面板
+"From your Dashboard you have the ability to view a snapshot of your total orders , total sales , total sales country wise, sales statistics (week, month or year wise) and recent activity on your associated products.",从你的仪表板，你必须查看您的相关产品的总订单，总销售额，总销售额国家有智慧，销售统计（周，月或年WISE）和近期活动的快照的能力。
+Total Orders,总订单
+See more...,查看更多...
+Total Earning,总营收
+Sales Analytics,销售分析
+Today,今天
+World Map,世界地图
+Edit Profile Information,编辑个人资料信息
+Vendor Dashboard,仪表板的供应商
+The profile information has been saved.,配置文件信息已保存。
+Unable to find vendor to save,无法找到供应商，以节省
+Orders,命令
+You are a vendor since,你是因为供应商
+Shop Url,店铺网址
+Vendor Group,供应商集团
+Male,男
+Female,女
+Common,共同
+Profile Picture,头像
+Delete Image,删除图像
+Email,电子邮件
+Contact Number,联系电话
+Company Name,公司名
+About,关于
+Company Banner,公司旗
+Company Address,公司地址
+Support Number,支持号码
+Support Email,支持电子邮件
+Payment Details,付款详情
+Your vendor account is currently disabled.,目前你的供应商帐户被禁用。
+Your vendor account is under admin approval.,您的供应商帐户是在管理员批准。
+You are not a vendor yet. Send request for become a vendor.,你是不是还没有供应商。发送请求成为供应商。
+Your vendor application has been pending,你的供应商申请一直悬而未决
+Your vendor application has been denied,你的供应商申请已被拒绝
+Manage Vendors,供应商管理
+Vendor Attributes,供应商属性
+Vendor Orders,供应商订单
+Vendor Payments,供应商付款
+Vendor Configuration,供应商的配置
+Vendor Name,供应商名称
+Vendor Email,电子邮件供应商
+Vendor ID,供应商ID
+Vendor Status,供应商的地位
+Delete Vendor(s),删除供应商（S）
+Change Vendor(s) Status,更改供应商（S）状态
+Approve,批准
+Add New Vendor,添加新的供应商
+Edit Vendor '%s',编辑供应商“％s”的
+Save Vendor,保存供应商
+Delete Vendor,删除供应商
+Vendor Information,供应商信息
+Associated Customer,相关客户
+Company Information,公司信息
+Support Information,支持信息
+Vendor does not exist,供应商不存在
+Vendor is successfully saved,供应商保存成功
+The vendor has been deleted.,供应商已被删除。
+Please select vendor(s).,请选择供应商（S）。
+Total of '%s' record(s) have been deleted.,'％s'的结果总数已被删除。
+Total of '%s' record(s) have been updated.,'％s'的结果总数已更新。
+Some of the processed vendors have no Shop URL value defined. Please fill it prior to performing operations on these vendors.,一些加工厂商没有定义URL铺价值。请这些供应商进行操作之前，它填补。
+This order no longer exists.,该订单已不存在。
+Orders List,订单列表
+Grand Total to be Charged,总计要收费
+Discount,折扣
+Discount ('%s'),折扣（'％s'的）
+Bill To Name,比尔者姓名
+Ship To Name,收货方名称
+Order Id #,订单编号
+G.T. Purchase,G.T.采购
+Order ID#,订单ID＃
+Enable New Order Notification Email,启用新订单通知电子邮件
+New Order Notification Template,新订单通知模板
+Separate Orders,单独下订单
+Commission Fee,佣金
+PayNow,现在付款
+Manage Orders,管理供应商订单
+Manage Vendor Transactions,管理供应商交易
+Vendor Payment,供应商付款
+Vendor Payment State,供应商付款状态
+Order Payment State,订单支付状态
+Add New Transaction,添加新交易
+Add New Payment,添加新的付款方式
+Payment Selection,付款选择
+Beneficiary  Information,收款人信息
+Beneficiary Vendor,供应商受益
+Selected Amount(s) for Payment,选定量（S）付款
+Credit Amount,信贷金额
+Debit Amount,借方发生额
+Add/Remove Amount(s) for Payment,添加/付款金额删除（S）
+Please Select Amount(s) to Add,请选择金额（S）添加
+Add Selected Amount(s) for Payment,添加所选金额（S）付款
+Select Transaction Type,选择交易类型
+Select Payment Method,请选择支付方式
+Enter fee amount of transaction,输入交易金额手续费
+Enter transaction id,输入事务ID
+Readonly field,只读字段
+Calculate Commission Fee,计算佣金
+Payment is  successfully saved,付款成功保存
+Transactions Statistics,交易统计
+Total Received Amount,总的接收量
+Total Pending Amount,总金额待定
+Pending Transfers,待转让
+Transactions List,交易列表
+Created At #,创建在＃
+Description,描述
+Transaction Id,事务处理标识
+Fee,费用
+Net Amount,净额
+Fields,字段
+Transaction Date,交易日期
+Balance Amount,余额
+Notes,笔记
+Transaction Details,交易明细
+Vendor,供应商
+The setting information has been saved.,设置信息已保存。
+Check/Money Order,支票/汇票
+Cheque Payee Name,支票收款人姓名
+Bank Transfer,银行转帐
+Bank Name,银行名
+Bank Branch Number,银行分行号码
+Bank Swift Code,银行代码
+Bank Account Name,银行账户名称
+Bank Account Number,银行帐号
+Tel,联系电话
+Representative,代表
+About Us,关于我们
+Vendor Since,由于供应商
+Vendor Profile,供应商简介
+There are no vendor available,没有可用的供应商
+Go to Shop,去商店
+There are no products from this Vendor,目前没有任何产品从该供应商
+CsMarketplace Vendor Shops,市井供应商商店
+CsMarketplace Vendor Shop,市井售卖店
+Vendor Products,供应商产品
+New values was missing.,新的价值观失踪。
+Manage Vendor Attributes,管理供应商的属性
+Manage Attribute Group,管理属性组
+Add Vendor Attribute,添加供应商属性
+Edit Vendor Attribute '%s',编辑供应商属性'％s'
+New Vendor Attribute,新的供应商属性
+Visible,可见
+Position,位置
+Used in Vendor Profile Edit Form,适用于供应商配置文件编辑表单
+If yes then it will shown as input in vendor profile edit form.,如果是的话那么它会显示为供应商配置文件编辑形式的输入。
+Position in Vendor Profile Edit Form,在供应商配置文件编辑表单位置
+Position of attribute in Vendor Profile Edit Form,属性在供应商配置文件编辑表单位置
+Vendor Input Type for Store Owner,供应商输入类型的店主
+Not shared with other vendors,不能与其它厂商共享
+Vendor Shop URL,供应商店铺网址
+Enable Vendor System,启用系统供应商
+Vendor approved notification email,供应商认可的电子邮件通知
+Vendor rejected notification email,卖方拒绝通知电子邮件
+This email will be sent after account Approval.,此电子邮件将帐户批准后发送。
+This email will be sent after account Disapproval.,此电子邮件将帐户拒登后发送。
+This notification email will be sent when the product is reviewed and approved,当产品审查和批准本通知电子邮件将被发送
+This notification email will be sent when the product is reviewed and rejected,当产品审查，并拒绝了这一通知电子邮件将被发送
+"comma separated like jpg,jpeg,png,gif,pdf",逗号分隔像JPG，JPEG，PNG，GIF，PDF格式
+"comma separated like zip,rar,pdf,doc",逗号分隔喜欢ZIP，RAR，PD​​F，DOC
+Enable notification email which is sent to vendor when new order is placed.,启用时，新的订单被发送给供应商的电子邮件通知。
+Vendor Account Sharing has been changed.,供应商帐户共享已被更改。
+Unable to Process Vendor Website Sharing.,无法处理供应商网站共享。
+Vendor Website Sharing option need to be refresh.,供应商网站共享选项需要被刷新。
+Click here to,点击这里
+Rebuild Vendor Website Sharing.,重建供应商网站共享。
+Can't process approval/disapproval for the Product.The Product's vendor is disapproved or not exist.,无法处理许可/禁止的产物。产品的供应商未获批准或不存在。
+Can't process approval/disapproval for some products.Some of Product's vendor(s) are disapproved or not exist.,不能对产品的一些products.Some的供应商（S）的批准，或者不存在的过程批准/不赞成。
+Websites(s),网站（S）
+Please select products(s).,请选择产品（S）。
+Shop,店
+Enable notification email which is sent to vendor when order will be cancelled.,启用被发送到供应商时，订单将被取消通知电子邮件。
+This email will be sent after account Deletion.,此电子邮件将帐户删除后发送。
+Vendor deleted notification email,供应商删除的电子邮件通知
+Enable Cancel Order Notification Email,启用取消订单通知电子邮件
+Order Cancel Notification Template,订单取消通知模板
+Vendor - Product deleted notification,供应商 - 产品删除通知
+Product deleted notification email,产品删除电子邮件通知
+This notification email will be sent when the product is reviewed and deleted,当产品审查，并删除这个通知电子邮件将被发送
+Adjustment Amount,调整金额
+Disapproved,拒登
+"Can't continue with payment,because vendor did not specify payment method(s).",无法继续支付，因为供应商没有指定付款方式（S）。
+Beneficiary Details,受益人详情
+Payment Details,付款详情
+Order Details,订单详细信息
+Net Amount can't be less than zero,净额不能小于零
+Payment Mode,付款方式
+Total Earned Amount,总金额赚
+Total Orders Placed,放置总订单
+Total Products Sold,总销售的产品
+Disapproved Products,未获批准的产品
+Latest Orders,最新订单
+Net Earned,净赚
+Vendor Profile View,供应商配置文件查看
+You have not saved any information in this group.,您还没有保存该组中的任何信息。
+Your Profile is,您的配置文件
+% completed,％完成
+Edit Profile,编辑个人资料
+Transaction Mode,交易方式
+Vendor Transactions,供应商交易
+Amount Description,金额说明
+Vendor Account Options,供应商帐户选项
+Vendor Shop Pages (Frontend),供应商店铺页面（前端）
+Vendor Profile Page,供应商的个人主页
+Logo Image Width,徽标图像宽度
+Logo Image Height,徽标图片高度
+Banner Image Width,横幅图片宽度
+Banner Image Height,横幅图片高度
+Image Width,图像宽度
+Image Height,图像高度
+Vendor Log/Debug Settings,供应商登录/调试设置
+Vendor Data Process Log File Name,供应商数据处理日志文件名
+Vendor Exception Log File Name,供应商异常日志文件名
+Debug Enabled,调试启用
+Display Debug Toolbar if set to Yes and client's ip is whitelisted in System / Configuration / Developer / Developer Client Restrictions - Allowed IPS.,显示调试工具栏如果设置为YES和客户端的IP在系统/配置/开发商/开发客户端的限制列入白名单 - 允许IPS。
+Allow admin/vendor to capture the bugs if any found and report to the developer.,允许管理员/供应商捕捉到的bug如有发现和开发人员报告。
+If enable then it will create log files.,如果能够那么它会创建日志文件。
+All the process data will be capture.,所有的过程数据将捕获。
+All exception will be capture.,所有的异常将捕获。
+CsMarketplace Page,市井页
+Banner,旗帜
+For Top Link and Heading,对于顶部链接和标题
+Country Wise Orders,国家明智的订单
+Add Profile Picture,添加头像
+Add Company Logo,添加公司徽标
+Add Company Banner,添加公司旗帜
+Total Commission,总委员会
+Product Categories Display,产品分类展示
+Vendor Products Limit,供应商产品限制
+Allowed Categories,允许的分类
+All Allowed Categories,所有允许类别
+Specific Categories,具体类别
+Product Creation limit Exceeded,产品创新超限
+SEO Information (CsMarketplace Page),SEO信息（市井页）
+Meta Keywords,元关键词
+Meta Description,meta描述
+Find us on Facebook,在脸书上找我们
+Follow us on Twitter,在推特上关注我们
+Product Creation limit has Exceeded,产品创新的限制已经超过
+Vendor shop enabled,供应商店启用
+Vendor shop disabled,供应商店铺禁用
+Vendor Shop Enable notification email,供应商店铺启用电子邮件通知
+Vendor Shop Disable notification email,供应商店铺禁用电子​​邮件通知
+This email will be sent after vendor shop will be disabled by admin.,后供应商店铺将被管理员禁用该电子邮件将被发送。
+This email will be sent after vendor shop will be enabled by admin.,后供应商店铺将被管理员启用此电子邮件将被发送。
+Are you sure you want to Disable?,您确定要关闭？
+Are you sure you want to Enable?,您确定要启用？
+Total of '%s' vendor shop(s) have been updated.,'％s'的供应商店（S）的总已更新。
+Change Vendor Shops,更改供应商商店
+Vendor Shop Status,供应商商铺状态
+Your Shop is disabled By Admin,你的店铺被禁用由Admin
+Vendor Placeholder Image,供应商的图像占位符
+Banner Placeholder Image,横幅图像占位符
+Vendor Login,供应商登录
+"If you have a vendor account with us, please log in.",如果您有与我们的供应商帐户，请登录。
+Marketplace,市井
+"“CsMarketplace""",市井
+Manage Invoice,發票管理

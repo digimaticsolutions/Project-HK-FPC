@@ -1,0 +1,42 @@
+<?php
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsProduct
+  * @author   CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+?>
+<div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+ <?php echo $this->getChildHtml('store_switcher');?>
+<div class="row">
+	<div class="col-md-12" style="margin-top: 10px;">
+		<div class="panel panel-default">
+			<div class="content-header panel-heading col-md-12 uptransform">
+				<h3 class="icon-head head-products col-md-6"><?php echo Mage::helper('catalog')->__('Manage Products') ?></h3>
+				<div style="text-align:right;" class="buttons-set col-md-6 buttons_scb">
+					<?php echo $this->getButtonsHtml() ?>
+				</div>
+			</div>
+			<div class="panel-body">
+				<?php echo $this->getGridHtml() ?>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+var BLANK_URL = '<?php echo $this->getJsUrl() ?>blank.html';
+var BLANK_IMG = '<?php echo $this->getJsUrl() ?>spacer.gif';
+var BASE_URL = '<?php echo $this->getUrl('*') ?>';
+var SKIN_URL = '<?php echo $this->getSkinUrl() ?>';
+var FORM_KEY = '<?php echo $this->getFormKey() ?>';
+</script>

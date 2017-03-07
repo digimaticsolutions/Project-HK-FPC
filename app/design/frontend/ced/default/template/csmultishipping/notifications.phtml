@@ -1,0 +1,49 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     ced_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php 
+$helper = Mage::helper ( 'csmultishipping' );
+$vendorMethods=Mage::helper('csmultishipping')->getVendorMethods(Mage::getSingleton('customer/session')->getVendorId());
+$vendorAddress=Mage::helper('csmultishipping')->getVendorAddress(Mage::getSingleton('customer/session')->getVendorId());
+?>
+<?php if(!Mage::helper('csmultishipping')->validateAddress($vendorAddress)){?>
+<li>
+						<a href="<?php echo Mage::getUrl('csmultishipping/settings/index')?>" title="<?php echo $helper->__('Complete Shipping Origin Setting') ?>">
+							<div>
+								<i class="fa fa-bell fw"></i>
+								<?php echo $helper->__('Complete Shipping Origin Setting') ?>
+								<span class="pull-right text-muted small">..</span>
+							</div>
+						</a>
+</li>
+<li class="divider"></li>
+<?php }?>
+<?php if(count($vendorMethods)==0){?>
+<li>
+						<a href="<?php echo Mage::getUrl('csmultishipping/methods/index')?>" title="<?php echo $helper->__('Setup Shipping Methods Details') ?>">
+							<div>
+								<i class="fa fa-bell fw"></i>
+								<?php echo $helper->__('Setup Shipping Methods Details') ?>
+								<span class="pull-right text-muted small">..</span>
+							</div>
+						</a>
+</li>
+<li class="divider"></li>
+<?php }?>

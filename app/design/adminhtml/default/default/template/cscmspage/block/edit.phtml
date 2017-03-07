@@ -1,0 +1,150 @@
+<?php
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsCmsPage
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+?>
+<?php 
+	$Collection = $this->getBlock();
+	$BlockStore = $this->getBlockstore();
+	$block_id = $this->getRequest()->getParam('block_id');
+	
+?>
+<div id="anchor-content" class="middle">
+	<div id="page:main-container">
+    	<div id="messages"></div>
+    	<form method="post" action="<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/adminhtml_vendorblock/save',array('block_id'=>$block_id)); ?>" id="edit_form">
+        
+	        <div class="content-header">
+		    	<h3 class="icon-head head-cms-block">Edit Block <?php if(sizeof($Collection)>0){ echo $Collection->getTitle() ; } ?></h3>
+		    	<p class="form-buttons">
+			    	<button style="" onclick="setLocation(<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/adminhtml_vendorblock/index') ?>)" class="scalable back" type="button" title="Back" id="id_back"><span><span><span>Back</span></span></span></button>
+			    	<button style="" onclick="setLocation(window.location.href)" class="scalable " type="button" title="Reset" id="id_reset"><span><span><span>Reset</span></span></span></button>
+			    	<button style="" onclick="deleteConfirm('Are you sure you want to do this?', '<?php echo Mage::helper('adminhtml')->getUrl('/adminhtml_vendorblock/delete',array('block_id'=>$block_id)); ?>')" class="scalable delete" type="button" title="Delete Block" id="id_delete"><span><span><span>Delete Block</span></span></span></button>
+			    	<button style="" onclick="editForm.submit();" class="scalable save" type="button" title="Save Block" id="id_save"><span><span><span>Save Block</span></span></span></button>
+			   </p>
+			</div>
+		<div class="entry-edit">
+    		<div>
+    			<input name="form_key" type="hidden" value="<?php  echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
+    		</div>
+    		<div class="entry-edit-head">
+	    		<h4 class="icon-head head-edit-form fieldset-legend">General Information</h4>
+	    		<div class="form-buttons"></div>
+			</div>
+		    <div id="block_base_fieldset" class="fieldset fieldset-wide">
+			    <div class="hor-scroll">
+	            	<table cellspacing="0" class="form-list">
+		            	<tbody>
+		                	<tr>
+		        				<td class="hidden" colspan="2"><input type="hidden" value="1" name="block_id" id="block_block_id"></td>
+		    				</tr>
+							<tr>
+		        				<td class="label"><label for="block_title">Block Title <span class="required">*</span></label></td>
+		    					<td class="value">
+							        <input type="text" class=" input-text required-entry" title="Block Title" value="<?php if(sizeof($Collection)>0){ echo $Collection->getTitle() ; } ?>" name="title" id="block_title">
+							    </td>
+							</tr>
+							<tr>
+							    <td class="label"><label for="block_identifier">Identifier <span class="required">*</span></label></td>
+							    <td class="value">
+							        <input type="text" class="validate-xml-identifier input-text required-entry" title="Identifier" value="<?php if(sizeof($Collection)>0){ echo $Collection->getIdentifier() ; } ?>" name="identifier" id="block_identifier">            </td>
+							</tr>
+							<tr>
+		        				<td class="label"><label for="block_store_id">Store View <span class="required">*</span></label></td>
+							    <td class="value">
+							        <div class="store-scope">
+							            <select multiple="multiple" class=" form-control required-entry select multiselect" size="10" title="Store View" name="vblock[store][]" id="page_store_id">
+											<option value="0" <?php if(in_array('0',$BlockStore)){?> selected='selected' <?php }?>>All Store Views</option>
+											<?php foreach (Mage::app()->getWebsites() as $website) { ?>
+													<optgroup label="<?php echo $website->getName(); ?>">
+													</optgroup>
+													<?php foreach ($website->getGroups() as $group) {?>
+															<optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;<?php  echo $group->getName() ?>">
+															<?php 
+															$stores = $group->getStores();
+															foreach ($stores as $store) { ?>
+													        	<option value="<?php echo $store->getId()?>" <?php if(in_array($store->getId(),$BlockStore)){?> selected='selected' <?php }?>>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $store->getName() ?></option>
+													        		
+													        <?php }?>
+															</optgroup>
+													<?php }?>
+													
+											<?php }	?>
+											
+										</select>
+									</div>
+							     </td>
+		    				</tr>
+							<tr>
+							    <td class="label"><label for="block_is_active">Status <span class="required">*</span></label></td>
+							    <td class="value">
+							        <select class=" required-entry select" title="Status" name="is_active" id="block_is_active">
+										<option value="1" <?php if(sizeof($Collection)>0 && $Collection->getIsActive =='1' ){?> selected = "selected" <?php  } ?> >Enabled</option>
+										<option value="0" <?php if(sizeof($Collection)>0 && $Collection->getIsActive =='0' ){?> selected = "selected" <?php  } ?> >Disabled</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+							    <td class="label"><label for="block_content">Content <span class="required">*</span></label></td>
+							    <td class="value">
+							        <div class="buttons-set" id="buttonsblock_content">
+							        </div>
+							        	<textarea cols="15" rows="2" style="height:36em" class="textarea  required-entry" id="block_content" title="Content" name="content">
+							        		<?php if(sizeof($Collection)>0){ 
+							        				echo $Collection->getContent();
+							        			}		
+							        		?>
+							        	</textarea>
+							                          
+							    </td>
+							</tr>
+		            </tbody>
+	        	</table>
+	        </div>
+        </div>
+	</div>
+	<script type="text/javascript">
+	    editForm = new varienForm('edit_form', '');
+	</script>
+		<script type="text/javascript">
+			window.onload=function()
+			{
+			   tinyMCE.init({
+			    mode : "exact",
+			    elements: "block_content",
+			    theme : "advanced",
+			    plugins : "inlinepopups,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras",
+			    theme_advanced_buttons1 : "newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
+			    theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
+			    theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen",
+			    theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,|,visualchars,nonbreaking",
+			    theme_advanced_toolbar_location : "top",
+			    theme_advanced_toolbar_align : "left",
+			    theme_advanced_path_location : "bottom",
+			    extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
+			    theme_advanced_resize_horizontal : 'true',
+			    theme_advanced_resizing : 'true',
+			    apply_source_formatting : 'true',
+			    convert_urls : 'false',
+			    force_br_newlines : 'true',
+			    doctype : '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'
+			
+			  });
+			};
+		</script>
+	</form>
+   </div>
+</div>

@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?> 
+
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    Ced;
+ * @package     Ced_CsOrder
+ * @author 		CedCommerce Magento Core Team <magentocoreteam@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+	<modules>
+		<Ced_CsOrder>
+			<version>0.0.5</version>
+			<release_version>0.1.7</release_version>
+			<author>CedCommerce Magento Core Team (magentocoreteam@cedcommerce.com)</author>
+		</Ced_CsOrder>
+	</modules>
+	<frontend>
+		<routers>
+			<csorder>
+				<use>standard</use>
+				<args>
+					<module>Ced_CsOrder</module>
+					<frontName>csorder</frontName>
+				</args>
+			</csorder>
+		</routers>
+		<layout>
+			<updates>
+				<csorder>
+					<file>ced/csorder/csorder.xml</file>
+				</csorder>
+			</updates>
+		</layout>
+		<translate>
+			<modules>
+				<csorder>
+					<files>
+						<default>Ced_CsOrder.csv</default>
+					</files>
+				</csorder>
+			</modules>
+		</translate>
+	</frontend>
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<csorder after="Mage_Adminhtml">Ced_CsOrder</csorder>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
+	<adminhtml>
+		<layout>
+			<updates>
+				<csorder>
+					<file>ced/csorder.xml</file>
+				</csorder>
+			</updates>
+		</layout>
+	</adminhtml>
+	<global>
+		<rewrite>
+			<checkout_cart_index>
+				<from><![CDATA[/checkout\/cart\/(.*)/]]></from>
+				<to><![CDATA[csorder/cart/$1/]]></to>
+				<complete>1</complete>
+			</checkout_cart_index>
+			<ced_vorders_view>
+				<from><![CDATA[/csmarketplace\/vorders\/view\/order_id\/(.*)/]]></from>
+				<to><![CDATA[csorder/vorders/view/order_id/$1/]]></to>
+				<complete>1</complete>
+       		</ced_vorders_view>
+       		<ced_vorders_list  ifconfig="ced_vorders/general/vorders_active" >
+				<from><![CDATA[/csmarketplace\/vorders\/index\/(.*)/]]></from>
+				<to><![CDATA[csorder/vorders/index/$1/]]></to>
+				<complete>1</complete>
+       		</ced_vorders_list>
+			
+        </rewrite>
+		<helpers>
+			<csorder>
+				<class>Ced_CsOrder_Helper</class>
+			</csorder>
+		</helpers>
+		<blocks>
+			<csorder>
+				<class>Ced_CsOrder_Block</class>
+			</csorder>
+			<!--
+			<adminhtml>
+				<rewrite>
+				  <catalog_product_created>Ced_CsOrder_Block_Adminhtml_Catalog_Product_Created</catalog_product_created>
+				</rewrite>
+			</adminhtml>-->
+			<csmarketplace>
+				<rewrite>
+					 <adminhtml_vorders_grid>Ced_CsOrder_Block_Adminhtml_Vorders_Grid</adminhtml_vorders_grid>
+				</rewrite>
+			</csmarketplace>
+			<checkout>
+				<rewrite>
+					 <cart>Ced_CsOrder_Block_Cart</cart>
+				</rewrite>
+			</checkout>
+		</blocks>
+		<models>
+			<!-- <customer>
+				<rewrite>
+					<address>Ced_CsOrder_Model_Address</address>
+				</rewrite>
+			</customer> -->
+			<csorder>
+                <class>Ced_CsOrder_Model</class>
+				<resourceModel>csorder_mysql4</resourceModel>
+            </csorder>
+			<csorder_mysql4>
+                <class>Ced_CsOrder_Model_Mysql4</class>
+                <entities>
+                    <shipment>
+                        <table>ced_csorder_shipment</table>
+                    </shipment>
+					<invoice>
+                        <table>ced_csorder_invoice</table>
+                    </invoice>
+					<creditmemo>
+                        <table>ced_csorder_creditmemo</table>
+                    </creditmemo>
+                </entities>
+            </csorder_mysql4>
+			
+			<customer_resource>
+				<rewrite>
+					<address_collection>Ced_CsOrder_Model_Resource_Address_Collection</address_collection>
+				</rewrite>
+			</customer_resource>
+			<sales>
+				<rewrite>
+					<order_invoice>Ced_CsOrder_Model_Sales_Order_Invoice</order_invoice>
+				</rewrite>
+			</sales>
+			<checkout>
+				<rewrite>
+					<type_multishipping>Ced_CsOrder_Model_Type_Multishipping</type_multishipping>
+				</rewrite>
+			</checkout>
+			<customer_entity>
+				<rewrite>
+					<address_collection>Ced_CsOrder_Model_Mysql4_Address_Collection</address_collection>
+				</rewrite>
+			</customer_entity>
+			<csmarketplace>
+				<rewrite>
+					<observer>Ced_CsOrder_Model_Observer</observer>
+					<vorders>Ced_CsOrder_Model_Vorders</vorders>
+				</rewrite>
+			</csmarketplace>
+			<core>
+				<!--
+				<rewrite>
+					<layout>Ced_CsOrder_Model_Layout</layout>
+					<design_package>Ced_CsOrder_Model_Design_Package</design_package>
+				</rewrite>-->
+			</core>
+        </models>
+        <resources>
+			
+            <csorder_setup>
+                <setup>
+                    <module>Ced_CsOrder</module>
+                    <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
+                </setup>
+				<connection>
+					<use>eav_setup</use>
+				</connection>
+            </csorder_setup>
+        </resources>	
+		<events>
+			<sales_order_shipment_save_after>
+				<observers>
+                    <Ced_CsOrder_Shipment_Create>
+                        <type>singleton</type>
+                        <class>csorder/observer</class>
+                        <method>createVendorShipment</method>
+                    </Ced_CsOrder_Shipment_Create>
+                </observers>
+			</sales_order_shipment_save_after>
+			<customer_address_save_before>
+				<observers>
+					<mymodule>
+						<type>singleton</type>
+                        <class>csorder/observer</class>
+                        <method>setForVendor</method>
+					</mymodule>
+				</observers>
+			</customer_address_save_before>
+			<sales_quote_item_set_product>
+				<observers>
+                    <Ced_CsOrder_Set_Custom_Option>
+                        <type>singleton</type>
+                        <class>csorder/observer</class>
+                        <method>setVendorToItem</method>
+                    </Ced_CsOrder_Set_Custom_Option>
+                </observers>
+			</sales_quote_item_set_product>
+			<sales_convert_quote_item_to_order_item>
+				<observers>
+					<Ced_CsOrder_Convert_Custom_Option_To_Order>
+						<type>singleton</type>
+						<class>csorder/observer</class>
+                        <method>setQuoteToOrder</method>
+					</Ced_CsOrder_Convert_Custom_Option_To_Order>
+				</observers>
+			</sales_convert_quote_item_to_order_item>
+			<sales_order_invoice_save_after>
+				<observers>
+					<Ced_CsOrder_Invoice_Create_new>
+						<type>singleton</type>
+						<class>csorder/observer</class>
+						<method>createVendorInvoice</method>
+					</Ced_CsOrder_Invoice_Create_new>
+				</observers>	
+			</sales_order_invoice_save_after>
+			<sales_order_creditmemo_save_after>
+				<observers>
+					<Ced_CsOrder_Creditmemo_Create_new>
+						<type>singleton</type>
+						<class>csorder/observer</class>
+						<method>createVendorCreditmemo</method>
+					</Ced_CsOrder_Creditmemo_Create_new>
+				</observers>	
+			</sales_order_creditmemo_save_after>
+			 <controller_action_layout_load_before>
+                <observers>
+                    <csorder_controller_action_layout_load_before>
+						<type>singleton</type>
+                        <class>csorder/observer</class>
+                        <method>controllerActionLayoutLoadBefore</method>
+                    </csorder_controller_action_layout_load_before>
+                </observers>
+            </controller_action_layout_load_before>
+			<controller_action_predispatch>
+				<observers>
+					<controller_action_before>
+						<type>singleton</type>
+                        <class>csorder/observer</class>
+                        <method>actionPredispatch</method>
+					</controller_action_before>
+				</observers>
+			</controller_action_predispatch>
+		</events>
+		
+		
+		<ced>
+			<rewrites>
+				<csorder>
+					<shipment>
+						<view>Adminhtml,Grid,Tab,Wysiwyg</view>
+						<new>Adminhtml,Grid,Tab,Wysiwyg</new>
+						<addTrack>Adminhtml,Grid,Tab,Wysiwyg</addTrack>
+						<addComment>Adminhtml,Grid,Tab,Wysiwyg</addComment>		
+						<removeTrack>Adminhtml,Grid,Tab,Wysiwyg</removeTrack>	
+						<print>Adminhtml,Grid,Tab,Wysiwyg</print>
+						<getShippingItemsGrid>Adminhtml,Grid,Tab,Wysiwyg</getShippingItemsGrid>
+					</shipment>
+					<creditmemo>
+						<view>Adminhtml,Grid,Tab,Wysiwyg</view>
+						<new>Adminhtml,Grid,Tab,Wysiwyg</new>
+						<updateQty>Adminhtml,Grid,Tab,Wysiwyg</updateQty>
+						<addComment>Adminhtml,Grid,Tab,Wysiwyg</addComment>
+					</creditmemo>
+					<invoice>
+						<view>Adminhtml,Grid,Tab,Wysiwyg</view>
+						<new>Adminhtml,Grid,Tab,Wysiwyg</new>
+						<addComment>Adminhtml,Grid,Tab,Wysiwyg</addComment>
+						<updateQty>Adminhtml,Grid,Tab,Wysiwyg</updateQty>	
+					</invoice>
+					<vorders>
+						<all>Adminhtml,Grid,Tab,Wysiwyg</all>
+					</vorders>
+				</csorder>
+			</rewrites>
+		</ced>
+		 
+	</global>
+	<vendor>
+  <acl>
+   <resources>
+    <vendor>
+     <children>
+      <csmarketplace>
+							<children>
+								<vorders>
+
+									<children>
+										<vorders_index module="csorder" translate="title">
+											<title>Vendor Orders</title>
+											<sort_order>10</sort_order>
+											<resource_name>csorder/vorders/</resource_name>
+										<!-- 	<children>
+												<index module="csmarketplace" translate="title">
+													<title>Dashboard</title>
+													<sort_order>10</sort_order>
+												</index>
+											</children> -->
+										</vorders_index>
+										<invoice module="csorder" translate="title">
+											<title>Vendor Invoice</title>
+											<sort_order>20</sort_order>
+											<resource_name>csorder/invoice/</resource_name>
+										</invoice>
+										<shipment module="csorder" translate="title">
+											<title>Vendor Shipment</title>
+											<sort_order>30</sort_order>
+											<resource_name>csorder/shipment/</resource_name>
+										</shipment>
+										<creditmemo module="csorder" translate="title">
+											<title>Vendor Credit memo</title>
+											<sort_order>50</sort_order>
+											<resource_name>csorder/creditmemo/</resource_name>
+										</creditmemo>
+
+									</children>
+								</vorders>
+								
+							</children>
+						</csmarketplace>
+					</children>
+				</vendor>
+			</resources>
+		</acl>
+	</vendor>
+	
+	<default>
+		<ced_vorders>
+			<general>
+				<vorders_canshipment>0</vorders_canshipment>
+				<vorders_caninvoice>0</vorders_caninvoice>
+				<vorders_cancreditmemo>0</vorders_cancreditmemo>
+				<vorders_shipment_rule>0</vorders_shipment_rule>
+				<vorders_active>1</vorders_active>
+			</general>
+		</ced_vorders>
+		<ced_vpayments>
+			<general>
+				<shipping_commissionable>0</shipping_commissionable>
+			</general>
+		</ced_vpayments>
+	</default>
+</config>

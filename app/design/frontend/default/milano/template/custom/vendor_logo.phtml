@@ -1,0 +1,26 @@
+<?php 
+    $helper = Mage::helper('csmarketplace'); 
+    $vendor = $this->_getSession()->getVendor();
+?>
+
+<?php $vendorUrl = Mage::helper('csmarketplace/tool_image')->init($vendor->getData('profile_picture')); ?>
+
+
+
+
+<div class="header-center header-logo">
+    <h1></h1>
+    <?php if ($helper->getIsDashboard()): ?>
+            <a class="logo" href="#" title="<?php echo $helper->getLogoAlt(); ?>" class="logo">
+                <img src="<?php echo $vendorUrl; ?>" alt="<?php echo $helper->getLogoAlt(); ?>"
+                      />
+            </a>
+    <?php else: ?>
+            <a class="logo" href="<?php echo $helper->getVendorUrl(); ?>" 
+               title="<?php echo $helper->getLogoAlt(); ?>" 
+               class="logo navbar-brand panel-title">
+                <img src="<?php echo $vendorUrl; ?>" alt="<?php echo $helper->getLogoAlt(); ?>" 
+                      />
+            </a>
+    <?php endif ?>
+</div>

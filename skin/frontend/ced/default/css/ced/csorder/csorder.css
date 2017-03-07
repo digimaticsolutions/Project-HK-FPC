@@ -1,0 +1,324 @@
+/*7/3/2015*/
+.no-display{
+	display:none;
+}
+.content-header{
+	background-color: #f5f5f5;
+    border-color: #ddd;
+    color: #333;
+    padding: 10px;
+}
+.content-header h3 {
+    display: inline;
+}
+.content-header .form-buttons {
+    float: right;
+}
+/*.csorder-shipment-new button,.csorder-shipment-view button,*/ .update-button, .save{
+	background-color: #f0ad4e;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    /*display: inline-block;*/
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857;
+    margin: 1px;
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+
+}
+.hor-scroll {
+    overflow: auto;
+}
+.csorder-shipment-new table.form-list,.csorder-shipment-view table.form-list{
+    width: 100%;
+}
+.csorder-shipment-new table.form-list .label,
+.csorder-shipment-view table.form-list .label ,  table.form-list .label {
+    border-radius: 0.25em;
+    color: #000;
+    display: inline;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.2em 0.6em 0.3em;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
+}
+.clear {
+    clear: both;
+}
+.csorder-shipment-new .data.order-tables,
+.csorder-shipment-view .data.order-tables,
+#shipment_tracking_info table.data, .grid .order-tables{
+    width: 100%;
+	border:1px solid #ccc;
+}
+/*
+.csorder-shipment-new table.order-tables .headings > th,
+.csorder-shipment-view table.order-tables .headings > th,
+table#tracking_numbers_table .headings > th, .grid tr.headings th{
+    background: #fafafa none repeat scroll 0 0;
+    border-bottom: 1px solid #ccc;
+}*/
+.csorder-shipment-new table.order-tables .headings th,table.order-tables tbody .border > td,
+.csorder-shipment-view table.order-tables .headings th,table.order-tables tbody .border > td,
+#shipment_tracking_info table.data .headings th,#shipment_tracking_info table.data tbody tr.odd > td,#shipment_tracking_info table.data tbody tr.even > td,
+table#tracking_numbers_table .headings th,table#tracking_numbers_table tbody > tr > td, .grid tr.headings th{
+    border-color: #d1cfcf #d1cfcf #d1cfcf #f9f9f9;
+    border-style: solid;
+    border-width: 1px 1px 1px 0;
+    font-size: 0.9em;
+    /*padding: 14px 8px;*/
+}
+#shipment_tracking_info table.data tfoot tr td{
+	padding: 14px 8px;
+}
+.csorder-shipment-new .order-totals-bottom,
+.csorder-shipment-view .order-totals-bottom{
+    text-align: right;
+}
+.bordered{
+	border: 1px solid #ccc;
+    margin: 6px 0;
+}
+.order_total_section{
+    padding: 1%!important;
+}
+#shipment_tracking_info table{
+	width:100%;
+	
+}
+#shipment_tracking_info{
+	overflow:auto;
+
+}
+.note-list {
+    list-style: outside none none;
+    padding: 0;
+}
+.note-list > li {
+    margin-bottom: 10px;
+}
+.entry-edit a#linkId {
+    color: #909090;
+    font-size: 15px;
+    font-style: italic;
+    text-decoration: underline;
+}
+.dated {
+    color: #23527c;
+    font-weight: bold;
+}
+.note-list .separator {
+    color: #23527c;
+    margin: 0 4px;
+}
+.entry_edit_wrap{
+	float: left;
+    overflow: auto;
+    width: 100%;
+}
+.fieldset_wrap {
+    overflow: auto;
+    width: 100%;
+}
+.fieldset_wrap .grid{
+	 border: 1px solid #ccc;
+	 
+}
+#tracking_numbers_table{
+	width:100%;
+}
+.navbar-static-top .navbar-header .navbar-toggle {
+    margin-top: 10px;
+}
+@media screen and (max-width:1024px){
+.content-header-floating{display:none!important;}
+}
+@media screen and (max-width:991px){
+.alternate_width {
+    padding: 0;
+}
+}
+@media screen and (min-width:992px){
+
+.alternate_width {
+    padding: 0;
+    width: 48%;
+}
+.alternate_width fieldset {
+    padding: 2%;
+}
+}
+.order-totals .label{
+	color:#333;
+}
+
+.order-totals{
+	padding:10px;
+}
+
+.form-buttons .btn{
+margin-left:5px;
+}
+
+.content-header button{
+  margin: 4px;
+    padding: 2px 3px;
+}
+
+
+/*cedcommerce*/
+.pager .arrow{
+float:none;
+}
+
+
+button.back > span {
+    background-image: url("../../../images/ced/csorder/icon_btn_back.gif");
+	
+}
+
+button span {
+    background-position: 0 50%;
+    background-repeat: no-repeat;
+    line-height: 1.35em;
+}
+button span span {
+    padding: 5px;
+}
+button.back > span{
+	background-image: url(images/back.png);
+	background-repeat:no-repeat;
+	background-size: 13px auto;
+	background-position: 4px 1px;
+}
+button.save{
+	line-height:2;
+}
+button.save > span{
+	background-image: url(images/add.png);
+	background-repeat:no-repeat;
+	background-size: 13px auto;
+	background-position: 4px 1px;
+}
+button.save span span span {
+    padding-left: 18px;
+}
+button.save:hover{
+	background-color:#EC971F;
+	border:1px solid #EC971F;
+}
+
+button.disabled span{
+	background-image: none !important;
+}
+
+button.disabled span span span{
+	color: none;
+}
+
+.packaging-window, .packed-window{
+background: #fafafa none repeat scroll 0 0;
+    border: 1px solid #d6d6d6;
+    box-shadow: 0 3px 5px #ccc;
+    left: 50%;
+    margin: -200px 0 0 -471px;
+    position: fixed;
+    top: 50%;
+    width: 1100px;
+    z-index: 9999;
+}
+
+.packaging-window .package-block{
+ background: #f6f6f6 none repeat scroll 0 0;
+    border: 2px solid #d4d4d4;
+    margin: 0 0 10px;
+    padding: 10px;
+}
+
+.packaging-window .package-number {
+    font-weight: bold;
+}
+
+.packaging-window .package-number span {
+    margin-left: 5px;
+}
+
+.packaging-window .package-options {
+    border-top: 1px solid #ccc;
+    margin: 3px 0 0;
+    padding: 10px 0 0;
+    width: 100%;
+}
+.packaging-window .package-options td {
+    vertical-align: middle;
+}
+
+.packaging-window .packaging-content {
+    height: auto !important;
+    margin: 0 0 10px;
+    max-height: 400px;
+    overflow: auto;
+    padding: 10px 10px 0;
+}
+.packaging-window .package-options select {
+    width: 130px;
+}
+.packaging-window .package-options .customs-value {
+    width: 80px;
+}
+.packaging-window .package-add-products {
+    border-top: 1px solid #ccc;
+    margin: 10px 0 0;
+    padding: 10px 0 0;
+}
+
+.packaging-window .package_prapare {
+    margin-bottom: 15px;
+}
+.packaging-window .package-options .options-weight {
+    width: 75px;
+}
+.packaging-window .package-options .input-text {
+    width: 50px;
+}
+.packaging-window .package-options .options-units-dimensions {
+    width: 45px;
+}
+.packaging-window .entry-edit{
+margin-bottom:5px;
+}
+
+#popup-window-mask, .popup-window-mask {
+    background: rgba(239, 239, 239, 0.5) none repeat scroll 0 0;
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+}
+.package_items td button.delete{
+margin-right:15px;
+margin-top:5px;
+}
+.form-list td.value{
+	padding-top:0px !important;
+}
+.summary-collapse{
+float:left;
+}
+
+.entry-edit #order_history_block  .field-row label{
+float:none;
+}

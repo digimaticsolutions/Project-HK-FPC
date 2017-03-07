@@ -1,0 +1,142 @@
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_Productfaq
+  * @author   CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+.product-collateral .accordion li {
+  background-color: rgb(174, 174, 174);
+  background-image: url("images/plus_sign.png");
+  background-position: 6px 7px;
+  background-repeat: no-repeat;
+  background-size: 13px 11px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-weight: bold;
+  list-style: outside none none;
+  margin-top: 3px;
+  opacity: 0.8;
+  padding: 3px 28px;
+  text-transform: capitalize;
+}
+.product-collateral .accordion li.current {
+  background-image: url("images/minus_sign.png");
+  background-position: 6px 11px;
+  background-size: 13px 3px;
+  opacity: 0.8;
+}
+.product-collateral .accordion .pane {
+  background-color: #faf7d6;
+  padding: 5px 8px;
+}
+.product-collateral .accordion .pane > p {
+  line-height: 22px;
+}
+.product-collateral .accordion .button_like {
+  background-color: rgb(224, 224, 224);
+  background-image: url("images/thumbs_upmed.png");
+  background-position: 6px 1px;
+  background-repeat: no-repeat;
+  background-size: 18px auto;
+  border: 1px solid rgb(157, 157, 157);
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0 2px 1px 27px;
+}
+/*.product-collateral .accordion .button_like {
+  background-color: rgb(224, 224, 224);
+  background-position: 6px 1px;
+  background-repeat: no-repeat;
+  background-size: 18px auto;
+  border: 1px solid rgb(157, 157, 157);
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0 2px 1px 6px;
+}*/
+.product-collateral .accordion .grid > span {
+  background-color: rgb(178, 174, 168);
+  border-radius: 2px;
+  display: inline-block;
+  margin-left: 8px;
+  text-align: center;
+  width: 22px;
+}
+.product-collateral .accordion .grid > img {
+  position: absolute;
+  right: 22px;
+  top: 3px;
+  width: 5px;
+}
+.product-collateral .accordion .grid {
+  float: right;
+  position: relative;
+}
+.various {
+  float: right;
+  padding: 6px 2px;
+  text-align: right;
+}
+.clear
+{
+	clear: both;
+}
+#fancybox-content
+{
+	width: 670px !important;
+}
+#fancybox-content div#myDiv {
+  text-align: left;
+}
+#fancybox-wrap {
+  left: 335px !important;
+  width: auto !important;
+}
+#fancybox-content div#myDiv .input-text {
+  height: 35px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+#fancybox-content div#myDiv textarea {
+  height: auto !important;
+  max-width: 100% !important;
+}
+#fancybox-content #myDiv > label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 4px;
+  text-align: left;
+  width: 100%;
+}
+#fancybox-content #myDiv > button {
+  cursor: pointer;
+  float: right;
+  margin-right: 3px;
+  margin-top: 4px;
+  padding: 2px 15px;
+  text-transform: capitalize;
+}
+#fancybox-content > div {
+  overflow: visible !important;
+}
+button.button
+{
+  background-color: rgb(51, 153, 204)!important;
+  color: #fff !important;
+  
+}
+button.button:hover
+{
+  background-color: #2e8ab8 !important;
+}

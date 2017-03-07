@@ -1,0 +1,368 @@
+<?php
+
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsCmsPage
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+?>
+
+<?php 
+	$CmsStore = array();
+	$CmsPage = array();
+	$page_id = '';
+	if($this->getRequest()->getParam('page_id') && $this->getRequest()->getParam('page_id')>0){
+		$page_id = 	$this->getRequest()->getParam('page_id');
+		$CmsPage = Mage::getModel('cscmspage/cmspage')->load($page_id);
+		$CmsStore = Mage::getModel('cscmspage/vendorcms')->getCollection()
+							->addFieldToFilter('page_id',$page_id)
+							->addFieldToFilter('is_home','1');
+							 		
+	}
+	if(sizeof($CmsPage)>0){
+		$url = $this->getUrl('*/*/updatecms/',array('page_id'=>$page_id));
+	}else{
+		$url = $this->getUrl('*/*/savecms');
+	}
+
+	$shopurl = Mage::helper('cscmspage')->getVendorShopUrl();
+?>
+<style type="text/css">
+	p.buttons{
+		float:right;
+	}
+</style>
+<div class="wrap_vcmspage">
+	
+	<div class="row">
+		<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+	</div>
+	<form id="vcs-cmscreateform" name="vcs-cmscreateform" method="post" action="<?php echo $url ?>" onSubmit="return validate();">
+		<div class="row">
+			<div class="col-lg-12">
+		    	<h1 class="page-header"><?php echo Mage::helper('cscmspage')->__('Manage Vendor CMS Page')?> </h1>
+		    	<p class="buttons">
+		    		<a href="<?php echo Mage::getBaseUrl().'cscmspage/vcmspage/' ?>" class="btn btn-default"><?php echo Mage::helper('cscmspage')->__('Back')?></a>
+		    		<button type="submit" class="btn btn-warning">
+		    			<?php if(sizeof($CmsPage)>0){ 
+								echo Mage::helper('cscmspage')->__('Update CMS Page'); 
+		    				  }else{
+		    					echo Mage::helper('cscmspage')->__('Save Page');
+		    				
+		    				  }?>
+		    		</button>
+		    	</p>
+				<div style="clear:both"></div>
+		    </div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+		    	<div class="panel panel-default">
+		        	<div class="panel-heading">
+		            	<?php echo Mage::helper('cscmspage')->__('Create New Cms Page')?>
+		            </div>
+			        <div class="panel-body">
+			        	<div class="panel-group" id="accordion">
+			            	<!-- Tab 1 Start -->
+			            	<div class="panel panel-default">
+			                	<div class="panel-heading">
+			                    	 <h4 class="panel-title">
+			                         	<a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" aria-expanded="true" class="tab-item-link">
+			                         		<?php echo Mage::helper('cscmspage')->__('Page Information')?>
+			                         	</a>
+			                         </h4>
+			                    </div>
+			                    <div class="panel-collapse collapse in" id="collapseOne" aria-expanded="true" style="">
+			                    	<div class="panel-body">
+			                        	<div class="form-group">
+		                                     <div class="col-lg-6">
+			                                        <div class="form-group">
+			                                            <label><?php echo Mage::helper('cscmspage')->__('Page Title')?> *</label>
+			                                            <input class="form-control input-text required-entry" type="text" name="vcmspage[title]" value="<?php if(sizeof($CmsPage)>0){  echo $CmsPage->getTitle(); } ?>">
+			                                        </div>
+			                                        <div class="form-group">
+			                                            <label><?php echo Mage::helper('cscmspage')->__('Url Key')?> *</label>
+			                                            <div class="shopurl_wrap">
+				                         					<span class="shop_url"><?php echo $shopurl?></span>				                                            
+				                                            <span class="url_text">
+				                                            	<input class="form-control input-text required-entry" type="text" name="vcmspage[urlkey]" value="<?php if(sizeof($CmsPage)>0){  echo str_replace($shopurl,'',$CmsPage->getIdentifier()); } ?>">
+			                                        		</span>
+			                                        	</div>
+			                                        	<div style="clear:both"></div>
+			                                        </div>
+			                                        <div class="form-group">
+			                                            <label><?php echo Mage::helper('cscmspage')->__('Store View')?> *</label>
+			                                            <?php 
+			                                            	echo Mage::helper('cscmspage')->getAllwebsites();
+			                                            ?>
+			                                        </div>
+			                                        
+			                                     <div class="form-group">
+			                                            <label><?php echo Mage::helper('cscmspage')->__('Set As Vendor Home Page')?> *</label>
+			                                            <select id="yesno" class="form-control required-entry" name="vcmspage[is_home]">
+			                                            	<option id="no" value="0"  > <?php echo Mage::helper('cscmspage')->__('No')?></option>
+			                                            	<option  id="yes" value ="1" <?php if(sizeof($CmsStore)>0 && sizeof($CmsStore->getData())>0 ){ ?> selected="selected" <?php } ?>>Yes</option>
+			                                            </select>
+			                                        </div>
+			                                        
+			                                    <script type="text/javascript">
+
+
+var layout_home = '<reference name="left"><remove name="left.newsletter"></remove><remove name="left.reports"></remove><remove name="catalog.compare.sidebar"></remove><action method="unsetChild"><name>left.permanent.callout</name></action><action method="unsetChild"><name>left.reports.product.viewed</name></action><action method="unsetChild"><name>tags_popular</name></action><action method="unsetChild"><name>cart_sidebar</name></action><action method="unsetChild"><name>wishlist</name></action><action method="unsetChild"><name>sale.reorder.sidebar</name></action><action method="unsetChild"><name>left.poll</name></action>'+'<block type="csmarketplace/vshops_left" name="csmarketplace.vshops.category.filter" template="csmarketplace/vshops/left.phtml"/><block type="csmarketplace/vshops_view" name="csmarketplace.vshops.view" template="csmarketplace/vshops/view.phtml"></block><block type="core/template" name="cscmspage.navigation"  template="csmarketplace/vshops/additional.phtml"></block><block type="csfavseller/vshops_navigation" name="csfavseller.navigation" after="currency" template="csfavseller/vshops/left.phtml"/><block type="csvendorreview/vshops_view" name="csvendorreview_vshops_view" after="csmarketplace_vshops_view" template="csvendorreview/vshops/view.phtml"/>'+'</reference>'+'<reference name="content">'+'<block type="csmarketplace/vshops_catalog_product_list" name="vendors.homepage.list" template="csmarketplace/vshops/catalog/product/list.phtml"><block type="core/text_list" name="product_list.name.after" as="name.after" ></block><block type="core/text_list" name="product_list.after" as="after" ></block><block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml"><block type="page/html_pager" name="product_list_toolbar_pager"></block></block><action method="setToolbarBlockName"><name>product_list_toolbar</name></action><action method="setColumnCount"><count>4</count></action></block><block type="csmarketplace/vshops_view" name="csmarketplace_vshops_view_about" as="vabout" template="csmarketplace/vshops/about.phtml" before="-"  /><block type="csmarketplace/vshops_view" name="csmarketplace_vshops_view_banner" as="vbanner" template="csmarketplace/vshops/banner.phtml" before="-" />'+'</reference>';
+											jQuery(document).ready(function(){
+
+												var val = 	jQuery( "#yesno" ).val();
+                                        		
+                                        		if(val == 1)
+                                        		{
+	                                        		jQuery('#layout_text').val(layout_home);
+	                                        		jQuery("#default_layout").attr("style", "display:none");
+                                        		}
+                                        		else
+                                        		{
+                                        			jQuery('#layout_text').val('<?php echo $CmsPage->getLayoutUpdateXml(); ?>');
+                                        			jQuery("#default_layout").attr("style", "display:inline");
+	                                        	}
+                                        		
+	                                        	jQuery("#yesno").change(function() {
+		                                        var val = 	jQuery( "#yesno" ).val();
+	                                        	if(val == 1)
+	                                        	{
+		                                        	jQuery('#layout_text').val(layout_home);
+		                                        	jQuery("#default_layout").attr("style", "display:none");
+	                                        	}
+	                                        	else
+	                                        	{
+		                                        	jQuery('#layout_text').val('');
+	                                        		jQuery("#default_layout").attr("style", "display:inline");
+		                                        }
+																	 
+			                                        });
+		                                        });
+			                                        	
+
+   </script>        
+			                                        
+			                                        <div class="form-group">
+			                                            <label><?php echo Mage::helper('cscmspage')->__('Status')?> *</label>
+			                                            <select class="form-control required-entry" name="vcmspage[status]">
+			                                            	<option value="1" <?php if(sizeof($CmsPage)>0 && $CmsPage->getIsActive() == '1'){ ?>  selected="selected" <?php } ?> ><?php echo Mage::helper('cscmspage')->__('Enabled')?></option>
+			                                            	<option value ="0" <?php if(sizeof($CmsPage)>0 && $CmsPage->getIsActive() == '0'){ ?> selected="selected" <?php } ?> ><?php echo Mage::helper('cscmspage')->__('Disabled')?></option>
+			                                            </select>
+			                                        </div>
+			                                </div>       
+		                                </div>
+			                        </div>
+			                    </div>
+			                </div>
+						</div> 
+		                <!-- Tab 1 End -->
+		                <!-- Tab 2 Start -->
+		                <div class="panel panel-default">
+		                	<div class="panel-heading">
+		                    	 <h4 class="panel-title">
+		                         	<a class="collapsed" aria-expanded="false" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+		                         		<?php echo Mage::helper('cscmspage')->__('Content')?>
+		                         	</a>
+		                         </h4>
+		                    </div>
+		                    <div style="display: none; height: 0px;" aria-expanded="false" id="collapseTwo" class="panel-collapse collapse">
+		                    	<div class="panel-body">
+		                        	<div class="form-group">
+	                                     <div class="col-lg-">
+	                                        <div class="form-group wrap_width">
+	                                            <label><?php echo Mage::helper('cscmspage')->__('Content Heading')?> *</label>
+	                                            <input class="form-control required-entry input-text" type="text" name="vcmspage[cheading]" value="<?php if(sizeof($CmsPage)>0){  echo $CmsPage->getContentHeading(); } ?>">
+	                                        </div>
+	                                        <div class="form-group">
+	                                            <label><?php echo Mage::helper('cscmspage')->__('Content')?> *</label>
+	                                            <!-- <textarea id="custom_wysiwyg" rows="10" class="form-control" name="vcmspage[content]" > <?php if(sizeof($CmsPage)>0){  echo $CmsPage->getContent(); } ?> </textarea> -->
+	                                        	<br>
+	                                        	
+	                                        	<textarea rows="10" cols="200" name="vcmspage[content]" style="height: 350px;" class="textarea" id="vendorcontent"><?php if(sizeof($CmsPage)>0){  echo $CmsPage->getContent(); } ?></textarea>
+	                                        	<script type="text/javascript">
+	                                        	   bkLib.onDomLoaded(function() {
+	                                                   new nicEditor({fullPanel : true}).panelInstance('vendorcontent');
+	                                              }); 
+												</script>
+	                                        	<div style="display:none;" id="advice-required-entry-vendorcontent" class="validation-advice">This is a required field.</div>
+	                                        </div>	                                        
+		                                </div>											
+	                                </div>										
+		                        </div>
+								<div class="hint_wrap">
+									<span class="hint"><span class="hint_title">Hint:</span>
+										<span class="hint_info">Add vendorcms static block e.g {{block type="cscmspage/block" block_id="block1"}}</span>
+									</span>
+									
+		                    	</div>
+			                </div>
+			            </div>  
+		                <!-- Tab 2 End  -->
+		                <!-- Tab 3 Start -->
+		                <div class="panel panel-default">
+		                	<div class="panel-heading">
+		                    	 <h4 class="panel-title">
+		                         	<a class="collapsed" aria-expanded="false" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+		                         		<?php echo Mage::helper('cscmspage')->__('Design')?>
+		                         	</a>
+		                         </h4>
+		                    </div>
+		                    <div style="display: none; height: 0px;" aria-expanded="false" id="collapseThree" class="panel-collapse collapse">
+		                    	<div class="panel-body">
+		                        	<div class="form-group">
+	                                     <div class="col-lg-">
+	                                        <div class="form-group">
+	                                            <label><?php echo Mage::helper('cscmspage')->__('Layout')?> *</label>
+	                                            <div class="wrap_width">
+	                                            	<select class="form-control input-text required-entry" name="vcmspage[layout]" >
+	                                            
+	                                            <?php foreach(Mage::getSingleton('page/source_layout')->toOptionArray(true) as $layout){ ?>
+	                                            		<option value="<?php echo $layout['value'] ?>" <?php if(sizeof($CmsPage)>0 && $CmsPage->getRootTemplate() == $layout['value']){ ?> selected = 'selected' <?php  } ?> > <?php  echo $layout['label']; ?></option>
+	                                            <?php } ?>	
+	                                            	</select>
+	                                            </div>
+	                                        </div>
+	                                        <div class="form-group">
+	                                           <label><?php echo Mage::helper('cscmspage')->__('Layout Update XML')?></label>
+	                                            <span class="default_xml">
+	                                            	<span class="default_check" style="margin-left:50px;">
+		                                            	<input type="checkbox" id="default_layout" />
+		                                        		Vendor Shop Page Default Layout
+		                                        	</span>
+
+		                                        	
+		                                 	<script type="text/javascript">
+		                                        		var layout_text = '<reference name="left"><remove name="left.newsletter"></remove><remove name="left.reports"></remove><remove name="catalog.compare.sidebar"></remove><action method="unsetChild"><name>left.permanent.callout</name></action><action method="unsetChild"><name>left.reports.product.viewed</name></action><action method="unsetChild"><name>tags_popular</name></action><action method="unsetChild"><name>cart_sidebar</name></action><action method="unsetChild"><name>wishlist</name></action><action method="unsetChild"><name>sale.reorder.sidebar</name></action><action method="unsetChild"><name>left.poll</name></action>'+'<block type="csmarketplace/vshops_view" name="csmarketplace.vshops.view" template="csmarketplace/vshops/view.phtml"></block><block type="core/template" name="cscmspage.navigation"  template="csmarketplace/vshops/additional.phtml"></block><block type="csfavseller/vshops_navigation" name="csfavseller.navigation" after="currency" template="csfavseller/vshops/left.phtml"/><block type="csvendorreview/vshops_view" name="csvendorreview_vshops_view" after="csmarketplace_vshops_view" template="csvendorreview/vshops/view.phtml"/>'+'</reference>'+'<reference name="content">'+'<block type="csmarketplace/vshops_view" name="csmarketplace_vshops_view_about" as="vabout" template="csmarketplace/vshops/about.phtml" before="-"  /><block type="csmarketplace/vshops_view" name="csmarketplace_vshops_view_banner" as="vbanner" template="csmarketplace/vshops/banner.phtml" before="-" />'+'</reference>';
+		                                        		jQuery(document).ready(function(){
+			                                        		jQuery("#default_layout").change(function() {
+				                                        		if(this.checked) {
+		                                        			        //jQuery('#layout_text').val(jQuery('#base_layout').html());
+				                                        			jQuery('#layout_text').val(layout_text);
+		                                        			    }else{
+																	  jQuery('#layout_text').val('');
+			                                        			}
+		                                        			});
+			                                        	});
+		                                        	</script>
+	                                	</span>
+	                                       <span class ="wrap_layout_xml" >
+	                                           		<textarea rows="10" cols="" id="layout_text" class="form-control" name="vcmspage[layout_xml]" ><?php if(sizeof($CmsPage)>0){ echo $CmsPage->getLayoutUpdateXml(); } ?></textarea>
+	                                        	</span>
+												<span class="hint_layout">
+													Hint: Add Vendor cms by use of Layout XML e.g <span class="hint_info"><?php echo htmlentities('<reference name="content">															<block type="cscmspage/block" name="myblock" >
+															<action method="setBlockId"><block_id>block1</block_id></action>
+														</block> 
+													</reference>'); ?></span>
+													
+												</span>
+	                                        </div>
+	                                        
+	                                        
+	              <!-- Code to render all the available themes To select  -->
+	                                        <div class="form-group">
+	                                            <label><?php echo Mage::helper('cscmspage')->__('Theme')?> *</label>
+	                                            <div class="wrap_width">
+	                                            	<select class="form-control input-text required-entry" name="vcmspage[theme]" >
+	                                            <?php 
+	                                            	foreach(Mage::getModel('cscmspage/themes')->toOptionArray(true) as $layout){ ?>
+	                                            		<optgroup label="<?php  echo $layout['label']; ?>">
+	                                            			<?php if(count($layout['value']) > 1){ 
+	                                            				foreach ($layout['value'] as $key=>$val) {
+	                                            				?>
+	                                            				<option value="<?php echo $val['value'] ?>" <?php if(sizeof($CmsPage)>0 && $CmsPage->getCustomTheme() == $val['value']){ ?> selected = 'selected' <?php  } ?> > <?php  echo $val['label']; ?></option>
+	                                            					<?php }?>
+	                                            			<?php }else{ ?>
+	                                            				<option value="<?php echo $layout['label'] ?>" <?php if(sizeof($CmsPage)>0 && $CmsPage->getCustomTheme() == $layout['label']){ ?> selected = 'selected' <?php  } ?> > <?php  echo $layout['label']; ?></option>
+	                                            			<?php }?>
+	                                            		</optgroup>
+	                                            <?php } ?>	
+	                                            	</select>
+	                                            </div>
+	                                        </div>                                      
+		                                </div>       
+	                                </div>
+		                        </div>
+		                    </div>
+		                </div>
+		                <!-- Tab 3 end -->
+		                <!-- Tab 4 Start -->
+		                <div class="panel panel-default">
+		                	<div class="panel-heading">
+		                    	 <h4 class="panel-title">
+		                         	<a class="collapsed" aria-expanded="false" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+		                         		<?php echo Mage::helper('cscmspage')->__('Meta Data')?>
+		                         	</a>
+		                         </h4>
+		                    </div>
+		                    <div style="display: none; height: 0px;" aria-expanded="false" id="collapseFour" class="panel-collapse collapse">
+		                    	<div class="panel-body">
+		                        	<div class="form-group">
+	                                     <div class="col-lg-6">
+	                                        <div class="form-group">
+	                                            <label><?php echo Mage::helper('cscmspage')->__('Keywords')?></label>
+	                                            <textarea rows="3" class="form-control" name="vcmspage[meta_keywords]" ><?php if(sizeof($CmsPage)>0){ echo $CmsPage->getMetaKeywords(); }?></textarea>
+	                                        </div>
+	                                        <div class="form-group">
+	                                            <label><?php echo Mage::helper('cscmspage')->__('Description')?></label>
+	                                            <textarea rows="3" class="form-control" name="vcmspage[meta_description]" ><?php if(sizeof($CmsPage)>0){ echo $CmsPage->getMetaDescription(); }?></textarea>
+	                                        </div>	                                        
+		                                </div>       
+	                                </div>
+		                        </div>
+		                    </div>
+		                </div>
+		             <!-- Tab 4 End -->
+		       		</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<script type="text/javascript">
+		
+	//< ![CDATA[
+    	var customForm = new VarienForm('vcs-cmscreateform');
+	//]]>   
+			/*function saveForm() { 
+				if(this.validator && this.validator.validate()){
+					jQuery('#activity-loading').show();
+			       	return true;
+		        }else{
+		        	jQuery('#collapseOne,#collapseTwo,#collapseThree,#collapseFour').removeAttr('style');
+			        jQuery('#collapseOne,#collapseTwo,#collapseThree,#collapseFour').addClass('in');
+			        return true;
+			        }
+			}*/
+			function validate()
+      	   	{ 
+				if(this.validator && this.validator.validate()){
+					jQuery('#activity-loading').show();
+			    }else{
+		        	jQuery('#collapseOne,#collapseTwo,#collapseThree,#collapseFour').removeAttr('style');
+			        jQuery('#collapseOne,#collapseTwo,#collapseThree,#collapseFour').addClass('in');
+			    }
+      	       var nicInstance = nicEditors.findEditor('vendorcontent');
+      	       var messageContent = nicInstance.getContent();
+      	       //since nicEditor sets default value of textarea as <br>
+      	       //we are checking for it
+      	       if(messageContent=="<br>" || messageContent=='' || messageContent==null) { 
+      	       		jQuery('#advice-required-entry-vendorcontent').show();
+      	       		return false;
+      	      }else{
+      	    		jQuery('#advice-required-entry-vendorcontent').hide();
+      	       }
+      	   }
+	    
+    </script>    
+</div>	

@@ -1,0 +1,75 @@
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsCmsPage
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+.pager .arrow{
+	float:none;
+}
+.wrap_width{
+	width:42%;
+}
+.hint_wrap{
+	padding-bottom: 10px;
+	padding-left: 30px;
+}
+.hint_wrap .hint{
+
+}
+.hint_wrap .hint .hint_title{
+
+}
+.hint_wrap .hint .hint_info{
+
+}
+.hint_layout{
+	display:block;
+	padding:10px;
+}
+.scalable.add {
+  line-height: 14px;
+  padding-right: 14px;
+}
+.cscmspage-vblock-index .filter-actions .scalable,#cmsPageGrid_massaction-form .scalable,.cscmspage-vcmspage-index .filter-actions .scalable,#cmsPageGrid_massaction .scalable {
+  padding-left: 8px;
+  padding-right: 2px;
+  margin-bottom: 5px;
+}
+#cmsPageGrid_table .filter .label	
+{
+	color: #333;
+}
+.cscmspage-vblock-index .content-header-floating, .cscmspage-vcmspage-index .content-header-floating {
+ /* background-color: rgb(221, 221, 221);
+  background-image: url("images/bkg_gridshadow.png");
+  background-position: center top;*/
+  border-bottom: 2px solid rgb(205, 205, 205);
+  background: -webkit-linear-gradient(#d9d9d9, #fefefe); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#d9d9d9, #fefefe); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#d9d9d9, #fefefe); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#d9d9d9, #fefefe); /* Standard syntax */
+}
+.cscmspage-vblock-index .content-header-floating h3, .cscmspage-vcmspage-index .content-header-floating h3 {
+		color: #333;
+	}
+.cscmspage-vblock-index .content-header-floating .content-header.panel-heading,.cscmspage-vcmspage-index .content-header-floating .content-header.panel-heading
+{
+	padding-bottom: 0px;
+}
+#editor_button
+{
+	background-color: #3c8dbc;
+    margin-bottom: 7px;
+    padding: 4px;
+}

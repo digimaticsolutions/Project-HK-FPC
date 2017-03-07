@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?> 
+
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    Ced;
+ * @package     Ced_CsTransaction
+ * @author 		CedCommerce Magento Core Team <magentocoreteam@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+	<modules>
+		<Ced_CsTransaction>
+			<version>0.0.1</version>
+			<release_version>0.0.1</release_version>
+			<author>CedCommerce Magento Core Team (magentocoreteam@cedcommerce.com)</author>
+		</Ced_CsTransaction>
+	</modules>
+	<frontend>
+		<routers>
+			<cstransaction>
+				<use>standard</use>
+				<args>
+					<module>Ced_CsTransaction</module>
+					<frontName>cstransaction</frontName>
+				</args>
+			</cstransaction>
+		</routers>
+		<layout>
+			<updates>
+				<cstransaction>
+					<file>ced/cstransaction/cstransaction.xml</file>
+				</cstransaction>
+			</updates>
+		</layout>
+		<translate>
+			<modules>
+				<cstransaction>
+					<files>
+						<default>Ced_CsTransaction.csv</default>
+					</files>
+				</cstransaction>
+			</modules>
+		</translate>
+	</frontend>
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<cstransaction after="Mage_Adminhtml">Ced_CsTransaction</cstransaction>
+					</modules>
+				</args>
+			</adminhtml>
+			<csmarketplace>
+				<args>
+					<modules>
+						<ced_cstransaction before="Ced_CsMarketplace_Adminhtml">Ced_CsTransaction</ced_cstransaction>
+					</modules>
+				</args>
+			</csmarketplace>
+		</routers>
+	</admin>
+	<adminhtml>
+		<translate>
+			<modules>
+				<cstransaction>
+					<files>
+						<default>Ced_CsTransaction.csv</default>
+					</files>
+				</cstransaction>
+			</modules>
+		</translate>
+		<layout>
+			<updates>
+				<cstransaction>
+					<file>ced/cstransaction.xml</file>
+				</cstransaction>
+			</updates>
+		</layout>
+	</adminhtml>
+	<global>
+		<helpers>
+			<cstransaction>
+				<class>Ced_CsTransaction_Helper</class>
+			</cstransaction>
+		</helpers>
+		<blocks>
+			<cstransaction>
+				<class>Ced_CsTransaction_Block</class>
+			</cstransaction>
+			<csmarketplace>
+				<rewrite>
+				  <adminhtml_vpayments_edit_tab_paymentinformation>Ced_CsTransaction_Block_Adminhtml_Vpayments_Edit_Tab_Paymentinformation</adminhtml_vpayments_edit_tab_paymentinformation>
+				  <adminhtml_vpayments_edit_tab_addorder>Ced_CsTransaction_Block_Adminhtml_Vpayments_Edit_Tab_Addorder</adminhtml_vpayments_edit_tab_addorder>
+				  <adminhtml_vpayments_edit_tab_addorder_search_grid>Ced_CsTransaction_Block_Adminhtml_Vpayments_Edit_Tab_Addorder_Search_Grid</adminhtml_vpayments_edit_tab_addorder_search_grid>.
+				  <adminhtml_vorder_itemms_grid>Ced_CsTransaction_Block_Adminhtml_Vorder_Items_Grid</adminhtml_vorder_itemms_grid>
+				  <adminhtml_vorders_grid_renderer_paynow>Ced_CsTransaction_Block_Adminhtml_Vorders_Grid_Renderer_Paynow</adminhtml_vorders_grid_renderer_paynow>
+				  <adminhtml_vpayments_grid_renderer_orderdesc>Ced_CsTransaction_Block_Adminhtml_Vpayments_Grid_Renderer_Orderdesc</adminhtml_vpayments_grid_renderer_orderdesc>
+				   <adminhtml_vpayments_details_form>Ced_CsTransaction_Block_Adminhtml_Vpayments_Details_Form</adminhtml_vpayments_details_form>
+				</rewrite>
+			</csmarketplace>
+		</blocks>
+		<models>
+            <cstransaction>
+                <class>Ced_CsTransaction_Model</class>
+                <resourceModel>cstransaction_mysql4</resourceModel>
+            </cstransaction>
+            <cstransaction_mysql4>
+                <class>Ced_CsTransaction_Model_Mysql4</class>
+                <entities>                
+					<vorder_items>
+                        <table>ced_cstransaction_vorder_items</table>
+                    </vorder_items>
+                </entities>
+            </cstransaction_mysql4>
+			<csmarketplace>
+				<rewrite>
+					<observer>Ced_CsOrder_Model_Observer</observer>
+					<vorders>Ced_CsOrder_Model_Vorders</vorders>
+				</rewrite>
+			</csmarketplace>
+        </models>
+        <resources>
+            <cstransaction_setup>
+                <setup>
+                    <module>Ced_CsTransaction</module>
+                    <class>Ced_CsTransaction_Model_Mysql4_Setup</class>
+                </setup>
+            </cstransaction_setup>
+        </resources>
+		<events>
+			<csmarketplace_vorders_save_after>
+				<observers>
+                    <Ced_CsTransaction_Vorders_Save_After>
+                        <type>singleton</type>
+                        <class>cstransaction/observer</class>
+                        <method>vorderSaveAfter</method>
+                    </Ced_CsTransaction_Vorders_Save_After>
+                </observers>
+			</csmarketplace_vorders_save_after>
+			<csmarketplace_vpayments_save_before>
+				<observers>
+                    <Ced_CsTransaction_Vpayments_Save_Before>
+                        <type>singleton</type>
+                        <class>cstransaction/observer</class>
+                        <method>vpaymentsSaveBefore</method>
+                    </Ced_CsTransaction_Vpayments_Save_Before>
+                </observers>
+			</csmarketplace_vpayments_save_before>
+			<sales_order_invoice_save_after>
+				<observers>
+                   <Ced_CsTransaction_Sales_Order_Invoice_Save_After>
+                   	  <type>singleton</type>
+                      <class>cstransaction/observer</class>
+                      <method>prepareItemsForPayment</method>
+                   </Ced_CsTransaction_Sales_Order_Invoice_Save_After>
+               </observers>
+			</sales_order_invoice_save_after>
+			<sales_order_creditmemo_save_after>
+				<observers>
+					<Ced_CsOrder_Creditmemo_Create>
+						<type>singleton</type>
+						<class>cstransaction/observer</class>
+						<method>prepareItemsForRefund</method>
+					</Ced_CsOrder_Creditmemo_Create>
+				</observers>	
+			</sales_order_creditmemo_save_after>
+		</events>
+	</global>
+</config>

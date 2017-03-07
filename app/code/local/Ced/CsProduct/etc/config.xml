@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?> 
+
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsProduct
+  * @author   CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+<config>
+	<modules>
+		<Ced_CsProduct>
+			<version>0.0.1</version>
+			<release_version>0.0.5</release_version>
+			<parent_product_name>CedCommerce MarketPlace</parent_product_name>
+			<author>CedCommerce Core Team (connect@cedcommerce.com)</author>
+		</Ced_CsProduct>
+	</modules>
+	<frontend>
+		<routers>
+			<csmarketplace>
+				<args>
+					 <modules>
+                        <csproduct before="Ced_CsMarketplace">Ced_CsProduct</csproduct>
+                    </modules>
+				</args>
+			</csmarketplace>
+			<csproduct>
+				<use>standard</use>
+				<args>
+					<module>Ced_CsProduct</module>
+					<frontName>csproduct</frontName>
+				</args>
+			</csproduct>
+		</routers>
+		<layout>
+			<updates>
+				<csproduct>
+					<file>ced/csproduct/vendor.xml</file>
+				</csproduct>
+			</updates>
+		</layout>
+		<translate>
+			<modules>
+				<csproduct>
+					<files>
+						<default>Ced_CsProduct.csv</default>
+					</files>
+				</csproduct>
+			</modules>
+		</translate>
+		<events>
+            <catalog_product_prepare_save>
+                <observers>
+                    <bundle_observer>
+                        <class>csproduct/observer</class>
+                        <method>prepareProductSave</method>
+                    </bundle_observer>
+                    <downloadable_observer>
+                        <class>downloadable/observer</class>
+                        <method>prepareProductSave</method>
+                    </downloadable_observer>
+                </observers>
+            </catalog_product_prepare_save>
+            <catalog_model_product_duplicate>
+                <observers>
+                    <bundle_observer>
+                        <class>bundle/observer</class>
+                        <method>duplicateProduct</method>
+                    </bundle_observer>
+                </observers>
+            </catalog_model_product_duplicate>
+        </events>
+	</frontend>
+	<admin>
+		<routers>
+			<csmarketplace>
+				<args>
+					 <modules>
+                        <csproduct before="Ced_CsMarketplace">Ced_CsProduct</csproduct>
+                    </modules>
+				</args>
+			</csmarketplace>
+			
+			<adminhtml>
+				<args>
+					<modules>
+						<csproduct after="Mage_Adminhtml">Ced_CsProduct</csproduct>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
+	<adminhtml>
+		<translate>
+			<modules>
+				<csproduct>
+					<files>
+						<default>Ced_CsProduct.csv</default>
+					</files>
+				</csproduct>
+			</modules>
+		</translate>
+	</adminhtml>
+	<global>
+		<ced>
+		   	<rewrites>
+		    	<csproduct>
+		     		<vproducts>
+		      			<all>Adminhtml,Grid,Tab,Wysiwyg</all>
+		     		</vproducts>
+		   			<bundle_product_edit>
+		   				<all>Adminhtml,Grid,Tab,Wysiwyg</all>
+		     		</bundle_product_edit>
+		     		<bundle_selection>
+		      			<all>Adminhtml,Grid,Tab,Wysiwyg</all>
+		     		</bundle_selection>
+		     		<cms_wysiwyg_images>
+		      			<all>Adminhtml,Grid,Tab,Wysiwyg</all>
+		     		</cms_wysiwyg_images>
+		    	</csproduct>
+		   	</rewrites>
+		</ced>
+		<helpers>
+			<csproduct>
+				<class>Ced_CsProduct_Helper</class>
+			</csproduct>
+			<cms>
+				<rewrite>
+					<wysiwyg_images>Ced_CsProduct_Helper_Wysiwyg_Images</wysiwyg_images>
+				</rewrite>
+			</cms>
+		</helpers>
+		<blocks>
+			<csproduct>
+				<class>Ced_CsProduct_Block</class>
+			</csproduct>
+		</blocks>
+		<ced_csmarketplace>
+			<vproducts>
+				<types>
+					<configurable>*</configurable>
+					<bundle>*</bundle>
+					<grouped>*</grouped>
+				</types>
+			</vproducts>
+		</ced_csmarketplace>
+		<models>
+			<csproduct>
+				<class>Ced_CsProduct_Model</class>
+			</csproduct>
+			<csmarketplace>
+				<rewrite>
+					<vproducts>Ced_CsProduct_Model_Vproducts</vproducts>
+					<system_config_source_vproducts_type>Ced_CsProduct_Model_System_Config_Source_Vproducts_Type</system_config_source_vproducts_type>
+				</rewrite>
+			</csmarketplace>
+		</models>
+	</global>
+	<vendor>
+		<acl>
+			<resources>
+				<vendor>
+					<children>
+						<csmarketplace>
+							<children>
+								<vproducts>
+									<resource_name ifconfig="ced_vproducts/general/activation">csproduct/vproducts</resource_name>
+									<children>
+										<new>
+											<resource_name ifconfig="ced_vproducts/general/activation">csproduct/vproducts/new</resource_name>
+										</new>
+										<index>
+											<resource_name ifconfig="ced_vproducts/general/activation">csproduct/vproducts/index</resource_name>
+										</index>
+										<edit>
+											<resource_name ifconfig="ced_vproducts/general/activation">csproduct/vproducts/edit</resource_name>
+										</edit>
+									</children>
+								</vproducts>
+							</children>
+						</csmarketplace>
+					</children>
+				</vendor>
+			</resources>
+		</acl>
+	</vendor>
+	<default>
+		<ced_vproducts>
+			<general>
+				<activation>1</activation>
+				<set>4</set>
+				<type>simple,downloadable,virtual,configurable,bundle,grouped</type>
+				<relatedproducts>1</relatedproducts>
+				<upsells>1</upsells>
+				<crosssells>1</crosssells>
+				<customoptions>1</customoptions>
+			</general>
+		</ced_vproducts>
+	</default>
+</config>

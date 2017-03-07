@@ -1,0 +1,115 @@
+<?xml version="1.0"?> 
+
+<!--
+ /**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsCommission
+  * @author  	 CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+<config>
+    <modules>
+        <Ced_CsCommission>
+            <version>0.0.1</version>
+			<release_version>0.0.3</release_version>
+			<parent_product_name>Vendor Commission Addon</parent_product_name>
+			<author>CedCommerce Core Team (connect@cedcommerce.com)</author>
+        </Ced_CsCommission>
+    </modules>
+    <global>
+		<helpers>
+			<cscommission>
+				<class>Ced_CsCommission_Helper</class>
+			</cscommission>
+		</helpers>
+		<blocks>
+			<cscommission>
+				<class>Ced_CsCommission_Block</class>
+			</cscommission>
+		</blocks>
+        <models>
+            <cscommission>
+                <class>Ced_CsCommission_Model</class>
+            </cscommission>
+        </models>
+		<events>
+			<ced_csmarketplace_vendor_save_after>
+				<observers>
+                   <ced_csmarketplace_vendor_save_after_cscommission>
+                 	  <type>singleton</type>
+                      <class>cscommission/observer</class>
+                      <method>saveCommissionConfigurationData</method>
+                   </ced_csmarketplace_vendor_save_after_cscommission>
+                </observers>
+			</ced_csmarketplace_vendor_save_after>
+		</events>
+		<ced_csmarketplace>
+			<vendor>
+				<rates>
+					<miscellaneous>
+						<model>cscommission/vendor_rate_miscellaneous</model>
+					</miscellaneous>
+				</rates>
+			</vendor>
+		</ced_csmarketplace>
+    </global>
+    <adminhtml>
+		<layout>
+			<updates>
+				<ced_cscommission>
+					<file>ced/cscommission.xml</file>
+				</ced_cscommission>
+			</updates>
+		</layout>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<system>
+							<children>
+								<config>
+									<children>
+										<cscommission>
+											<title>CedCommerce Extensions</title> 
+										</cscommission>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+    </adminhtml>
+    <default>
+		<ced_vpayments>
+			<general>
+				<commission_mode_default>percentage</commission_mode_default>
+				<commission_fee_default>10</commission_fee_default>
+				<commission_mode_sales>fixed</commission_mode_sales>
+				<commission_fee_sales>0</commission_fee_sales>
+				<commission_mode_ship>fixed</commission_mode_ship>
+				<commission_fee_ship>0</commission_fee_ship>
+				<commission_mode_payments>fixed</commission_mode_payments>
+				<commission_fee_paymnets>0</commission_fee_paymnets>
+				<commission_mode_servicetax>fixed</commission_mode_servicetax>
+				<commission_fee_servicetax>0</commission_fee_servicetax>
+				<commission_fn>MAX</commission_fn>
+			</general>
+		</ced_vpayments>
+    </default>
+</config>

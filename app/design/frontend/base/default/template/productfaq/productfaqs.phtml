@@ -1,0 +1,177 @@
+<?php 
+/**
+* CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ *
+ * @category    Ced
+ * @package     Ced_Productfaq
+ * @author   CedCommerce Core Team <connect@cedcommerce.com >
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<a href="#myDiv" class="various"><?php echo $this->__("Doesn't find your answer??ASK US"); ?></a>
+<div class="clear"></div>
+<?php 
+   $_product = $this->getProduct();
+   $productid=$_product->getId();
+   $faqs=$this->getQuestions();
+   ?>
+<div class="accordion">
+   <?php 
+      foreach ($faqs as $faq){
+        if($faq->getData('visible_on_frontend')=='1'){
+        ?>
+   <li><?php echo $title=$faq->getData('title') ?></li>
+   <div class="pane" style="display:none">
+      <p>
+         <?php echo $faq->getData('description') ?>
+      </p>
+      <div class="grid">
+         <?php 
+            $questionid= $faq->getData('id');
+            $userip=$_SERVER['REMOTE_ADDR'];
+            $test=$this->getLikesCount($questionid);
+            foreach ($test as $data)
+                {
+                 $count=$data['likes'];
+                 $ips=$data['user_ip'];
+                }
+            $ips=unserialize($ips);
+            if (strpos($ips,$userip) !== false) 
+               {  
+            ?>
+         <input type="button" value="unlike"  data-item="<?php echo $faq->getData('id'); ?>" data-productid="<?php echo $productid ?>" class="button_like" id="linkeBtn<?php echo $faq->getData('id'); ?>" />
+         <?php   }
+            else 
+                {
+            ?>
+         <input type="button" value="like"  data-item="<?php echo $faq->getData('id'); ?>" data-productid="<?php echo $productid ?>" class="button_like" id="linkeBtn<?php echo $faq->getData('id'); ?>" />
+         <?php    }  ?>
+         <img src="<?php echo $this->getSkinUrl('js/fancybox/fancybox/facebook-like-button.png');?>" alt="like image"/>
+         <span id="count<?php echo $faq->getData('id'); ?>"><?php if($count>0) echo $count; ?></span><br>
+      </div>
+      <div class="clear"></div>
+   </div>
+   <?php 
+      }
+      $count=0;
+      }
+      ?>
+</div>
+<div style="display:none">
+   <div id="myDiv">
+      <label for="name">Name<span class="required">*</span></label>
+      <input type="text" name="name" id="name" class="input-text required-entry ask_question" />
+      <label for="email">Email<span class="required">*</span></label>
+      <input type="text" name="email" id="email" class="input-text required-entry ask_question" />
+      <label for="question">Question<span class="required">*</span></label>
+      <textarea onfocus="clearContents(this);" rows="4" id="question" class="input-text required-entry ask_question" cols="6" name="textOpt">Please Enter your question</textarea>
+      <input id="productid" value="<?php echo $productid; ?>"  type="hidden">
+      <button class="button" type="button" onclick="SubmitRequest();">Ask Us</button>
+   </div>
+</div>
+<script type="text/javascript">
+jQuery('.button_like').click(function(){
+	   if(jQuery(this).is(':disabled')) {
+		   return; 
+		}
+	 var ip="<?php echo $_SERVER['REMOTE_ADDR']?>";
+	 var val =  jQuery(this).val();
+     var questionid= jQuery(this).attr('data-item');
+     var productid= jQuery(this).attr('data-productid');
+    // alert(ip);alert(val);alert(questionid);alert(productid);
+     jQuery('#linkeBtn'+questionid).prop('disabled', true);
+     if(val=='like')
+     {
+   var url="<?php echo $this->getUrl('productfaq/index/like') ?>";
+   jQuery.post(url, {id:questionid,productid:productid,ip:ip},function(data)
+           {
+              if(data)
+              {
+            	  jQuery("#linkeBtn"+questionid).val(data.like);
+            	  jQuery("#count"+questionid).text(data.count);
+              }
+              
+          })
+     }
+     else
+     {
+      var url="<?php echo $this->getUrl('productfaq/index/unlike') ?>";
+      jQuery.post(url, {id:questionid,productid:productid,ip:ip},function(data)
+                {
+                  if(data)
+                  {
+                	  jQuery("#linkeBtn"+questionid).val(data.unlike);
+                	  jQuery("#count"+questionid).text(data.count);
+                  }
+              })
+     }
+     jQuery('#linkeBtn'+questionid).prop('disabled', false);
+       });
+            function clearContents(element) {
+              element.value = '';
+   }
+            function SubmitRequest()
+   {
+             var name=document.getElementById('name').value;
+                var email=document.getElementById('email').value;
+                var question=document.getElementById('question').value;
+                var productid=document.getElementById('productid').value;
+     if(validate_form()){
+     
+      var url="<?php echo $this->getUrl('productfaq/index/save') ?>";
+   jQuery.ajax({
+       type : "POST",                 
+       cache : false,
+       url: url,
+       data: {product: productid, email: email, question: question},
+       success:function(data){
+           //alert(data);
+        jQuery.fancybox(data);
+        jQuery('.button_like').prop('disabled', false);
+       }
+   });
+   }
+   }
+   function validate_form()
+   {
+    var name=document.getElementById('name');
+       var email=document.getElementById('email');
+       var question=document.getElementById('question');
+       if(name.value=='undefined' || name.value==null || name.value=="")
+           {
+            alert('Name is a required field');
+            return false;
+           }
+       if(email.value=='undefined' || email.value==null || email.value=="")
+           {
+               alert('Email is a required field');
+               return false;
+           }
+       var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;  
+       if(email.value.match(mailformat))  
+           {  
+               return true;
+           } 
+       if(question.value=='undefined' || question.value==null || question.value=="")
+       {
+           alert('Question is a required field');
+           return false;
+       } 
+       else
+           {
+               alert('Invalid Email Format');
+               return false;
+           }
+       return true;
+      }
+</script>
+
+

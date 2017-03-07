@@ -1,0 +1,101 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<?php  
+    $_productCollection=$this->getLoadedProductCollection();
+    $_helper = $this->helper('catalog/output');  
+?>
+<?php if(Mage::helper('csmarketplace/acl')->isEnabled()) { ?>
+	<?php if(!$_productCollection->count()): ?>
+	<p class="note-msg"><?php echo $this->__('There are no products from this Vendor') ?></p>
+	<?php else: ?>
+			<?php 
+						// Vendor Logo
+						$width = (int)Mage::getStoreConfig('ced_vshops/general/grid_image_width',Mage::app()->getStore()->getId());
+						$height = (int)Mage::getStoreConfig('ced_vshops/general/grid_image_height',Mage::app()->getStore()->getId());
+						$width = $width?$width:135;
+						$height = $height?$height:135;
+		?>
+		<?php $_collectionSize = $_productCollection->count() ?>
+		<?php $_columnCount = $this->getColumnCount(); ?>
+		<div class="slider-container">
+		<div class="strike-through"><h5><?php echo Mage::getStoreConfig('milanoconfig/homeoptions/new_products_title'); ?></h5></div>
+   		 <div class="product-slider" id="newproducts">
+        <div class="carousel">
+         <div class="slider">
+         <?php $i=0; foreach ($_productCollection as $_product): $i++;
+          ?>
+				<div class="slide <?php if(($i == 4 && $_productCollection->getSize() < 5)) echo 'last'?>" >
+					<a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($width,$height); ?>"  alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+					<h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
+					<?php if($_product->getRatingSummary()): ?>
+					<?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+					<?php endif; ?>
+					<?php echo $this->getPriceHtml($_product, true) ?>
+					<!-- <div class="actions">
+						<?php if($_product->isSaleable()): ?>
+							<button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+						<?php else: ?>
+							<p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+						<?php endif; ?>
+						<ul class="add-to-links">
+							<?php if ($this->helper('wishlist')->isAllow()) : ?>
+								<li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
+							<?php endif; ?>
+							<?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
+								<li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a></li>
+							<?php endif; ?>
+						</ul>
+					</div> -->
+				</div>
+			<?php endforeach ?>
+		</div>
+        </div>
+        <?php if($_productCollection->count() > 4): ?>
+            <div class="prev new-arrow">&nbsp;</div>
+            <div class="next new-arrow">&nbsp;</div>
+        <?php endif; ?>
+    </div>
+    <div style="clear: both;"></div>
+	</div>
+	<?php endif; ?>
+	<?php }?>
+ <?php if($_productCollection->count() > 4): ?>
+	<script type="text/javascript">
+            jQuery('.new-arrow.prev').addClass('disabled');
+            jQuery('#newproducts > .carousel').iosSlider({
+                desktopClickDrag: true,
+                snapToChildren: true,
+                infiniteSlider: false,
+                navNextSelector: '.new-arrow.next',
+                navPrevSelector: '.new-arrow.prev',
+                lastSlideOffset: 1,
+                onFirstSlideComplete: function(){
+                    jQuery('.new-arrow.prev').addClass('disabled');
+                },
+                onLastSlideComplete: function(){
+                    jQuery('.new-arrow.next').addClass('disabled');
+                },
+                onSlideChange: function(){
+                    jQuery('.new-arrow.prev').removeClass('disabled');
+                    jQuery('.new-arrow.next').removeClass('disabled');
+                }
+            });
+  </script>
+<?php endif; ?>
