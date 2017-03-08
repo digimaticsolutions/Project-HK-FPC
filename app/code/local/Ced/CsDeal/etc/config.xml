@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ced_CsDeal>
+            <version>0.1.0</version>
+	    <release_version>0.1.1</release_version>
+            <author>CedCommerce Core Team (coreteam@cedcommerce.com)</author>
+        </Ced_CsDeal>
+    </modules>
+    <frontend>
+        <routers>
+            <csdeal>
+                <use>standard</use>
+                <args>
+                    <module>Ced_CsDeal</module>
+                    <frontName>csdeal</frontName>
+                </args>
+            </csdeal>
+        </routers>
+        <layout>
+            <updates>
+                <csdeal>
+                    <file>ced/csdeal/csdeal.xml</file>
+                </csdeal>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<csdeal after="Mage_Adminhtml">Ced_CsDeal</csdeal>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <csdeal>
+                    <file>ced/csdeal.xml</file>
+                </csdeal>
+            </updates>
+        </layout>
+   </adminhtml>
+    <global>
+        <blocks>
+            <csdeal>
+                <class>Ced_CsDeal_Block</class>
+            </csdeal>
+        </blocks>
+        <helpers>
+            <csdeal>
+                <class>Ced_CsDeal_Helper</class>
+            </csdeal>
+        </helpers>
+        <models>
+            <csdeal>
+                <class>Ced_CsDeal_Model</class>
+                <resourceModel>csdeal_mysql4</resourceModel>
+            </csdeal>
+            <csdeal_mysql4>
+                <class>Ced_CsDeal_Model_Mysql4</class>
+                    <entities>        
+                        <deal>
+                            <table>ced_csdeal_deal</table>
+                        </deal>
+                        <dealsetting>
+                            <table>ced_csdeal_dealsetting</table>
+                        </dealsetting>
+                    </entities>
+            </csdeal_mysql4>
+        </models>
+        <resources>
+            <csdeal_setup>
+                <setup>
+                     <module>Ced_CsDeal</module>
+                </setup>
+                <connection>
+                  <use>core_setup</use>
+                </connection>
+             </csdeal_setup>
+        </resources>
+    </global>
+    <default>
+        <ced_csmembership>
+            <general>
+                <enable_deal>1</enable_deal>
+            </general>
+        </ced_csmembership>
+    </default>
+    
+    <frontend>
+        <events>
+            <core_block_abstract_to_html_before>
+                <observers>
+                    <csdeal>
+                        <type>model</type>
+                        <class>csdeal/observer</class>
+                        <method>insertDealBlock</method>
+                    </csdeal>
+                </observers>
+            </core_block_abstract_to_html_before>
+            <ced_csdeal_delete_predispatch_action>
+                <observers>
+                    <csdeal_delete>
+                        <type>model</type>
+                        <class>csdeal/observer</class>
+                        <method>deleteDealProduct</method><!-- Done -->
+                    </csdeal_delete>
+                </observers>
+            </ced_csdeal_delete_predispatch_action>
+            <catalog_controller_product_delete>
+                <observers>
+                    <csdeal_pro_delete>
+                        <type>model</type>
+                        <class>csdeal/observer</class>
+                        <method>deleteProduct</method><!-- Done --> 
+                    </csdeal_pro_delete>
+                </observers>
+            </catalog_controller_product_delete>
+            <ced_csdeal_create_predispatch_action>
+                <observers>
+                    <csdeal_delete>
+                        <type>model</type>
+                        <class>csdeal/observer</class>
+                        <method>updateDealProduct</method><!-- Done -->
+                    </csdeal_delete>
+                </observers>
+            </ced_csdeal_create_predispatch_action>
+            <catalog_product_save_after>
+                <observers>
+                    <csdeal_update>
+                    <type>singleton</type>
+                        <class>csdeal/observer</class>
+                        <method>productSaveAfter</method><!-- Done -->
+                    </csdeal_update>
+                </observers>
+            </catalog_product_save_after>
+        </events>
+    </frontend>
+	<vendor>
+        <acl>
+            <resources>
+                <vendor>
+                    <children>
+                        <csmarketplace>
+                            <children>
+                                <csdeal module="csdeal" translate="title">
+                                    <title>Vendor Deals</title>
+                                    <sort_order>18</sort_order>
+                                    <resource_name>csdeal/deal/</resource_name>
+                                    <children>
+                                        <create module="csdeal" translate="title">
+                                            <title>Create Deals</title>
+                                            <sort_order>0</sort_order>
+                                            <resource_name>csdeal/deal/create</resource_name>
+                                        </create>
+                                        <list module="csdeal" translate="title">
+                                            <title>List Deals</title>
+                                            <sort_order>1</sort_order>
+                                            <resource_name>csdeal/deal/list</resource_name>
+                                        </list>
+                                        <setting module="csdeal" translate="title">
+                                            <title>Deal Setting</title>
+                                            <sort_order>2</sort_order>
+                                            <resource_name>csdeal/setting/index</resource_name>
+                                        </setting>
+                                    </children>
+                                </csdeal>
+                            </children>
+                        </csmarketplace>
+                    </children>
+                </vendor>
+            </resources>
+        </acl>
+    </vendor>
+    <crontab>
+        <jobs>
+            <deal_expire_check_cronjob>
+                <schedule>
+                    <cron_expr>0 1 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>csdeal/observer::setExpireMethod</model>
+                </run>
+            </deal_expire_check_cronjob>
+        </jobs>
+    </crontab>
+</config>

@@ -1,0 +1,161 @@
+<?php 
+ /**
+  * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsDeal
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+
+ 
+?>
+<?php $data=$this->getDealInfo();
+?>
+	<div class="row">
+		    <div id="deal-wrapper" class="deal-wrapper" >
+			  <div class="fieldset">
+				<ul class="form-list">
+					<li class="fields">
+						<label class="required" for="date_from"><?php echo $this->__('Product Id'); ?></label><em>*</em>
+		                <div class="clear:both"></div>
+						<div class="input-box">
+		                <input type="text" style="width: 120px;" class="input-text required-entry" readonly="true" value="<?php echo $this->getProductId(); ?>" id="product_id" name="product_id"/>
+		                </div>
+		                <input type="hidden" value="<?php echo $this->_getSession()->getVendorId(); ?>" id="vendor_id" name="vendor_id"/>
+					</li>
+					<li class="fields">
+						<label class="required" for="deal_product_name"><?php echo $this->__('Product Name'); ?></label><em>*</em>
+		                <div class="clear:both"></div>
+						<div class="input-box">
+		              
+		                <input type="text" style="width: 120px;" class="input-text required-entry" readonly="readonly" value="<?php echo $this->getProductName(); ?>" id="deal_product_name" name="deal_product_name"/>
+		               
+		                </div>
+					</li>
+					
+					<li class="fields">
+						<label class="required" for="enable_status"><?php echo $this->__('Deal Status'); ?></label><em>*</em>
+						 <div class="clear:both"></div>
+						<div class="input-box">
+							<select id="enable_status" class="validate-select required-entry" name="status">
+							<?php
+							$status=Mage::getModel('csdeal/status')->getOptionArray();
+							foreach ($status as $key => $value) { 
+								?>
+								<option value="<?php echo $key; ?>" <?php if(trim($key)==trim($data->getStatus())) echo 'selected="selected"'; ?> ><?php echo $value; ?></option>	
+								<?php 
+							}
+							 ?>
+							</select>
+						</div>
+					</li>
+					<li class="fields">
+						<label class="required" for="deal_price"><?php echo $this->__('Deal Price'); ?></label><em>*</em>
+		                <div class="clear:both"></div>
+						<div class="input-box">
+		              
+		                <input type="text" style="width: 120px;" class="input-text required-entry validate-number"  value="<?php echo $data->getDealPrice(); ?>" id="deal_price" name="deal_price"/>
+		               
+		                </div>
+					</li>
+					<li class="fields">
+						<label class="required" for="date_from"><?php echo $this->__('Deal From'); ?></label><em>*</em>
+						 <div class="clear:both"></div>
+						<div class="input-box">
+		                 
+		                <input type="text" style="width: 120px;" class="input-text required-entry" readonly="readonly" value="<?php echo $data->getStartDate(); ?>" id="start_date" name="start_date"/>
+		               
+		                </div>
+		                <img style="" title="Select Date" id="date_select_from"  class="v-middle" alt="" src="<?php echo $this->getSkinUrl("images/calendar.gif");?> "/>
+		                <div class="clear:both"></div>
+					</li>
+					<li class="fields">
+						<label class="required" for="date_to"><?php echo $this->__('Deal To'); ?></label><em>*</em>
+						 <div class="clear:both"></div>
+						<div class="input-box">
+						
+		                <input type="text" style="width: 120px;" class="input-text required-entry" readonly="readonly" value="<?php echo $data->getEndDate(); ?>" id="end_date" name="end_date"/>
+		                
+		    		    </div>
+		    		    <img style="" title="Select Date" id="date_select_to" class="v-middle" alt="" src="<?php echo $this->getSkinUrl("images/calendar.gif");?> "/>
+						<div class="clear:both"></div>
+					</li>
+					<li class="fields">
+						<label class="required"><?php echo $this->__('Day(s)'); ?></label><em>*</em>
+						 <div class="clear:both"></div>
+						<div class="input-box required-entry">
+							<select id="days" class="validate-select" name="days" onchange="showField(this.value);" >
+								<option value="1"  <?php if(trim($data->getDays())=='1') echo 'selected="selected"'; ?> ><?php echo $this->__('All Day(s)'); ?></option>
+								<option value="0" <?php if(trim($data->getDays())=='0') echo 'selected="selected"'; ?> ><?php echo $this->__('Specific Day(s)'); ?></option>
+							</select>			
+						</div>
+						<?php 
+							$days=$data->getSpecificdays();
+							$days_array=explode(',',$days);
+							?>
+						<div id="specific-days" <?php if(trim($data->getDays())=='0') echo 'style="display:block"'; ?> style="display:none" class="input-box required-entry">
+							<select id="specificdays" class="validate-select  select multiselect" name="specificdays[]" multiple="multiple" >
+								<option value="sun"  <?php if(in_array('sun',$days_array)) echo 'selected="selected"'; ?> ><?php echo $this->__('Sunday'); ?></option>
+								<option value="mon" <?php if(in_array('mon',$days_array)) echo 'selected="selected"'; ?> ><?php echo $this->__('Monday'); ?></option>
+								<option value="tue" <?php if(in_array('tue',$days_array)) echo 'selected="selected"'; ?> ><?php echo $this->__('Tuesday'); ?></option>
+								<option value="wed" <?php if(in_array('wed',$days_array)) echo 'selected="selected"'; ?> ><?php echo $this->__('Wednessday'); ?></option>
+								<option value="thu" <?php if(in_array('thu',$days_array)) echo 'selected="selected"'; ?> ><?php echo $this->__('Thursday'); ?></option>
+								<option value="fri" <?php if(in_array('fri',$days_array)) echo 'selected="selected"'; ?> ><?php echo $this->__('Friday'); ?></option>
+								<option value="sat" <?php if(in_array('sat',$days_array)) echo 'selected="selected"'; ?> ><?php echo $this->__('Saturday'); ?></option>
+							</select>			
+						</div>
+					</li>
+				</ul>
+			<button class="btn btn-primary button" style="margin-left: 4% ! important; width: 150px;"  ><span><?php echo $this->__('Save Deal') ?></span></button>
+		</div>
+	</div>
+	
+<script type="text/javascript">
+document.getElementById('specificdays').disabled = true;
+function showField(data){
+	if(data==0){
+	document.getElementById('specific-days').style.display="block";
+	document.getElementById('specificdays').disabled = false;
+	
+	}else{
+		document.getElementById('specific-days').style.display="none";
+		document.getElementById('specificdays').disabled = true;
+
+	}
+}
+var deal_form = new VarienForm('deal_form','<?php echo $this->getValidationUrl() ?>');
+  Calendar.setup({
+      inputField: "start_date",
+      ifFormat: "%Y-%m-%e %H:%M:%S",
+      showsTime: true,
+      button: "date_select_from",
+      align: "Bl",
+      singleClick : true
+  });
+  Calendar.setup({
+      inputField: "end_date",
+      ifFormat: "%Y-%m-%e %H:%M:%S",
+      showsTime: true,
+      button: "date_select_to",
+      align: "Bl",
+      singleClick : true
+  });
+</script>
+<?php
+	if(trim($data->getDays())=='0'){
+	?>
+	<script>
+	    document.getElementById('specificdays').disabled = false;
+	</script>
+<?php 
+	}	
+?>

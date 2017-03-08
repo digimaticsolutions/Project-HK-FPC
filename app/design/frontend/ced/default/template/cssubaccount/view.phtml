@@ -1,0 +1,103 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+
+	<div id="messages">
+		<?php echo $this->getMessagesBlock()->getGroupedHtml(); ?>
+	</div>
+
+		<div class="row">
+			<div class="col-md-12" style="margin-top: 10px;">
+				<div class="panel panel-default">
+					<div class="content-header panel-heading col-md-12 uptransform">
+						<div style="font-size:17px;line-height:31px; margin-top:6px;" class="col-md-6 panel_product_heading">
+							<?php echo $this->getHeader() ?>
+						</div>
+						<div style="text-align:right;" class="buttons-set col-md-6 buttons_scb">		
+							<?php echo $this->getChildHtml('back_button'); ?>
+							<?php echo $this->getChildHtml('send_button'); ?>
+						</div>
+					</div>
+					<div class="ced-subvendor-request">
+						<form id="subvendor-request" method="post" action="<?php echo $this->getUrl('cssubaccount/customer/send')?>">
+							<div id="ced-customer-email">
+								<label class="label"><label>Customer Email</label></label>
+								<label class="label"><label>Type Message Here</label></label>
+								<div id="user" class="input-box">
+        						<input id="email" name="email[0]" value="" class="input-text validate-email required-entry" type="text">  
+        						<input id="msg" name="msg[0]" value="" class="input-text" type="text">
+								
+								        	
+        						</div>
+							</div>
+							<span id="add">+ ADD ANOTHER EMAIL</span>
+							
+							
+							
+						</form>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<script type="text/javascript">
+		
+		var myForm= new VarienForm('subvendor-request',true);
+	
+	function removeDiv(id) {
+		jced("#user" + id).remove();
+	} 
+	var guest_count = 5;
+	jced(document).ready(function(){
+		var counter = 1;
+		jced("#add").click(function () { 
+			var x = document.getElementsByClassName("input-box").length;
+			
+			if(guest_count > x){ 
+				var newTextBoxDiv = jced(document.createElement('div')).attr("id", 'user' + counter).attr("class","input-box");
+			
+			newTextBoxDiv.html('<br>'+ '<input id="email" value="" class="input-text" type="text" name="email['+ counter+']"/>'+
+					'<input id="msg" value="" class="input-text" type="text" name="msg['+ counter+']"/>'+
+			'<a onclick="removeDiv(' + counter+')"><img src="<?php echo $this->getSkinUrl('images/ced/subvendor').'/del_icon.png';?>"></a>'+'<br>');
+				
+			newTextBoxDiv.appendTo("#ced-customer-email");
+			counter++;
+			}
+			else{
+				jced("#add").remove();
+				
+			}
+			
+		 });
+		 
+	});
+
+	jced('.send').click(function(e) {
+		 if(myForm.validator.validate())
+		    {
+			    
+			 	e.preventDefault();
+		        jced("#subvendor-request").submit();
+		    }
+				
+		
+        
+    });
+</script>

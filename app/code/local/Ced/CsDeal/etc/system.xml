@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    Ced
+ * @package     Ced_CsMembership
+ * @author      CedCommerce Magento Core Team <Ced_MagentoCoreTeam@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>   
+    <sections>
+        <ced_csmarketplace translate="label" module="csdeal">
+            <sort_order>100</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <show_in_website>1</show_in_website>
+                    <show_in_default>1</show_in_default>
+                    <sort_order>2</sort_order>
+                    <fields>
+                        <enable_deal translate="label">
+                            <label>Enable Vendor Deal</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_website>1</show_in_website>
+                            <show_in_default>1</show_in_default>
+                            <config_path>ced_csmarketplace/csdeal/enable</config_path>
+                            <comment><![CDATA[]]></comment>
+                        </enable_deal>
+                    </fields>    
+                </general>  
+                <csdeal translate="label">
+                    <label>Vender Deals Setting</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <show_in_vendor>1</show_in_vendor>
+                    <fields>
+                        <csdeal_show translate="label">
+                            <label>Show Deals On:</label>
+                           <frontend_type>select</frontend_type>
+                            <source_model>csdeal/list</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[]]></comment>
+                            <show_in_vendor>1</show_in_vendor>
+                        </csdeal_show>
+                        <csdeal_timer translate="label">
+                            <label>Show Timer On</label>
+                             <frontend_type>select</frontend_type>
+                            <source_model>csdeal/list</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[]]></comment>
+                            <show_in_vendor>1</show_in_vendor>
+                        </csdeal_timer>
+                        <csdeal_approval translate="label">
+                            <label>Need Approval</label>
+                             <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[]]></comment>
+                            <show_in_vendor>1</show_in_vendor>
+                        </csdeal_approval>
+                         <csdeal_default_text translate="label">
+                            <label>Default Deal Text</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[]]></comment>
+                            <show_in_vendor>1</show_in_vendor>
+                        </csdeal_default_text>						
+                    </fields>
+                </csdeal>
+            </groups>
+        </ced_csmarketplace>
+    </sections>
+</config>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsSubAccount
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+<config>
+	<modules>
+		<Ced_CsSubAccount>
+			<version>0.0.1</version>
+			<release_version>0.0.1</release_version>
+			<parent_product_name>Ced_CsSubAccount</parent_product_name>
+			<author>CedCommerce Core Team (connect@cedcommerce.com)</author>
+		</Ced_CsSubAccount>
+	</modules>
+	<frontend>
+		<routers>
+			<csmarketplace>
+				<args>
+					<modules>
+						<Ced_CsSubAccount before="Ced_CsMarketplace">Ced_CsSubAccount</Ced_CsSubAccount>
+					</modules>
+				</args>
+			</csmarketplace>
+            <cssubaccount>
+                <use>standard</use>
+                <args>
+                    <module>Ced_CsSubAccount</module>
+                    <frontName>cssubaccount</frontName>
+                </args>
+            </cssubaccount>
+        </routers>
+		<layout>
+            <updates>
+                <cssubaccount>
+                    <file>ced/cssubaccount/cssubaccount.xml</file>
+                </cssubaccount>
+            </updates>
+        </layout>
+	</frontend>
+
+	<global>
+		<blocks>
+       		<cssubaccount>
+          		<class>Ced_CsSubAccount_Block</class>
+       		</cssubaccount>
+		</blocks> 
+		<helpers>
+			<cssubaccount>
+				<class>Ced_CsSubAccount_Helper</class>
+			</cssubaccount>
+		</helpers>
+		<models>
+			<cssubaccount>
+				<class>Ced_CsSubAccount_Model</class>
+				<resourceModel>cssubaccount_resource</resourceModel>
+			</cssubaccount>
+            <cssubaccount_resource>
+                <class>Ced_CsSubAccount_Model_Resource</class>
+                <entities>
+                    <cssubaccount>
+                        <table>ced_subvendor</table>
+                    </cssubaccount>
+                    <accountstatus>
+                        <table>ced_subaccount_status</table>
+                    </accountstatus>
+                </entities>
+            </cssubaccount_resource>
+		</models>
+		<resources>
+			<cssubaccount_setup>
+				<setup>
+					<module>Ced_CsSubAccount</module>
+				</setup>
+			</cssubaccount_setup>
+		</resources>
+		<template>
+            <email>
+                <ced_cssubaccount_request_template translate="label" module="cssubaccount">
+                    <label>Request For Vendor - Sub Account Creation</label>
+                    <file>ced_csmarketplace/new_vendorsubaccount.html</file>
+                    <type>html</type>
+                </ced_cssubaccount_request_template>
+            </email>
+        </template>
+        <events>
+        	<ced_csmarketplace_vendor_acl_check>
+                <observers>
+                    <subvendor_acl_check>
+                        <type>model</type>
+                        <class>cssubaccount/observer</class>
+                        <method>subVendorAclCheck</method>
+                    </subvendor_acl_check>
+                </observers>
+            </ced_csmarketplace_vendor_acl_check>
+            <ced_csmarketplace_vendor_navigation_links_prepare>
+                <observers>
+                    <subvendor_navigation_links_prepare>
+                        <type>model</type>
+                        <class>cssubaccount/observer</class>
+                        <method>subVendorNavigationLinksPrepare</method>
+                    </subvendor_navigation_links_prepare>
+                </observers>
+            </ced_csmarketplace_vendor_navigation_links_prepare>
+        </events>
+	</global>
+	<vendor>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all> 
+				<vendor>
+					<title>Vendor Panel</title>
+					<sort_order>1</sort_order>
+					<children>
+						<csmarketplace module="csmarketplace" translate="title">
+							<title>Vendor Panel</title>
+							<sort_order>10</sort_order>
+							<children>
+								 <cssubaccount module="cssubaccount" translate="title">                                      
+                                       <title>Associated Sub-Vendors</title>
+                                       <sort_order>1</sort_order>
+                                       <resource_name>cssubaccount/customer/list</resource_name>                                 
+                                </cssubaccount>
+								<vendor module="cssubaccount" translate="title">
+									<title>Dashboard and Profile</title>
+									<sort_order>10</sort_order>
+									<children>
+										<!-- <index module="csmarketplace" translate="title">
+											<title>Dashboard</title>
+											<sort_order>10</sort_order>
+										</index> -->
+										<profileview module="csmarketplace" translate="title">
+											<title>Vendor Profile View</title>
+											<sort_order>20</sort_order>
+										</profileview>
+										<profile module="csmarketplace" translate="title">
+											<title>Edit Profile Information</title>
+											<sort_order>30</sort_order>
+										</profile>
+									</children>
+								</vendor>
+								<vproducts module="cssubaccount" translate="title">
+									<title>Vendor Products</title>
+									<sort_order>20</sort_order>
+									<children>
+										<new module="csmarketplace" translate="title">
+											<title>New Product</title>
+											<sort_order>10</sort_order>
+										</new>
+										<index module="csmarketplace" translate="title">
+											<title>Manage Products</title>
+											<sort_order>20</sort_order>
+										</index>
+									</children>
+								</vproducts>
+								<vorders module="csmarketplace" translate="title">
+									<title>Orders</title>
+									<sort_order>30</sort_order>
+								</vorders>
+								<vpayments module="csmarketplace" translate="title">
+									<title>Transactions</title>
+									<sort_order>40</sort_order>
+									<children>
+									    <requested module="csmarketplace" translate="title">											
+											<title>Request Payments</title>										
+											<sort_order>10</sort_order>										
+										</requested>
+										<index module="csmarketplace" translate="title">
+											<title>View Transactions</title>
+											<sort_order>20</sort_order>
+										</index>
+									</children>
+								</vpayments>
+								<vreports module="csmarketplace" translate="title">
+									<title>Reports</title>
+									<sort_order>50</sort_order>
+									<children>
+										<vorders module="csmarketplace" translate="title">
+											<title>Orders Report</title>
+											<sort_order>10</sort_order>
+										</vorders>
+										<vproducts module="csmarketplace" translate="title">
+											<title>Products Report</title>
+											<sort_order>20</sort_order>
+										</vproducts>
+									</children>
+								</vreports>
+								<vsettings module="csmarketplace" translate="title">
+									<title>Settings</title>
+									<sort_order>60</sort_order>
+									<children>
+										<index module="csmarketplace" translate="title">
+											<title>Transaction Settings</title>
+											<sort_order>10</sort_order>
+										</index>
+									</children>
+								</vsettings>
+							</children>
+						</csmarketplace>
+					</children>
+				</vendor>
+			</resources>
+		</acl>
+	</vendor>
+  	<default>
+        <ced_csmarketplace>
+        	<general>
+        		<cssubaccount>1</cssubaccount>    		
+        	</general>
+        </ced_csmarketplace>
+    </default>
+	
+</config>

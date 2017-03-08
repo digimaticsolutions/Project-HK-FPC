@@ -1,0 +1,166 @@
+<?php 
+
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsGroup
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+?>
+
+<?php
+/**
+ * @see Ced_CsGroup_Block_Adminhtml_Vendor_Group_Edit_Tab_Resources
+ */
+?>
+<div id="messages">
+		<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+	</div>
+
+		<div class="row">
+			<div class="col-md-12" style="margin-top: 10px;">
+				<div class="panel panel-default">
+					<div class="content-header panel-heading col-md-12 uptransform">
+						<div style="font-size:17px;line-height:31px; margin-top:6px;" class="col-md-6 panel_product_heading">
+							<?php echo $this->getHeader() ?>
+						</div>
+						<div style="text-align:right;" class="buttons-set col-md-6 buttons_scb">		
+							<?php echo $this->getChildHtml('back_button'); ?>
+							<?php echo $this->getChildHtml('send_button'); ?>
+						</div>
+					</div>
+					<div class="ced-subvendor-request">
+						<form action="<?php echo $this->getUrl('cssubaccount/customer/saveResource');?>" method="post" id="subvendor_resource" role="form">
+						    <input type="hidden" name="resource" id="group_resources" value="" />
+						    <input type="hidden" name="subVendorId" id="subVendorId" value="<?php echo $this->getRequest()->getParam('id');?>" />
+						    <fieldset id="group_resources">
+						
+						        <span class="field-row">
+						            <label for="all"><?php echo $this->__('Resource Access') ?></label>
+						            <select id="all" name="all" onchange="$('resources_container').toggle()" class="select">
+						                <option value="0" <?php echo ($this->getEverythingAllowed()?'':'selected'); ?>><?php echo $this->__('Custom') ?></option>
+						                <option value="1" <?php echo ($this->getEverythingAllowed()?'selected':''); ?>><?php echo $this->__('All') ?></option>
+						            </select>
+						        </span>
+						
+						        <span class="field-row" id="resources_container">
+						            <label><?php echo $this->__('Resources') ?></label>
+						            <div class="f-left">
+						                <div class="tree x-tree" id="resource-tree"></div>
+						            </div>
+						        </span>
+						
+						    </fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+<!-- Draw Resources Tree -->
+<script type="text/javascript">
+
+jced('.save').click(function(e) {
+	jced("#subvendor_resource").submit();
+});
+
+<?php if($this->getEverythingAllowed()): ?>
+    $('resources_container').hide();
+<?php endif; ?>
+Ext.EventManager.onDocumentReady(function() {
+    var tree = new Ext.tree.TreePanel('resource-tree', {
+        animate:false,
+        loader: false,
+        enableDD:false,
+        containerScroll: true,
+        rootUIProvider: Ext.tree.CheckboxNodeUI,
+        selModel: new Ext.tree.CheckNodeMultiSelectionModel(),
+        rootVisible: false
+    });
+
+    tree.on('check', checkHandler, tree);
+
+    // set the root node
+    var root = new Ext.tree.TreeNode({
+        text: 'root',
+        draggable:false,
+        checked:'false',
+        id:'__root__',
+        uiProvider: Ext.tree.CheckboxNodeUI
+    });
+
+    tree.setRootNode(root);
+    bildResourcesTree(root, <?php echo $this->getResTreeJson() ?>);
+    tree.addListener('click', resourceClick.createDelegate(this));
+
+    // render the tree
+    tree.render();
+    // root.expand();
+    tree.expandAll();
+
+    $('group_resources').value = tree.getChecked().join(',');
+});
+
+function resourceClick(node, e){
+    node.getUI().check(!node.getUI().checked());
+    varienElementMethods.setHasChanges(Event.element(e), e);
+};
+
+function bildResourcesTree(parent, config){
+    if (!config) return null;
+
+    if (parent && config && config.length){
+        for (var i = 0; i < config.length; i++){
+            config[i].uiProvider = Ext.tree.CheckboxNodeUI;
+            var node = new Ext.tree.TreeNode(config[i]);
+            parent.appendChild(node);
+            if(config[i].children){
+                bildResourcesTree(node, config[i].children);
+            }
+        }
+    }
+}
+
+function checkHandler(node)
+{
+    if ( node.attributes.checked && node.parentNode ) {
+        var n = node.parentNode;
+        this.removeListener('check', checkHandler);
+        do {
+            if (!n || n.attributes.id == 'admin' || n.attributes.id == '__root__') {
+                break;
+            } else {
+                n.ui.check(true);
+            }
+        } while (n = n.parentNode );
+        this.on('check', checkHandler);
+    }
+    if ( !node.isLeaf() && node.hasChildNodes() ) {
+        this.removeListener('check', checkHandler);
+        processChildren(node, node.attributes.checked);
+        this.on('check', checkHandler);
+    }
+    $('group_resources').value = this.getChecked().join(',');
+}
+
+function processChildren(node, state)
+{
+    if ( !node.hasChildNodes() ) return false;
+    for(var i = 0; i < node.childNodes.length; i++ ) {
+        node.childNodes[i].ui.check(state);
+        if ( node.childNodes[i].hasChildNodes() ) {
+            processChildren(node.childNodes[i], state);
+        }
+    }
+    return true;
+}
+</script>

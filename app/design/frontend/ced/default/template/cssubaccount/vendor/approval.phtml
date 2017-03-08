@@ -1,0 +1,43 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     ced_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<div class="col-md-8 col-md-offset-2">
+	<div class="panel panel-default" style="margin-top:70px;">
+		<div class="panel-heading" style="text-align: center;font-weight:bold;">
+			<h3 style="font-size:20px;" class="panel-title"><?php echo Mage::helper('cssubaccount')->__('Send Approval Request') ?></h3>
+		</div>
+		<div class="panel-body">
+			<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>	
+			<p class="hello"><strong><?php echo Mage::helper('cssubaccount')->__('Hello, %s!', $this->escapeHtml($this->getSubVendor()->getFirstName())) ?></strong></p>
+			<p><?php echo $this->getApprovalMessage(); ?></p>
+			<form id="form-validate" class="scaffold-form" enctype="multipart/form-data" method="post" action="">
+				<div class="buttons-set">
+					
+					<div style="float:right" >
+					    
+					    <button type="button" title="<?php echo $this->__('Go to Main Website') ?>" class="btn btn-primary" onclick="setLocation('<?php echo Mage::getBaseUrl();?>')"><?php echo $this->__('Go to Main Website') ?></button>
+			    	</div>
+			    	<div class="clear:both"></div>
+ 		  			
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

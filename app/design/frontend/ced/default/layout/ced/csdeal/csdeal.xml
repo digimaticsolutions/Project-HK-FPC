@@ -1,0 +1,161 @@
+<?xml version="1.0"?> 
+<!--
+ /**
+ /**
+  * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsDeal
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+
+-->
+<layout>
+    <csmarketplace_vendor>
+        <reference name="csmarketplace_vendor_navigation">
+        <action method="addLink" translate="label" module="csdeal">
+			<name>csdeal</name>
+			<path>csdeal/deal/list</path>
+			<label>Vendor Deals</label>
+			<font_awesome>fa fa-gift fa-fw</font_awesome>
+			<sort_order>77</sort_order>
+			<childern>
+				  <create>
+					<name>list</name>
+					<path>csdeal/deal/create</path>
+					<label>Create Deals </label>
+					<font_awesome>fa fa-gift fa-fw</font_awesome>
+					<sort_order>1</sort_order>
+				</create>
+				<list>
+					<name>history</name>
+					<path>csdeal/deal/list</path>
+					<label>List Deals </label>
+					<font_awesome>fa fa-gift fa-fw</font_awesome>
+					<sort_order>2</sort_order>
+				</list>
+				 <setting>
+					<name>setting</name>
+					<path>csdeal/setting/index</path>
+					<label>Deal Setting </label>
+					<font_awesome>fa fa-gift fa-fw</font_awesome>
+					<sort_order>3</sort_order>
+				</setting>
+			</childern>
+        </action>
+        </reference>
+    </csmarketplace_vendor>
+<csdeal_deal_create>
+ 	   <update handle="csmarketplace_vendor"/>
+        <reference name="vendor.dashboard.wrapper">		
+         	<block type="csdeal/product" name="csdeal_vendor_vproducts"  as="product.list" >
+             	<block type="csdeal/store_switcher" name="store_switcher" as="store_switcher">
+                <action method="setUseConfirm"><params>0</params></action>
+            </block>
+            </block>
+        </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>js_css</type>
+                <name>prototype/windows/themes/default.css</name>
+            </action>
+            <action method="addJs"><script>mage/adminhtml/grid.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/form.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/browser.js</script></action>
+             <action method="addJs"><script>prototype/window.js</script></action>
+            <action method="addCss"><name>css/ced/csmarketplace/boxes.css</name></action>
+             <action method="addJs"><script>mage/adminhtml/events.js</script></action>
+             <action method="addJs"><script>mage/adminhtml/hash.js</script></action>
+
+            <action method="addCss">
+                <name>lib/prototype/windows/themes/magento.css</name>
+            </action>     
+        </reference>            
+</csdeal_deal_create>
+<csdeal_deal_list>
+        <update handle="csmarketplace_vendor"/>
+        <reference name="vendor.dashboard.wrapper">     
+            <block type="csdeal/deal" name="csdeal_vendor_vdeals"  as="deal.list" >
+            </block>
+        </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>js_css</type>
+                <name>prototype/windows/themes/default.css</name>
+            </action>
+            <action method="addCss">
+                <name>lib/prototype/windows/themes/magento.css</name>
+            </action> 
+             <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>      
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>       
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+            <action method="addJs"><script>mage/adminhtml/grid.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/form.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/browser.js</script></action>
+             <action method="addJs"><script>prototype/window.js</script></action>
+            <action method="addCss"><name>css/ced/csmarketplace/boxes.css</name></action>  
+             <action method="addJs"><script>mage/adminhtml/events.js</script></action>
+             <action method="addJs"><script>mage/adminhtml/hash.js</script></action>
+        </reference>            
+</csdeal_deal_list>
+<csdeal_deal_edit>
+    <update handle="csmarketplace_vendor"/>
+    <reference name="vendor.dashboard.wrapper">
+                <block type="csdeal/edit" name="csdeal_vendor_edit" template="csdeal/edit.phtml">
+                 <block type="csdeal/edit_tabs" name="deal_tabs" as="deal_tabs" template="csdeal/edit/tabs.phtml">
+                </block>
+            </block>
+        </reference>
+        <reference name="head">
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>      
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>       
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+            <action method="addJs"><script>mage/adminhtml/form.js</script></action>
+            <action method="addJs"><script>ced/csmarketplace/tabs.js</script></action>
+            <action method="addCss"><name>css/ced/csmarketplace/boxes.css</name></action>
+        </reference>
+</csdeal_deal_edit>
+<csdeal_setting_index>
+    <update handle="csmarketplace_vendor"/>
+         <reference name="vendor.dashboard.wrapper">
+                <block type="core/template" name="csdeal_vendor_setting" template="csdeal/setting.phtml" />
+        </reference>
+        <reference name="head">
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>      
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>       
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+            <action method="addJs"><script>mage/adminhtml/form.js</script></action>
+            <action method="addJs"><script>ced/csmarketplace/tabs.js</script></action>
+            <action method="addCss"><name>css/ced/csmarketplace/boxes.css</name></action>
+        </reference>
+</csdeal_setting_index>          
+<csdeal_deal_dealpopup>
+	<update handle="csmarketplace_vendor"/>
+	<reference name="content">
+        <block type="core/html_calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
+		<block type="csdeal/create" template="csdeal/deal.phtml" />
+	</reference>
+    <reference name="head">
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>      
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>       
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+            <action method="addJs"><script>mage/adminhtml/form.js</script></action>
+            <action method="addJs"><script>ced/csmarketplace/tabs.js</script></action>
+            <action method="addCss"><name>css/ced/csmarketplace/boxes.css</name></action>
+    </reference>
+</csdeal_deal_dealpopup>	
+
+</layout>

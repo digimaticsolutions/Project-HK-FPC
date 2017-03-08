@@ -1,0 +1,99 @@
+<layout version="0.1.0">
+	<csmarketplace_vendor>
+		<reference name="csmarketplace_vendor_navigation">
+		<action ifconfig="ced_vproducts/general/activation" method="removeLink"><name>vendor_new_products</name></action>
+		<action ifconfig="ced_vproducts/general/activation" method="removeLink"><name>vendor_products</name></action>
+	        <action method="addLink" translate="label" module="cssubaccount">
+				<name>cssubaccount</name>
+				<path>cssubaccount/customer/list</path>
+				<label>Associated Sub-Vendors</label>
+				<font_awesome>fa fa-gift fa-fw</font_awesome>
+				<sort_order>18</sort_order>		
+        	</action>	           
+	    </reference>
+	</csmarketplace_vendor>	
+	<cssubaccount_customer_list translate="label">
+     	<label>Sub Vendor Details</label>
+        <update handle="csmarketplace_vendor"/>
+       <update handle="csmarketplace_editor"></update>
+        <reference name="vendor.dashboard.wrapper">		
+         	<block type="cssubaccount/customer" name="cssubaccount_list"  as="cssubaccount.list"/>
+        </reference>
+        <reference name="head">
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>      
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>       
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+            <action method="addJs"><script>mage/adminhtml/form.js</script></action>
+            <action method="addJs"><script>ced/csmarketplace/tabs.js</script></action>
+            <action method="addCss"><name>css/ced/csmarketplace/boxes.css</name></action>
+        </reference>
+    </cssubaccount_customer_list>
+    
+    <cssubaccount_customer_grid translate="label">
+		<block type="core/text_list" name="root" output="toHtml">
+            <block type="cssubaccount/grid" name="cssubaccount.grid"/>
+        </block>
+    </cssubaccount_customer_grid>
+    
+    <cssubaccount_customer_request translate="label">
+     	<label>Request To Customers For Sub-Vendor</label>
+        <update handle="csmarketplace_vendor"/>
+       
+        <reference name="vendor.dashboard.wrapper">		
+         	<block type="cssubaccount/request" name="cssubaccount_request"  as="cssubaccount.request" template="cssubaccount/view.phtml">
+            </block>          
+        </reference>     
+    </cssubaccount_customer_request>
+    
+     <cssubaccount_customer_create translate="label">
+        <label>Sub Vendor Account Registration Form</label>
+        <reference name="content">
+            <block type="cssubaccount/form_register" name="customer_form_register" template="cssubaccount/customer/form/register.phtml">
+            </block>
+        </reference>
+  		<update handle="customer_jquery_update_layout"/>
+        <remove name="right"/>
+        <remove name="left"/>
+        <reference name="customer_form_register">
+            <action method="setTemplate"><template>cssubaccount/customer/form/register.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="setTitle" translate="title" module="csmarketplace"><title>Sub Vendor Account Registration Form</title></action>
+        </reference>
+    </cssubaccount_customer_create>
+    
+    <cssubaccount_vendor_approval>
+	  <label>Vendor Account Login Form</label>
+	  <update handle="customer_jquery_update_layout"/>
+	  <remove name="right"/>
+	  <remove name="left"/>
+	  <reference name="root">
+	            <action method="setHeaderTitle" translate="title" module="csmarketplace"><title>Vendor Approval</title></action>
+	  </reference>
+	  <reference name="content">
+		   <block type="cssubaccount/vendor_approval" name="cssub_vendor_approval" as="approval" template="cssubaccount/vendor/approval.phtml">
+		   </block>
+	  </reference>
+ 	</cssubaccount_vendor_approval>
+ 	
+ 	<cssubaccount_customer_view translate="label">
+        <label>Resource Settings</label>
+        <update handle="csmarketplace_vendor"/>
+        <reference name="root">
+            <action method="setTemplate"><template>page/vendorpanel.phtml</template></action>
+        </reference>	
+        <reference name="vendor.dashboard.wrapper">
+           <block type="cssubaccount/resources" name="cssubaccount.resources" template="cssubaccount/customer/resources.phtml"/>
+        </reference>
+        <reference name="head">
+			<!-- <block type="core/template" name="group_vendors_grid_js" template="cssubaccount/customer/group_vendors_grid_js.phtml"/> -->
+			<action method="addItem"><type>js_css</type><name>ced/csmarketplace/cssubaccount/resources/css/ext-all.css</name></action>
+            <action method="addItem"><type>js_css</type><name>ced/csmarketplace/cssubaccount/resources/css/ytheme-magento.css</name></action>
+			<action method="addJs"><script>ced/csmarketplace/cssubaccount/fix-defer-before.js</script></action>
+            <action method="addJs"><script>ced/csmarketplace/cssubaccount/ext-tree.js</script></action>
+            <action method="addJs"><script>ced/csmarketplace/cssubaccount/fix-defer.js</script></action>
+			<action method="addJs"><script>ced/csmarketplace/cssubaccount/ext-tree-checkbox.js</script></action>    
+		</reference>
+    </cssubaccount_customer_view>
+</layout>

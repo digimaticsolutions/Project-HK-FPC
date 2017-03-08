@@ -175,11 +175,15 @@
                         <block_id>header_links</block_id>
                     </action>
                 </block>
-                <block type="cms/block" name="header_menu">
-                    <action method="setBlockId">
-                        <block_id>header_menu</block_id>
-                    </action>
-                </block>
+
+                <block type="csmarketplace/vendor_navigation" name="header_vendor_logo"  template="custom/vendor_logo.phtml"/>
+
+
+                <!--<block type="cms/block" name="header_menu">-->
+                    <!--<action method="setBlockId">-->
+                        <!--<block_id>header_menu</block_id>-->
+                    <!--</action>-->
+                <!--</block>-->
             </block>
 
             <block type="core/text_list" name="left" as="left" translate="label">
@@ -199,17 +203,23 @@
             </block>
 
             <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml">
+
                 <block type="page/html_wrapper" name="bottom.container" as="bottomContainer" translate="label">
                     <label>Page Footer</label>
                     <action method="setElementClass">
                         <value>bottom-container</value>
                     </action>
                 </block>
+
+                <block type="core/template" name="home_callout_footer" template="custom/home_callout_footer.phtml" />
+                <block type="core/template" name="cosmetic_footer_menu" template="custom/cosmetic_footer_menu.phtml" />
+
                 <block type="cms/block" name="cms_footer_links" before="footer_links">
                     <action method="setBlockId">
                         <block_id>footer_links</block_id>
                     </action>
                 </block>
+
                 <block type="page/template_links" name="footer_links" as="footer_links" template="page/template/links.phtml">
                     <action method="addLink" translate="label title" module="ThemeConfig" ifconfig="milanoconfig/qrcode/enabled">
                         <label>QR</label>
@@ -222,6 +232,7 @@
                         <a>id="link-qrcode"</a>
                     </action>
                 </block>
+
                 <block type="cms/block" name="footer_menu">
                     <action method="setBlockId">
                         <block_id>footer_menu</block_id>
@@ -258,6 +269,10 @@
 
         <block type="core/profiler" output="toHtml" name="core_profiler"/>
 
+
+        <remove name="csmarketplace_vshops_view_banner" />
+        <remove name="breadcrumbs" />
+        <remove name="page_content_heading" />
 
     </default>
 
