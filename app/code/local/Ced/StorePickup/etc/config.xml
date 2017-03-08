@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  /**
+* CedCommerce
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Academic Free License (AFL 3.0)
+* You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/afl-3.0.php
+*
+* @category    Ced
+* @package     Ced_StorePickup
+* @author      CedCommerce Core Team <connect@cedcommerce.com >
+* @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/  -->
+<config>
+    <modules>
+        <Ced_StorePickup>
+            <version>0.1.0</version> 
+          <!--   <release_version>0.0.2</release_version> -->
+			<parent_product_name>Store Pickup Shipping</parent_product_name>
+			<author>CedCommerce Core Team (connect@cedcommerce.com)</author>
+        </Ced_StorePickup>
+    </modules>
+   <frontend>
+        <routers>
+            <storepickup>
+                <use>standard</use>
+                <args>
+                    <module>Ced_StorePickup</module>
+                    <frontName>storepickup</frontName>
+                </args>
+            </storepickup>
+        </routers>
+        <layout>
+			<updates>
+				<storepickup>
+					<file>ced/storepickup/storepickup.xml</file>
+				</storepickup>
+			</updates>
+		</layout>
+  </frontend>
+    <admin>
+       <routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<storepickup after="Mage_Adminhtml">Ced_StorePickup</storepickup>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+    </admin>
+	 <adminhtml>	
+        <layout>
+            <updates>
+                <storepickup>
+                     <file>ced/storepickup.xml</file>
+                </storepickup>
+            </updates>
+        </layout> 
+          	<events>
+         <controller_action_layout_load_before>
+				<observers>
+                    <layout_load_before_cedcommerce>
+                        <class>storepickup/observer</class>
+                        <method>beforeLoadingLayout</method>
+                    </layout_load_before_cedcommerce>
+                </observers>
+			</controller_action_layout_load_before> 
+			<controller_action_predispatch>
+                <observers>
+                    <csmarketplace_feed_start>
+                        <class>storepickup/observer</class>
+                        <method>preDispatch</method>
+                    </csmarketplace_feed_start>
+                </observers>
+            </controller_action_predispatch>
+	 </events> 
+	 <menu>
+	  <storepickup>
+		<title>Cedcommerce Store Pickup</title>
+		<sort_order>100</sort_order>
+		<children>
+		  <storepickup_store>
+			<title>Manage Stores</title>
+			<sort_order>0</sort_order>
+			<action>adminhtml/adminhtml_store/index</action>
+		  </storepickup_store>
+		</children>
+	  </storepickup>
+	</menu>
+		<acl>
+        <resources>
+            <all>
+                <title>Allow Every Store</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <storepickup>
+                                        <title>storepickup</title>
+                                    </storepickup>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>   
+ </adminhtml> 
+  <global>
+      <blocks>
+			<storepickup>
+				<class>Ced_StorePickup_Block</class>
+			</storepickup>
+		</blocks>
+    <models>
+      <storepickup>
+        <class>Ced_StorePickup_Model</class>
+        <resourceModel>storepickup_resource</resourceModel>
+      </storepickup>
+         <storepickup_resource>
+                <class>Ced_StorePickup_Model_Resource</class>
+                <entities>
+                    <storepickup>
+                        <table>ced_storepickup</table>
+                    </storepickup>
+                </entities>
+            </storepickup_resource>
+    </models>
+    <helpers>
+      <storepickup>
+        <class>Ced_StorePickup_Helper</class>
+      </storepickup>
+    </helpers>
+    <resources>
+			<ced_storepickup_setup>
+				<setup>
+					<module>Ced_StorePickup</module>
+				</setup>
+			</ced_storepickup_setup>
+		</resources>
+		
+		 <events>
+        <payment_method_is_active>
+            <observers>
+                <paymentfilter_payment_method_is_active>
+                    <type>singleton</type>
+                    <class>storepickup/observer</class>
+                    <method>paymentMethodIsActive</method>
+                </paymentfilter_payment_method_is_active>
+            </observers>
+        </payment_method_is_active>
+    </events>
+  </global>
+  <default>
+    <carriers>
+      <ced_storepickup>
+        <active>1</active>
+     <sallowspecific>1</sallowspecific>
+     <showmethod>1</showmethod>
+        <model>storepickup/carrier_storepickup</model>
+        <name>StorePickup Shipping Method </name>
+       <title>StorePickup Shipping Method</title>
+      </ced_storepickup>
+    </carriers>
+      <system>
+            <csmarketplace>
+                <feed_url>cedcommerce.com/licensing/log/post</feed_url>
+                <popup_url>widgets.magentocommerce.com/notificationPopup</popup_url>
+                <severity_icons_url>widgets.magentocommerce.com/%s/%s.gif</severity_icons_url>
+                <frequency>72</frequency>
+                <last_update>0</last_update>
+            </csmarketplace>
+			<license>
+				<use_https>0</use_https>
+				<license_url>adminhtml/adminhtml_license/index/</license_url>
+				<activate_url>cedcommerce.com/licensing/validate/</activate_url>
+			</license>
+        </system>
+    </default>
+</config>

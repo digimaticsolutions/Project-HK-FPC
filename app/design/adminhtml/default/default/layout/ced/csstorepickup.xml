@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+	<adminhtml_adminhtml_stores_index>
+		   <reference name="content">
+                <block type="csstorepickup/adminhtml_stores" name="pickupstores"/>
+           </reference>
+	</adminhtml_adminhtml_stores_index>
+	</layout>

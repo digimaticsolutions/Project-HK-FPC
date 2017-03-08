@@ -1,0 +1,53 @@
+<?xml version="1.0"?> 
+<layout version="0.1.0">
+	<csmarketplace_vendor>
+			<reference name="csmarketplace_vendor_navigation"> 
+				<action method="addLink" translate="label" module="csmarketplace">
+					<name>Vendor Store Pickup</name>
+					<path>csstorepickup/store</path>
+					<label>Store Pickup</label>
+					<font_awesome>fa fa-map-marker</font_awesome>
+					<sort_order>76</sort_order>
+				</action>			 	
+			</reference>
+		</csmarketplace_vendor>
+	<csstorepickup_store_index>
+	<label>Vendor Store Pickup</label>
+      <update handle="csmarketplace_vendor"/>
+   <update handle="csstorepickup_editor"/>
+        <reference name="vendor.dashboard.wrapper">		
+         	 <block type="csstorepickup/store" name="vendor_storepickup"  as="storepickup.list" >
+             
+            </block> 
+        </reference>
+</csstorepickup_store_index>
+
+<csstorepickup_store_edit>
+<update handle="cmspage_editor"></update>
+	 	<update handle="csmarketplace_vendor"/>
+	 	
+	 	<reference name="root">
+            <action method="setTemplate"><template>page/vendorpanel.phtml</template></action>
+		</reference>
+     	<reference name="vendor.dashboard.wrapper">
+            <block type="csstorepickup/storehour" name="csstorepickup.form" template="csstorepickup/form.phtml">
+            </block>           
+		</reference>
+   </csstorepickup_store_edit>
+   
+       <csstorepickup_store_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="csstorepickup/grid" name="vendor.store.grid"/>
+        </block>
+    </csstorepickup_store_grid> 
+
+  <csstorepickup_editor>
+    	<update handle="csmarketplace_editor"/>
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/ced/csmarketplace/vproducts.css</stylesheet></action>
+        </reference>
+    </csstorepickup_editor>
+
+
+		</layout>
+		

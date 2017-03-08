@@ -1,0 +1,543 @@
+<script
+src="http://maps.googleapis.com/maps/api/js">
+</script>
+<style>
+	#stores-list-gmap-div {
+	  border: 1px solid #333;
+	  overflow: hidden;
+	  padding: 5px;
+	  position: relative;
+	  width: 50%;
+	}
+	#store-list-map-canvas {
+	  height: 400px;
+	  width: 100%;
+	}
+	.store_wrapper {
+		height: 400px;
+		overflow-y: scroll;
+		padding: 8px;
+	}
+	.store_wrapper .storeslist {
+	  background-color: #f2f2f2;
+	  border-top: 4px solid #a3ccff;
+	  box-shadow: 0 0 2px 0 #a3ccff;
+	  margin-bottom: 25px;
+	  
+	}
+	.storeheading {
+       background: #a3ccff none repeat scroll 0 0;
+    }
+	.button.showAll {
+	  margin-bottom: 11px;
+	  margin-top: 11px;
+	}
+	
+		.store_search_form_wrap .close_search {
+	  background: #333 none repeat scroll 0 0;
+	  border-radius: 0 0 0 14px;
+	  color: #fff;
+	  cursor: pointer;
+	  font-size: 15px;
+	  font-weight: bold;
+	  height: 26px;
+	  padding-top: 5px;
+	  position: absolute;
+	  right: 0;
+	  text-align: center;
+	  top: 0;
+	  width: 26px;
+	}
+	.store_search_form_wrap {
+	  background: #fff none repeat scroll 0 0;
+	  border-radius: 5px;
+	  box-shadow: 0 0 5px 2px #000;
+	  margin: 0 auto;
+	  padding: 13px;
+	  position: relative;
+	  top: 5%;
+	  width: 50%;
+	}
+	#search_form.active {
+	  background: rgba(0, 0, 0, 0.8) none repeat scroll 0 0;
+	  height: 100%;
+	  left: 0;
+	  position: fixed;
+	  top: 0;
+	  width: 100%;
+	  z-index: 9999;
+	}
+	.search_form {
+  background: rgba(0, 0, 0, 0.8) none repeat scroll 0 0;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 99;
+}
+
+
+	
+	.store_search_form_wrap .field {
+	  width: 100%;
+	}
+	.show-all-store-and-search {
+	  padding-top: 20px;
+	}
+	.show-all-store-and-search .show-all-store {
+	  float: right;
+	}
+	.show-all-store-and-search .search_stores {
+	  float: left;
+	  margin-right: 13px;
+	}
+	.show-all-store-and-search .view_all_stores {
+	  float: left;
+	}
+	@media (max-width: 991px){
+		.store_wrapper,.stores-list-gmap-div{
+			width: 100% !important;
+			margin-bottom: 20px !important;
+		}
+	}
+	@media (max-width: 550px){
+		.store_search_form_wrap {
+		  width: 95%;
+		}
+	}
+	
+</style>
+	
+<?php 
+
+	$storesCollection = $this->getAllStores();
+	
+	
+    $info = $this->getFullRouteInfo();
+    $action_name =$info;
+	$markers = array();
+	$i = 1;
+    $totalStoreCount = count($storesCollection);
+    $class = '';
+
+    ?>
+<?php // print_r($storesCollection->getData());die("ljlk");?>
+<div class="sore_map_wrapper">
+	<?php if(!$totalStoreCount) { ?>
+		<?php if($action_name == 'search') {?>
+			<p class="search_note_msg" >
+				<font size="4"><?php echo $this->__("Oop's. it seems no stores found. Please change your search criteria or");?><br>
+				<a href="<?php echo $this->getUrl('storepickup/store/index')  ?>"><?php echo $this->__("Click Here");?></a><?php echo $this->__("to list all the store.");?> 
+			</font></p>
+		<?php } else { ?>
+			<p class="note_msg"><?php echo $this->__("There are no stores.")?></p>
+		<?php } ?>
+	<?php } else { ?>
+	<?php if($action_name == 'search') { ?>
+		<p class="search_count_msg"><b><?php echo $totalStoreCount ?><?php echo $this->__("record's found.");?> </b></p>
+	<?php } ?>
+	<div class="store_wrapper" style="float: left; width: 45%;">
+	
+		<?php foreach($storesCollection as $stores) {
+
+			
+			$store_data = $stores->getData();
+			if($stores->getVendorId() == 0)
+       {
+	
+            if ($i % 2 == 0)
+				$class = 'even';
+			else
+				$class = 'odd';
+		?>
+		<div class="storeslist <?php echo $class;?>">
+		<div class="storeheading">
+		<font size="4"><?php echo $this->__("Admin Stores")?></font></div>
+			<div class="content">
+			<div class="store_name"><span style="font-size:20px"><?php echo $stores->getStoreName();?></span></div>
+			
+			<div class="store_address">
+				<p><?php echo $stores->getStoreAddress();?>,
+					<?php echo $stores->getStoreCity();?>,
+					<?php echo $stores->getStoreState();?>,
+					<?php echo $stores->getStoreCountry();?>,(<?php echo $stores->getStoreZcode();?>)
+				</p>
+				<p>
+				
+					<span class="store_owner_name"><?php echo $stores->getStoreManagerName();?></span><br>
+					<span class="store_owner_email"><?php echo $stores->getStoreManagerEmail();?></span><br>
+					<span class="store_owner_phone"><?php echo $stores->getStorePhone();?></span>
+				</p>
+				
+				<p>
+				<?php 
+			
+				$collection = Mage::getModel('storepickup/storepickup')->load($store_data['pickup_id'])->getData();
+				
+				
+				$decode = json_decode($collection['days']);
+				$storetable = json_decode(json_encode($decode), True);
+			
+			  
+			  
+			  foreach ($storetable as $k=>$v)
+			  {
+			  	if($v['status'] != 0)
+				  {
+				   
+					    echo $this->__("Day :") ;	echo $k;echo "<br>";
+					    echo $this->__("Opening Time :");	echo $v['start'];echo "<br>";
+					    echo $this->__("Closing Time :");	echo $v['end'];echo "<br>";
+					    echo $this->__("Interval  :");	echo $v['interval'];echo "<br>";
+					    echo "<br>";
+				   
+				 }
+			  }
+			   			    	
+			 
+		
+				?>
+				
+				</p>
+				
+				
+			</div>
+			</div>
+			<?php }
+			else{
+				
+if($stores->getIsApproved()== 0)
+{
+	continue;
+}
+
+
+if ($i % 2 == 0)
+	$class = 'even';
+else
+	$class = 'odd';
+?>
+		<div class="storeslist <?php echo $class;?>">
+		<?php $vendor = Mage::getModel('csmarketplace/vendor')->load($stores->getVendorId())->getData();
+		$name = $vendor['name'];
+		?>
+		<div class="storeheading"><font size="4"><?php echo 'Vendor '. $name.' '. "Store";?></font></div>
+		<div class="content">
+			<div class="store_name"><span style="font-size:20px"><?php echo $stores->getStoreName();?></span></div>
+			<div class="store_address">
+				<p><?php echo $stores->getStoreAddress();?>,
+					<?php echo $stores->getStoreCity();?>,
+					<?php echo $stores->getStoreState();?>,
+					<?php echo $stores->getStoreCountry();?>,(<?php echo $stores->getStoreZcode();?>)
+				</p>
+				<p>
+				
+					<span class="store_owner_name"><?php echo $stores->getStoreManagerName();?></span><br>
+					<span class="store_owner_email"><?php echo $stores->getStoreManagerEmail();?></span><br>
+					<span class="store_owner_phone"><?php echo $stores->getStorePhone();?></span>
+				</p>
+				
+				<p>
+				<?php 
+			
+				$collection = Mage::getModel('storepickup/storepickup')->load($store_data['pickup_id'])->getData();
+				
+				
+				$decode = json_decode($collection['days']);
+				$storetable = json_decode(json_encode($decode), True);
+			
+			  
+			  
+			  foreach ($storetable as $k=>$v)
+			  {
+			  	if($v['status'] != 0)
+				  {
+				   
+					    echo "Day :" ;	echo $k;echo "<br>";
+					    echo "Opening Time :";	echo $v['start'];echo "<br>";
+					    echo "Closing Time :";	echo $v['end'];echo "<br>";
+					    echo "Interval  :";	echo $v['interval'];echo "<br>";
+					    echo "<br>";
+				   
+				 }
+			  }
+			   			    	
+			 ?>
+			</p>
+			</div>
+			</div>
+			<?php 
+			}
+		?>
+			<?php
+				$storeName = $stores->getStoreName();
+				$storeAddress = $stores->getStoreAddress();
+				$mapdata = $stores->getData();
+				
+				$mapdatas = '<div>'.$mapdata['store_name']. '<br>'.$mapdata['store_address'].'<br>'."Phone : ".$mapdata['store_phone'].'<br>'."Email : ".$mapdata['store_manager_email']."</br></br></div>";
+				//echo $mapdatas; die("fkj");
+				$storeLat =  $stores->getLatitude();
+				//echo $storeLat; echo "<br>";echo $storeLong;die("hkjv");
+				$storeLong = $stores->getLongitude();
+				$storeRadius = '0';
+				$storeZoomLevel ='15';
+			?>
+			
+		<?php if($storeLat && $storeLong) { ?>
+			<button onclick="initialize(<?php echo $storeLat ;?>, <?php echo $storeLong ;?>, <?php echo $storeRadius ;?>, <?php echo $storeZoomLevel ;?>, '<?php echo $mapdatas ;?>', 'store-list-map-canvas');" class="button" title="View Map" type="button">
+				<span>
+					<span>
+				<?php echo $this->__("View Store on Map");?>	
+					</span>
+				</span>
+			</button>
+		<?php } ?>
+		
+		<script type="text/javascript">
+	function initialize(storeLat, storeLong, storeRadius, storeZoomLevel, storeInfoText, googleMapDivId)
+	{
+		
+		 var myCenter = new google.maps.LatLng(storeLat, storeLong);
+	    //convert distance from miles to meters
+	    var storeRadius = storeRadius * 1609.34;
+	    var mapProp = {
+	      center : myCenter,
+	      zoom : storeZoomLevel,
+	      mapTypeId : google.maps.MapTypeId.ROADMAP  
+	      };
+
+	    var map = new google.maps.Map(document.getElementById(''+googleMapDivId), mapProp);
+
+	    //Draw marker
+	    var marker = new google.maps.Marker({
+	      position : myCenter,
+	      });
+	    marker.setMap(map);
+
+	    //Draw circle radius is in meter
+	    if(storeRadius) {
+	        var myCity = new google.maps.Circle({
+	            center : myCenter,
+	            radius : storeRadius,
+	            strokeColor : "#FF00C4",
+	            strokeOpacity : 0.8,
+	            strokeWeight : 1,
+	            fillColor : "#CF74C5",
+	            fillOpacity : 0.4
+	        });
+	        myCity.setMap(map);
+	    }
+	    
+	    // Open information window
+	    if(storeInfoText) {
+	        var infowindow = new google.maps.InfoWindow({
+	            content:storeInfoText
+	        });
+	    infowindow.open(map, marker);
+	    }
+	}
+	function place_multiple_markers(markers, googleMapDivId)
+	{
+	    
+	    var map;
+	    var bounds = new google.maps.LatLngBounds();
+	    var mapOptions = {
+	        mapTypeId: 'roadmap'
+	    };
+	    // Display a map on the page
+	    map = new google.maps.Map(document.getElementById(''+googleMapDivId), mapOptions);
+	    map.setTilt(45);
+	                        
+	    // Display multiple markers on a map
+	    var infoWindow = new google.maps.InfoWindow(), marker, i;
+	    
+	    // Loop through our array of markers & place each one on the map  
+	    for( i = 0; i < markers.length; i++ ) {
+	        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+	        bounds.extend(position);
+	        marker = new google.maps.Marker({
+	            position: position,
+	            map: map,
+	            title: markers[i][0]
+	        });
+	        
+	        // Allow each marker to have an info window    
+	        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+	            return function() {
+	                infoWindow.setContent(markers[i][0]);
+	                infoWindow.open(map, marker);
+	            }
+	        })(marker, i));
+
+	        // Automatically center the map fitting all markers on the screen
+	        map.fitBounds(bounds);
+	    }
+	}
+
+
+/* 	define('js/theme', [
+	                    'jquery',
+	                    'domReady!'
+	                ], function ($) {
+	                    'use strict';
+	                  console.log('js is working');
+	                }); */
+
+	                function showSeachForm()
+	                {
+	                	document.getElementById('search_form').style.display = 'block';	
+	                	//document.getElementById('search_form_overlay').style.display = 'block';	
+	                	
+	                	/* $('.search_form').show();
+	                	$('.search_form_overlay').show(); */
+	                }
+
+	                function closeSearch()
+	                {
+	                	document.getElementById('search_form').style.display = 'none';	
+	                //	document.getElementById('search_form_overlay').style.display = 'none';	
+	                }
+	
+	</script>
+		
+		
+		
+		
+	</div>
+	<?php 
+	
+	$mapdata = $stores->getData();
+	
+	$address = str_replace("'", "", $mapdata['store_address']);
+	
+	$mapdatas = '<div>'.$mapdata['store_name']. '<br>'.$address.'<br>'."Phone : ".$mapdata['store_phone'].'<br>'."Email : ".$mapdata['store_manager_email']."</br></br></div>";
+	//echo $mapdatas; die("fkj");
+		$markers[$i]['name'] = $mapdatas;
+        $markers[$i]['lat'] = $stores->getLatitude();
+        $markers[$i]['long'] = $stores->getLongitude();
+		$i++;
+	?>
+	<?php } ?>
+	</div>
+	<div id="stores-list-gmap-div" style="float: right;">
+		<div id="store-list-map-canvas">&nbsp;</div>
+	</div>
+	<?php } ?>
+</div>
+<script type="text/javascript">
+	var markers = [
+	<?php foreach ($markers as $marker) : ?>
+	['<?php echo $marker['name'];?>',<?php echo $marker['lat'];?>,<?php echo $marker['long'];?>],
+	<?php endforeach ?>
+	];
+</script>
+<?php if($totalStoreCount>0) {  ?>
+<div id="show-all-store" class="show-all-store">
+   <button onclick="place_multiple_markers(markers, googleMapDivId);" class="button showAll" title="Show All Stores" type="button">
+		<span>
+		  <span>
+			<?php echo $this->__("Show All Stores on Map");?>
+		  </span>
+		</span>
+	</button>
+</div>
+
+<div id="search_stores" class="show-all-store">
+	<button onclick="showSeachForm(markers, googleMapDivId);" class="button showAll" title="Show All Stores" type="button">
+		<span>
+		  <span>
+			<?php echo $this->__("Search Store");?>
+		  </span>
+		</span>
+	</button>
+</div>
+<?php if($action_name == 'search') { ?>
+<div id="view_all_stores">
+	<a class="button" href="<?php echo $this->getUrl('storepickup/store/index')?>">
+		<span>
+		  <span>
+			<?php echo $this->__("View All Store");?>
+		  </span>
+		</span>
+	</a>
+</div>
+<?php } ?>
+<?php } ?>
+
+<?php if($totalStoreCount >0 )
+{?>
+	<script type="text/javascript">
+	window.onload = function() {
+	
+		place_multiple_markers(markers, googleMapDivId);
+	};
+	var googleMapDivId = 'store-list-map-canvas';
+	google.maps.event.addDomListener(window, 'load', place_multiple_markers(markers, googleMapDivId));
+	</script>
+<?php }?>
+
+<div id ="search_form" class="search_form" style="display:none">
+	<div class="store_search_form_wrap">
+	<form action="<?php echo $this->getUrl('storepickup/store/search') ?>" method="post" id="addressSearch">
+		<div class="form_fieldset">
+			<h2 class="legend">Search Store</h2>
+			<span class="close_search" onclick="closeSearch()">X</span>
+			<ul class="form-list store-list">
+				<li>
+					<div class="field city">
+						<label class="label" for="city"><span><?php echo $this->__('City') ?></span></label>
+						<div class="control">
+							<input type="text" name="city" value="" class="input-text" id="city">
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="field region">
+						<label class="label" for="region_id"><span><?php echo $this->__('State/Province') ?></span></label>
+						<div class="control">
+							
+							<input type="text" id="region" name="region_id" class="input-text value=""  title="<?php echo $this->__('State/Province') ?>"/>
+						</div>
+					</div>
+				</li>
+				
+		<li>
+					 <div class="field country required">
+						<label class="label" for="country"><span><?php echo $this->__('Country') ?></span></label></div>
+						<div class="control">
+						 <?php   $countries =  Mage::getModel('adminhtml/system_config_source_country') ->toOptionArray();
+			                                        
+			                                         
+			                                         ?>
+			                                        <div class="form-group">
+			                                            
+			                                            
+			                                            <select class="form-control required-entry" name="country_id">
+			                                       <?php 
+			                                       
+															foreach ($countries as $country)
+															{
+																
+															?><option value="<?php echo $country['value']?>"><?php echo $country['label']?></option><?php 	
+															}
+			                                         ?>
+			                                         </select>
+						</div>
+					</div>
+				</li>
+				<li>
+					<button type="submit" title="Search" class="button"><span><span>Search</span></span></button>
+				</li>
+			</ul>
+		</div>
+	</form>
+	</div>
+	</div>
+	
+
+	
+	
+ 
+</div>
+<div id="search_form_overlay"  class="search_form_overlay" style="display:block"></div>
