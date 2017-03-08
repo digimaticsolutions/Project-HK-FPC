@@ -9931,6 +9931,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/etc/local.xml.additional" afterPath="$PROJECT_DIR$/app/etc/local.xml.additional" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/etc/local.xml.template" afterPath="$PROJECT_DIR$/app/etc/local.xml.template" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/etc/modules/Aschroder_SMTPPro.xml" afterPath="$PROJECT_DIR$/app/etc/modules/Aschroder_SMTPPro.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/etc/modules/Ced_CsMultiShipping.xml" afterPath="$PROJECT_DIR$/app/etc/modules/Ced_CsMultiShipping.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/etc/modules/Ced_CsOrder.xml" afterPath="$PROJECT_DIR$/app/etc/modules/Ced_CsOrder.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/etc/modules/Ced_CsTransaction.xml" afterPath="$PROJECT_DIR$/app/etc/modules/Ced_CsTransaction.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/etc/modules/Nwdthemes_All.xml" afterPath="$PROJECT_DIR$/app/etc/modules/Nwdthemes_All.xml" />
@@ -16021,7 +16022,18 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="Ced_CsMultiShipping.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/etc/modules/Ced_CsMultiShipping.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="390">
+              <caret line="26" column="21" lean-forward="true" selection-start-line="26" selection-start-column="21" selection-end-line="26" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -16057,6 +16069,7 @@
         <option value="$PROJECT_DIR$/app/design/frontend/default/milano/layout/page.xml" />
         <option value="$PROJECT_DIR$/app/design/frontend/default/milano/template/page/html/header.phtml" />
         <option value="$PROJECT_DIR$/app/locale/en_US/Mage_Checkout.csv" />
+        <option value="$PROJECT_DIR$/app/etc/modules/Ced_CsMultiShipping.xml" />
       </list>
     </option>
   </component>
@@ -16284,6 +16297,32 @@
               <option name="myItemId" value="code" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="local" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Ced" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FPC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FPC" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="code" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
@@ -16312,12 +16351,12 @@
       <updated>1488881855598</updated>
       <workItem from="1488881857063" duration="198000" />
       <workItem from="1488882246787" duration="858000" />
-      <workItem from="1488953411327" duration="10016000" />
+      <workItem from="1488953411327" duration="10086000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11072000" />
+    <option name="totallyTimeSpent" value="11142000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="57" y="21" width="1383" height="879" extended-state="6" />
@@ -16518,6 +16557,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="55" column="45" lean-forward="true" selection-start-line="55" selection-start-column="45" selection-end-line="55" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/etc/modules/Ced_CsMultiShipping.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="26" column="21" lean-forward="true" selection-start-line="26" selection-start-column="21" selection-end-line="26" selection-end-column="21" />
           <folding />
         </state>
       </provider>
